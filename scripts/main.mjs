@@ -6,6 +6,7 @@ import {NoteCard} from "./card.mjs";
 import {RegionBanner, RegionTracker} from "./regions.mjs";
 import {GlimpseLightbox, noteHasMedia, onSocketMessage, openGallery, revealToPlayers} from "./lightbox.mjs";
 import GlimpseSound from "./sound.mjs";
+import {styleNoteIcon} from "./note-icons.mjs";
 
 Hooks.once("init", () => {
   registerSettings();
@@ -47,6 +48,12 @@ Hooks.once("ready", () => {
   if ( canvas.ready ) regions.attach();
   else Hooks.once("canvasReady", () => regions.attach());
 });
+
+/* -------------------------------------------- */
+/*  Note Icons                                  */
+/* -------------------------------------------- */
+
+Hooks.on("refreshNote", note => styleNoteIcon(note));
 
 /* -------------------------------------------- */
 /*  Hover                                       */

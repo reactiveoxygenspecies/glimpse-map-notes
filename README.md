@@ -121,6 +121,14 @@ Mark a place as rumoured and players see only a veiled image and the rumour you 
 discovered, when you show it to them, or, if you prefer, when they uncover it through fog of war. The GM always sees
 the full card, with a small reminder of what players see.
 
+### Map icons
+
+Choose **Glimpse icons…** in a note's Entry Icon dropdown, or click the preview beside it, to open a visual picker with
+79 map symbols (settlements, fortifications, sacred sites, nature, water, danger, markers and simple shapes) plus
+Foundry's own icons. Each one is shown as it will look on your map, with the note's tint and your icon background
+style, on a light or dark backdrop. The world settings can also replace the translucent square behind note icons with
+a circle, a soft outline, or nothing.
+
 ### Atmosphere
 
 - **Day and night images** swap automatically with the world clock.
@@ -153,8 +161,10 @@ anyone who can see it. When the GM shows a location to players, they see what th
 | Show travel distance, hide the note's label while previewing | On |
 | Show secrets to owners | Off |
 
-**World (GM only):** what double-clicking a note opens (gallery or journal), travel per day, and the in-game hours
-when night begins and ends.
+**World (GM only):** what double-clicking a note opens (gallery or journal), travel per day, the in-game hours
+when night begins and ends, and how note icons look on the map: a background (Foundry's translucent square, a
+circle, a soft outline traced around the symbol, or nothing), whether the frame shows always, only on hover or never,
+and whether icons grow slightly when hovered. The defaults match Foundry's own look.
 
 **Keybindings:** toggle previews, show the hovered location to players (GM), and peek at regions (<kbd>G</kbd>).
 

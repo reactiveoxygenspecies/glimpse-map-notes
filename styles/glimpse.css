@@ -984,3 +984,208 @@
 }
 
 .glimpse-region-hint { margin: 0.5em 0 0.25em; }
+
+/* ==========================================================================
+   Icon Picker
+   ========================================================================== */
+
+/* A preview of a note icon as it looks on the map: background style, tint and symbol. */
+.glimpse-icon-swatch {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex: none;
+}
+
+.glimpse-icon-swatch::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+}
+
+.glimpse-icon-swatch[data-style="square"]::before {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2.5px #000;
+}
+
+.glimpse-icon-swatch[data-style="circle"]::before {
+  inset: 5px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* drop-shadow on the parent applies after the symbol is masked, tracing its shape. */
+.glimpse-icon-swatch[data-style="outline"] {
+  filter: drop-shadow(1.5px 0 0 rgba(0, 0, 0, 0.6)) drop-shadow(-1.5px 0 0 rgba(0, 0, 0, 0.6))
+    drop-shadow(0 1.5px 0 rgba(0, 0, 0, 0.6)) drop-shadow(0 -1.5px 0 rgba(0, 0, 0, 0.6));
+}
+
+.glimpse-icon-art {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  background-color: var(--tint, #fff);
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+#glimpse-icon-picker .window-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  overflow: hidden;
+}
+
+.glimpse-picker-bar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.glimpse-picker-bar .glimpse-picker-search { flex: 1; height: 2.1rem; }
+
+.glimpse-picker-backdrop {
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.2));
+  border-radius: 6px;
+}
+
+#glimpse-icon-picker .glimpse-picker-backdrop button {
+  width: 2.2rem;
+  height: 2.1rem;
+  min-height: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  opacity: 0.55;
+}
+
+#glimpse-icon-picker .glimpse-picker-backdrop button.is-active {
+  background: rgba(212, 176, 106, 0.22);
+  opacity: 1;
+}
+
+.glimpse-picker-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+#glimpse-icon-picker .glimpse-chip {
+  flex: none;
+  width: auto;
+  min-height: 0;
+  height: 1.8rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.2));
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+#glimpse-icon-picker .glimpse-chip.is-active {
+  border-color: #d4b06a;
+  background: rgba(212, 176, 106, 0.2);
+  color: var(--color-text-primary, inherit);
+}
+
+.glimpse-picker-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: 6px;
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 200ms ease;
+}
+
+.glimpse-picker-grid[data-backdrop="light"] {
+  background:
+    linear-gradient(rgba(214, 203, 178, 0.82), rgba(205, 194, 168, 0.88)),
+    url("../../../ui/parchment.jpg") center / 400px repeat;
+  color: #3b2e20;
+}
+
+.glimpse-picker-grid[data-backdrop="dark"] {
+  background: #23262c;
+  color: #d8d0c0;
+}
+
+#glimpse-icon-picker .glimpse-icon-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  height: auto;
+  min-height: 0;
+  padding: 6px 4px 7px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+
+#glimpse-icon-picker .glimpse-icon-tile[hidden] { display: none; }
+
+#glimpse-icon-picker .glimpse-icon-tile:hover,
+#glimpse-icon-picker .glimpse-icon-tile:focus-visible {
+  border-color: rgba(212, 176, 106, 0.7);
+  background: rgba(212, 176, 106, 0.18);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+#glimpse-icon-picker .glimpse-icon-tile.is-current {
+  border-color: #d4b06a;
+  background: rgba(212, 176, 106, 0.28);
+}
+
+.glimpse-icon-name {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 0.72rem;
+  line-height: 1.15;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.glimpse-picker-empty {
+  margin: 0;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* The preview button beside the note's Entry Icon dropdown. */
+.note-config .glimpse-icon-browse {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 6px;
+  background:
+    linear-gradient(rgba(214, 203, 178, 0.85), rgba(205, 194, 168, 0.9)),
+    url("../../../ui/parchment.jpg") center / 200px repeat;
+}
+
+.note-config .glimpse-icon-browse .glimpse-icon-swatch { width: 2.3rem; height: 2.3rem; transform: scale(0.85); }
+.note-config .glimpse-icon-browse .glimpse-icon-art { width: 1.5rem; height: 1.5rem; }
+.note-config .glimpse-icon-browse .glimpse-icon-swatch::before { inset: 0.25rem; }

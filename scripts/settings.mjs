@@ -1,4 +1,5 @@
 import {MODULE_ID, CARD_WIDTHS, EXCERPT_LENGTHS, api, loc, setting} from "./constants.mjs";
+import {restyleAllNotes} from "./note-icons.mjs";
 
 const {BooleanField, NumberField, StringField} = foundry.data.fields;
 
@@ -70,6 +71,17 @@ export function registerSettings() {
   register("travel", new BooleanField({initial: true}));
   register("hideLabel", new BooleanField({initial: true}));
   register("secrets", new BooleanField({initial: false}), {onChange: refreshAll});
+
+  // World: how note icons look on the map. Defaults match Foundry, so nothing changes until the GM opts in.
+  const restyle = () => restyleAllNotes();
+  register("iconBackground", new StringField({
+    initial: "square", required: true, blank: false,
+    choices: choices("iconBackground", ["square", "circle", "outline", "none"])
+  }), {scope: "world", onChange: restyle});
+  register("iconFrame", new StringField({
+    initial: "always", required: true, blank: false, choices: choices("iconFrame", ["always", "hover", "never"])
+  }), {scope: "world", onChange: restyle});
+  register("iconHoverGrow", new BooleanField({initial: false}), {scope: "world", onChange: restyle});
 
   // World
   register("doubleClick", new StringField({

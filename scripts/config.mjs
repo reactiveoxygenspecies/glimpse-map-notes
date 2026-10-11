@@ -1,4 +1,5 @@
-import {MODULE_ID, CARD_WIDTHS, DISCOVERY_MODES, NOTE_MODES, api, flagsOf, loc} from "./constants.mjs";
+import {MODULE_ID, CARD_WIDTHS, DISCOVERY_MODES, NOTE_MODES, api, flagsOf, loc, setting} from "./constants.mjs";
+import {IconPicker, cssUrl, glimpseIconId, iconLabel} from "./icon-picker.mjs";
 import {regionSource} from "./content.mjs";
 
 const {createCheckboxInput, createFormGroup, createSelectInput, createTextareaInput, createTextInput} =
@@ -226,6 +227,7 @@ export function createFocalPicker({src, x, y}) {
 export function onRenderNoteConfig(app, element) {
   const body = element.querySelector(".form-body");
   if ( !body || body.querySelector(".glimpse-config") ) return;
+  enhanceIconField(app, element);
   const flags = flagsOf({flags: app.document._source.flags});
   const rootId = app.id;
 
@@ -348,4 +350,106 @@ export function onRenderImagePageSheet(app, element) {
   const src = element.querySelector("[name='src']");
   src?.addEventListener("change", () => focal.setSource(src.value));
   preview.closest("section")?.append(fs);
+}
+
+/* -------------------------------------------- */
+/*  Note Icon Picker                            */
+/* -------------------------------------------- */
+
+/** Value of the dropdown entry that opens the picker. */
+const BROWSE = "__glimpse_browse__";
+
+/**
+ * Add a "Glimpse icons" entry and a preview button to the note's Entry Icon dropdown. Choosing either opens a
+ * visual picker; a Glimpse icon then shows by name in the dropdown instead of as a custom path.
+ * @param {NoteConfig} app
+ * @param {HTMLElement} element
+ */
+function enhanceIconField(app, element) {
+  const form = app.form;
+  const select = form?.elements["icon.selected"];
+  const custom = form?.elements["icon.custom"];
+  if ( !select || !custom || select.querySelector(`option[value="${BROWSE}"]`) ) return;
+  const customGroup = custom.closest(".form-group");
+
+  // The browse entry, right after "Custom".
+  const browse = document.createElement("option");
+  browse.value = BROWSE;
+  browse.textContent = loc("Picker.Option");
+  select.insertBefore(browse, select.options[1] ?? null);
+
+  // Preview swatch that also opens the picker.
+  const swatch = document.createElement("button");
+  swatch.type = "button";
+  swatch.className = "glimpse-icon-browse";
+  swatch.dataset.tooltip = loc("Picker.Title");
+  swatch.setAttribute("aria-label", loc("Picker.Title"));
+  swatch.innerHTML = `<span class="glimpse-icon-swatch" data-style="${setting("iconBackground")}">`
+    + `<span class="glimpse-icon-art"></span></span>`;
+  select.after(swatch);
+  swatch.addEventListener("click", () => open());
+
+  let previous = select.value;
+  select.addEventListener("change", event => {
+    if ( select.value !== BROWSE ) {
+      previous = select.value;
+      updateSwatch();
+      return;
+    }
+    // Keep core from treating the browse entry as an icon.
+    event.stopPropagation();
+    select.value = previous;
+    open();
+  });
+  form.elements["texture.tint"]?.addEventListener?.("change", updateSwatch);
+  custom.addEventListener("change", updateSwatch);
+
+  // A Glimpse icon already in use shows by name rather than as a custom path.
+  const current = app.document._source.texture.src;
+  if ( glimpseIconId(current) ) choose(current, {notify: false});
+  updateSwatch();
+
+  /** The icon the form currently points at. */
+  function currentSrc() {
+    return select.value || custom.value || "";
+  }
+
+  /** The tint the form currently uses. */
+  function currentTint() {
+    return form.elements["texture.tint"]?.value || "#ffffff";
+  }
+
+  function updateSwatch() {
+    const art = swatch.querySelector(".glimpse-icon-art");
+    const src = currentSrc();
+    art.style.setProperty("--icon", cssUrl(src));
+    art.style.setProperty("--tint", currentTint());
+  }
+
+  function open() {
+    foundry.applications.instances.get("glimpse-icon-picker")?.close();
+    new IconPicker({current: currentSrc(), tint: currentTint(), onPick: src => choose(src)}).render({force: true});
+  }
+
+  /**
+   * Select an icon in the form, adding it to the dropdown when it is not one of Foundry's.
+   * @param {string} src
+   * @param {object} [options]
+   * @param {boolean} [options.notify=true]   Fire change events so Foundry updates the preview
+   */
+  function choose(src, {notify = true} = {}) {
+    if ( !select.querySelector(`option[value="${CSS.escape(src)}"]`) ) {
+      const id = glimpseIconId(src);
+      const option = document.createElement("option");
+      option.value = src;
+      option.textContent = id ? `${loc("Title")} · ${iconLabel(id)}` : src.split("/").pop();
+      option.dataset.glimpse = "";
+      select.insertBefore(option, select.options[2] ?? null);
+    }
+    select.value = src;
+    previous = src;
+    customGroup.hidden = true;
+    updateSwatch();
+    if ( notify ) select.dispatchEvent(new Event("change", {bubbles: true}));
+  }
 }
