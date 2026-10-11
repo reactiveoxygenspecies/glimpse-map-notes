@@ -1,0 +1,50 @@
+<div class="glimpse-frame">
+  {{#if media.length}}
+  <figure class="glimpse-hero" style="--glimpse-ratio: {{ratio}}">
+    {{#each media}}
+    <div class="glimpse-slide{{#if @first}} is-active{{/if}}" data-index="{{@index}}" data-caption="{{caption}}">
+      {{#if isVideo}}
+      <video src="{{src}}" muted loop playsinline preload="auto" disablepictureinpicture
+             style="object-position: {{focus}}; transform-origin: {{focus}}"></video>
+      {{else}}
+      <img src="{{src}}" alt="" decoding="async" style="object-position: {{focus}}; transform-origin: {{focus}}">
+      {{/if}}
+    </div>
+    {{/each}}
+    <div class="glimpse-scrim"></div>
+  </figure>
+  {{/if}}
+
+  {{#if rumourBadge}}
+  <span class="glimpse-badge"><i class="fa-solid fa-eye-slash"></i> {{localize "GLIMPSE.RumourBadge"}}</span>
+  {{/if}}
+
+  <header class="glimpse-header">
+    {{#if subtitle}}<p class="glimpse-subtitle">{{#if rumoured}}<i class="fa-solid fa-feather"></i> {{/if}}{{subtitle}}</p>{{/if}}
+    <h2 class="glimpse-title">{{title}}</h2>
+  </header>
+
+  {{#if showFacts}}
+  <ul class="glimpse-facts">
+    {{#if travel}}<li class="glimpse-travel"><i class="fa-solid fa-route"></i><span class="glimpse-fact-value">{{travel}}</span></li>{{/if}}
+    {{#each facts}}<li>{{#if label}}<span class="glimpse-fact-label">{{label}}</span>{{/if}}<span class="glimpse-fact-value">{{value}}</span></li>{{/each}}
+  </ul>
+  {{/if}}
+
+  {{#if body}}
+  <div class="glimpse-rule" aria-hidden="true"><span></span></div>
+  <div class="glimpse-body{{#if truncated}} is-clipped{{/if}}">{{{body}}}</div>
+  {{/if}}
+
+  {{#if showFooter}}
+  <footer class="glimpse-footer">
+    <span class="glimpse-caption">{{firstCaption}}</span>
+    {{#if multiple}}
+    <span class="glimpse-dots" aria-hidden="true">{{#each media}}<i{{#if @first}} class="is-active"{{/if}}></i>{{/each}}</span>
+    {{/if}}
+    {{#if canOpen}}
+    <span class="glimpse-hint"><i class="fa-solid fa-book-open"></i> {{hint}}</span>
+    {{/if}}
+  </footer>
+  {{/if}}
+</div>

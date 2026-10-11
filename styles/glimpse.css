@@ -1,0 +1,986 @@
+/* ==========================================================================
+   Glimpse: Map Note Previews
+   ========================================================================== */
+
+/* -------------------------------------------- */
+/*  Palettes                                    */
+/* -------------------------------------------- */
+
+.glimpse-card,
+#glimpse-lightbox,
+.glimpse-card[data-style="dusk"],
+#glimpse-lightbox[data-style="dusk"] {
+  --g-bg: #15131a;
+  --g-paper: none;
+  --g-title: #f7efdf;
+  --g-ink: #e6dcc8;
+  --g-ink-soft: #cbbfa8;
+  --g-muted: #968b78;
+  --g-accent: #d4b06a;
+  --g-line: rgba(212, 176, 106, 0.34);
+  --g-edge: rgba(255, 238, 205, 0.08);
+  --g-hero-bg: #0c0b0f;
+  --g-title-shadow: 0 2px 14px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.6);
+  --g-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.8),
+    0 8px 22px -6px rgba(0, 0, 0, 0.55);
+}
+
+.glimpse-card[data-style="parchment"],
+#glimpse-lightbox[data-style="parchment"] {
+  --g-bg: #efe5d0;
+  --g-paper:
+    linear-gradient(rgba(242, 234, 216, 0.86), rgba(236, 226, 204, 0.9)),
+    url("../../../ui/parchment.jpg") center / 520px repeat;
+  --g-title: #2a1f14;
+  --g-ink: #3b2e20;
+  --g-ink-soft: #4b3c2b;
+  --g-muted: #806b52;
+  --g-accent: #8e5a26;
+  --g-line: rgba(120, 78, 36, 0.4);
+  --g-edge: rgba(90, 58, 26, 0.16);
+  --g-hero-bg: #d9ccb0;
+  --g-title-shadow: 0 0 10px rgba(242, 234, 216, 0.95), 0 0 2px rgba(242, 234, 216, 0.9);
+  --g-shadow:
+    0 26px 60px -18px rgba(30, 18, 6, 0.6),
+    0 8px 20px -8px rgba(30, 18, 6, 0.45);
+}
+
+/* -------------------------------------------- */
+/*  Card Shell                                  */
+/* -------------------------------------------- */
+
+.glimpse-card {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: var(--z-index-tooltip, 9999);
+  width: var(--glimpse-width, 380px);
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 24px);
+  pointer-events: none;
+  user-select: none;
+  font-size: calc(14px * var(--glimpse-scale, 1));
+  color: var(--g-ink);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px) scale(0.975);
+  transform-origin: center;
+  transition:
+    opacity 160ms ease-out,
+    transform 240ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    visibility 0s linear 240ms;
+}
+
+.glimpse-card[data-side="right"] { transform: translateX(-10px) scale(0.975); transform-origin: left center; }
+.glimpse-card[data-side="left"] { transform: translateX(10px) scale(0.975); transform-origin: right center; }
+.glimpse-card[data-side="below"] { transform: translateY(-8px) scale(0.975); transform-origin: top center; }
+.glimpse-card[data-side="above"] { transform: translateY(8px) scale(0.975); transform-origin: bottom center; }
+
+.glimpse-card.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 200ms ease-out,
+    transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    visibility 0s;
+}
+
+.glimpse-card.is-swap .glimpse-frame {
+  animation: glimpse-swap 260ms ease-out;
+}
+
+.glimpse-frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 24px);
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--g-paper), var(--g-bg);
+  background-color: var(--g-bg);
+  box-shadow:
+    var(--g-shadow),
+    0 0 0 1px var(--g-line),
+    inset 0 0 0 1px var(--g-edge);
+}
+
+/* A fine inner frame line, drawn over the image as well, gives the card its "plate" feel. */
+.glimpse-frame::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  z-index: 3;
+  border: 1px solid var(--g-line);
+  border-radius: 8px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* -------------------------------------------- */
+/*  Hero Image                                  */
+/* -------------------------------------------- */
+
+.glimpse-hero {
+  position: relative;
+  flex: none;
+  margin: 0;
+  aspect-ratio: var(--glimpse-ratio, 1.6);
+  max-height: 62vh;
+  overflow: hidden;
+  background: var(--g-hero-bg);
+}
+
+.glimpse-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1600ms ease;
+}
+
+.glimpse-slide.is-active { opacity: 1; }
+
+.glimpse-slide img,
+.glimpse-slide video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  border: none;
+  transform-origin: 50% 45%;
+  /* Own GPU layer, so slow movement glides instead of being redrawn (and shimmering) every frame. */
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.glimpse-slide.is-loading {
+  background:
+    linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.06) 50%, transparent 70%) 0 0 / 220% 100%,
+    var(--g-hero-bg);
+  animation: glimpse-shimmer 1.4s linear infinite;
+}
+
+.glimpse-slide.is-loading img { opacity: 0; }
+.glimpse-slide img { transition: opacity 400ms ease; }
+
+/* A slow, constant breathing drift, alternating direction from slide to slide. Every slide drifts all the time,
+   so an image fading out never snaps back to its starting size. */
+.glimpse-card[data-motion="on"] .glimpse-slide img,
+.glimpse-card[data-motion="on"] .glimpse-slide video {
+  animation: glimpse-drift-a 40s ease-in-out infinite alternate;
+}
+.glimpse-card[data-motion="on"] .glimpse-slide:nth-child(even) img,
+.glimpse-card[data-motion="on"] .glimpse-slide:nth-child(even) video {
+  animation-name: glimpse-drift-b;
+}
+
+/* Fades the image into the card, with a whisper of shade at the top. */
+.glimpse-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.22) 0%,
+      transparent 20%,
+      transparent 48%,
+      color-mix(in srgb, var(--g-bg) 55%, transparent) 74%,
+      color-mix(in srgb, var(--g-bg) 92%, transparent) 92%,
+      var(--g-bg) 100%),
+    radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.28) 100%);
+}
+
+.glimpse-card[data-style="parchment"] .glimpse-scrim {
+  background:
+    linear-gradient(to bottom,
+      rgba(40, 24, 8, 0.12) 0%,
+      transparent 22%,
+      transparent 50%,
+      color-mix(in srgb, var(--g-bg) 60%, transparent) 76%,
+      color-mix(in srgb, var(--g-bg) 94%, transparent) 93%,
+      var(--g-bg) 100%),
+    radial-gradient(ellipse at 50% 40%, transparent 60%, rgba(60, 36, 12, 0.22) 100%);
+}
+
+/* Image-only cards keep more of the picture clear. */
+.glimpse-card[data-layout="image"] .glimpse-scrim {
+  background:
+    linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.2) 0%,
+      transparent 18%,
+      transparent 62%,
+      color-mix(in srgb, var(--g-bg) 60%, transparent) 84%,
+      var(--g-bg) 100%),
+    radial-gradient(ellipse at 50% 40%, transparent 60%, rgba(0, 0, 0, 0.25) 100%);
+}
+
+/* -------------------------------------------- */
+/*  Header                                      */
+/* -------------------------------------------- */
+
+.glimpse-header {
+  position: relative;
+  z-index: 2;
+  flex: none;
+  padding: 1.15em 1.35em 0;
+}
+
+/* Over an image the title sits on the faded lower edge. */
+.glimpse-hero + .glimpse-header {
+  margin-top: -3.4em;
+  padding-top: 0;
+}
+
+.glimpse-hero + .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: -2.6em;
+}
+
+.glimpse-subtitle {
+  margin: 0 0 0.3em;
+  font-family: var(--font-sans, "Signika", sans-serif);
+  font-size: 0.7em;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--g-accent);
+  text-shadow: var(--g-title-shadow);
+}
+
+:is(.glimpse-card, #glimpse-lightbox) .glimpse-title {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: "Modesto Condensed", "Modesto", var(--font-serif, serif);
+  font-size: 2.2em;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: 0.012em;
+  color: var(--g-title);
+  text-shadow: var(--g-title-shadow);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.glimpse-card[data-size="small"] .glimpse-title { font-size: 1.85em; }
+.glimpse-card[data-size="large"] .glimpse-title { font-size: 2.5em; }
+.glimpse-card[data-size="cinematic"] .glimpse-title { font-size: 3em; }
+
+/* Image-only cards let the picture breathe: the title floats over it. */
+.glimpse-card[data-layout="image"] .glimpse-hero + .glimpse-header {
+  margin-top: -3.9em;
+  padding-bottom: 1.2em;
+}
+
+/* -------------------------------------------- */
+/*  Ornamental Rule                             */
+/* -------------------------------------------- */
+
+.glimpse-rule {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.55em;
+  flex: none;
+  margin: 0.8em 1.35em 0.75em;
+  color: var(--g-accent);
+}
+
+.glimpse-rule::before,
+.glimpse-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+}
+.glimpse-rule::before { background: linear-gradient(to right, transparent, var(--g-line) 30%, var(--g-line)); flex: 0 0 18%; }
+.glimpse-rule::after { background: linear-gradient(to right, var(--g-line), var(--g-line) 60%, transparent); }
+
+.glimpse-rule span {
+  width: 6px;
+  height: 6px;
+  border: 1px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.85;
+}
+
+/* -------------------------------------------- */
+/*  Body Excerpt                                */
+/* -------------------------------------------- */
+
+.glimpse-body {
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 13.5em;
+  overflow: hidden;
+  padding: 0 1.35em;
+  font-family: var(--font-serif, "Amiri", serif);
+  font-size: 1.06em;
+  line-height: 1.5;
+  color: var(--g-ink-soft);
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.glimpse-card[data-size="small"] .glimpse-body { max-height: 11em; }
+.glimpse-card[data-size="large"] .glimpse-body { max-height: 15em; }
+.glimpse-card[data-size="cinematic"] .glimpse-body { max-height: 14em; }
+
+.glimpse-body.is-clipped {
+  -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 98%);
+  mask-image: linear-gradient(to bottom, #000 62%, transparent 98%);
+}
+
+.glimpse-body:last-child { margin-bottom: 1.25em; }
+
+.glimpse-body > :first-child { margin-top: 0; }
+
+.glimpse-body p { margin: 0 0 0.6em; }
+
+/* A quiet drop cap on the opening paragraph. */
+.glimpse-body > p:first-child::first-letter {
+  float: left;
+  margin: 0.04em 0.1em 0 0;
+  font-family: "Modesto Condensed", "Modesto", var(--font-serif, serif);
+  font-size: 3.05em;
+  font-weight: 700;
+  line-height: 0.82;
+  color: var(--g-accent);
+}
+
+:is(.glimpse-card, #glimpse-lightbox) .glimpse-body :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0.5em 0 0.25em;
+  padding: 0;
+  border: none;
+  font-family: "Modesto Condensed", "Modesto", var(--font-serif, serif);
+  font-size: 1.2em;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--g-ink);
+}
+
+.glimpse-body :is(ul, ol) { margin: 0 0 0.6em; padding-left: 1.2em; }
+.glimpse-body li { margin: 0 0 0.2em; }
+.glimpse-body li::marker { color: var(--g-accent); }
+
+.glimpse-body blockquote {
+  margin: 0 0 0.6em;
+  padding: 0 0 0 0.8em;
+  border: none;
+  border-left: 2px solid var(--g-line);
+  background: none;
+  font-style: italic;
+  color: var(--g-ink);
+}
+
+.glimpse-body hr {
+  margin: 0.6em 25%;
+  border: none;
+  border-top: 1px solid var(--g-line);
+}
+
+.glimpse-body strong { color: var(--g-ink); }
+
+.glimpse-body table { width: 100%; font-size: 0.9em; border-collapse: collapse; }
+.glimpse-body :is(td, th) { padding: 0.15em 0.3em; border-bottom: 1px solid var(--g-edge); }
+
+/* Document links and inline rolls read as quiet accents, not buttons. */
+:is(.glimpse-card, #glimpse-lightbox) .glimpse-body :is(a, .content-link, .inline-roll) {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--g-accent);
+  text-decoration: none;
+  white-space: normal;
+}
+:is(.glimpse-card, #glimpse-lightbox) .glimpse-body :is(.content-link, .inline-roll) > i { display: none; }
+
+/* -------------------------------------------- */
+/*  Footer                                      */
+/* -------------------------------------------- */
+
+.glimpse-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  flex: none;
+  margin-top: 0.55em;
+  padding: 0.75em 1.5em 0.95em;
+  border-top: 1px solid var(--g-edge);
+  font-family: var(--font-sans, "Signika", sans-serif);
+  font-size: 0.74em;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  color: var(--g-muted);
+}
+
+.glimpse-card[data-layout="image"] .glimpse-footer { margin-top: 0; }
+.glimpse-header + .glimpse-footer { border-top-color: transparent; }
+
+.glimpse-caption {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-style: italic;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.glimpse-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.glimpse-dots i {
+  width: 5px;
+  height: 5px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.4;
+  transition: width 400ms ease, opacity 400ms ease, background-color 400ms ease;
+}
+
+.glimpse-dots i.is-active {
+  width: 15px;
+  opacity: 1;
+  background: var(--g-accent);
+}
+
+.glimpse-hint {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.glimpse-hint i {
+  margin-right: 0.3em;
+  color: var(--g-accent);
+}
+
+
+/* -------------------------------------------- */
+/*  Animations                                  */
+/* -------------------------------------------- */
+
+/* A pan only. The scale never changes, so the image is rasterized once and the GPU just slides it; animating
+   the scale makes the browser resample the picture every frame, which shimmers. */
+@keyframes glimpse-drift-a {
+  from { transform: scale(1.06) translate3d(1.5%, 0.6%, 0); }
+  to { transform: scale(1.06) translate3d(-1.5%, -0.6%, 0); }
+}
+
+@keyframes glimpse-drift-b {
+  from { transform: scale(1.06) translate3d(-1.5%, 0.4%, 0); }
+  to { transform: scale(1.06) translate3d(1.5%, -0.4%, 0); }
+}
+
+@keyframes glimpse-shimmer {
+  from { background-position: 120% 0, 0 0; }
+  to { background-position: -120% 0, 0 0; }
+}
+
+@keyframes glimpse-swap {
+  from { opacity: 0.35; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glimpse-card,
+  .glimpse-card.is-visible {
+    transform: none;
+    transition: opacity 120ms linear, visibility 0s;
+  }
+  .glimpse-slide { transition-duration: 400ms; }
+  .glimpse-card .glimpse-slide img,
+  .glimpse-card .glimpse-slide video { animation: none !important; }
+}
+
+/* ==========================================================================
+   Facts, Travel and Badges
+   ========================================================================== */
+
+.glimpse-facts {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  flex: none;
+  margin: 0.7em 1.35em 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans, "Signika", sans-serif);
+  font-size: 0.74em;
+  line-height: 1.2;
+}
+
+.glimpse-facts li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  margin: 0;
+  padding: 0.3em 0.65em;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--g-accent) 9%, transparent);
+  color: var(--g-ink);
+  white-space: nowrap;
+}
+
+.glimpse-fact-label {
+  color: var(--g-muted);
+  font-size: 0.86em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.glimpse-facts .glimpse-travel {
+  border-style: dashed;
+  background: none;
+}
+
+.glimpse-facts .glimpse-travel i {
+  color: var(--g-accent);
+  font-size: 0.9em;
+}
+
+.glimpse-facts:last-child { margin-bottom: 1.2em; }
+
+/* GM-only reminder that players see the rumour. */
+.glimpse-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 4;
+  padding: 0.3em 0.7em;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--g-bg) 82%, transparent);
+  backdrop-filter: blur(4px);
+  font-family: var(--font-sans, "Signika", sans-serif);
+  font-size: 0.68em;
+  letter-spacing: 0.06em;
+  color: var(--g-accent);
+}
+
+/* Undiscovered places: the image is veiled, the text reads as hearsay. */
+.glimpse-card.is-rumoured .glimpse-slide img,
+.glimpse-card.is-rumoured .glimpse-slide video {
+  filter: blur(9px) grayscale(0.55) brightness(0.75) sepia(0.25);
+  transform: scale(1.12);
+}
+.glimpse-card.is-rumoured[data-motion="on"] .glimpse-slide :is(img, video) { animation: none; }
+.glimpse-card.is-rumoured .glimpse-body {
+  font-style: italic;
+  color: var(--g-ink-soft);
+}
+.glimpse-card.is-rumoured .glimpse-body > p:first-child::first-letter {
+  float: none;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+.glimpse-card.is-rumoured .glimpse-body p::before { content: "\201C"; }
+.glimpse-card.is-rumoured .glimpse-body p::after { content: "\201D"; }
+.glimpse-subtitle i { margin-right: 0.2em; }
+
+/* ==========================================================================
+   Region Banner
+   ========================================================================== */
+
+.glimpse-card.glimpse-banner {
+  width: min(640px, calc(100vw - 24px));
+  font-size: calc(13px * var(--glimpse-scale, 1));
+}
+
+.glimpse-banner .glimpse-frame {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  grid-auto-rows: min-content;
+  align-content: center;
+  min-height: 9.5em;
+  max-height: 15em;
+}
+
+.glimpse-banner[data-layout="text"] .glimpse-frame { grid-template-columns: 1fr; }
+.glimpse-banner[data-layout="image"] .glimpse-frame { grid-template-columns: 52% 1fr; }
+
+.glimpse-banner .glimpse-hero {
+  grid-column: 1;
+  grid-row: 1 / span 6;
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 9.5em;
+  max-height: none;
+}
+
+.glimpse-banner .glimpse-scrim,
+.glimpse-banner[data-layout="image"] .glimpse-scrim {
+  background:
+    linear-gradient(to right,
+      transparent 0%,
+      transparent 55%,
+      color-mix(in srgb, var(--g-bg) 70%, transparent) 85%,
+      var(--g-bg) 100%),
+    radial-gradient(ellipse at 40% 50%, transparent 55%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.glimpse-banner .glimpse-hero + .glimpse-header,
+.glimpse-banner[data-layout="image"] .glimpse-hero + .glimpse-header,
+.glimpse-banner .glimpse-hero + .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: 0;
+  padding: 1.1em 1.3em 0 0.4em;
+}
+
+.glimpse-banner .glimpse-header,
+.glimpse-banner .glimpse-facts,
+.glimpse-banner .glimpse-rule,
+.glimpse-banner .glimpse-body,
+.glimpse-banner .glimpse-footer {
+  grid-column: 2;
+}
+
+.glimpse-banner[data-layout="text"] :is(.glimpse-header, .glimpse-facts, .glimpse-rule, .glimpse-body, .glimpse-footer) {
+  grid-column: 1;
+}
+
+.glimpse-banner .glimpse-facts { margin: 0.5em 1.3em 0 0.4em; }
+.glimpse-banner .glimpse-rule { margin: 0.55em 1.3em 0.5em 0.4em; }
+.glimpse-banner .glimpse-body {
+  max-height: 4.6em;
+  padding: 0 1.3em 0 0.4em;
+  font-size: 1em;
+}
+.glimpse-banner .glimpse-body:last-child { margin-bottom: 1em; }
+.glimpse-card.glimpse-banner .glimpse-title { font-size: 1.9em; }
+.glimpse-banner .glimpse-body > p:first-child::first-letter { float: none; font: inherit; color: inherit; margin: 0; }
+.glimpse-banner .glimpse-footer {
+  margin-top: 0.3em;
+  padding: 0.5em 1.3em 0.7em 0.4em;
+  border-top: none;
+}
+.glimpse-banner .glimpse-header:last-child { padding-bottom: 1em; }
+.glimpse-banner .glimpse-frame::after { inset: 4px; }
+
+/* ==========================================================================
+   Lightbox (gallery and reveals)
+   ========================================================================== */
+
+#glimpse-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-index-tooltip, 9999) - 1);
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  color: var(--g-ink);
+  font-size: 15px;
+  transition: opacity 260ms ease, visibility 0s linear 260ms;
+}
+
+#glimpse-lightbox.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 320ms ease, visibility 0s;
+}
+
+.glimpse-lb-backdrop {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 45%, rgba(10, 8, 12, 0.55), rgba(4, 3, 6, 0.9) 75%);
+  backdrop-filter: blur(3px) saturate(0.8);
+}
+
+.glimpse-lb-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(300px, 28vw, 400px);
+  width: min(1320px, 94vw);
+  height: min(84vh, 860px);
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--g-paper), var(--g-bg);
+  background-color: var(--g-bg);
+  box-shadow: var(--g-shadow), 0 0 0 1px var(--g-line), 0 40px 120px -20px rgba(0, 0, 0, 0.9);
+  transform: translateY(14px) scale(0.97);
+  transition: transform 420ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+#glimpse-lightbox.is-open .glimpse-lb-stage { transform: none; }
+
+.glimpse-lb-stage.no-media {
+  grid-template-columns: 1fr;
+  width: min(640px, 92vw);
+  height: auto;
+  max-height: 84vh;
+}
+
+.glimpse-lb-media {
+  position: relative;
+  overflow: hidden;
+  background: #070609;
+}
+
+.glimpse-lb-glow {
+  position: absolute;
+  inset: -10%;
+  background: center / cover no-repeat;
+  filter: blur(48px) saturate(1.2) brightness(0.55);
+  transform: scale(1.1);
+}
+
+.glimpse-lb-slide {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  margin: 0;
+  display: block;
+  padding: 2.2em 2.2em 5.2em;
+  opacity: 0;
+  transition: opacity 700ms ease;
+}
+
+.glimpse-lb-slide.is-active { opacity: 1; z-index: 1; }
+
+/* Fill the stage, so small images grow too. */
+.glimpse-lb-slide img,
+.glimpse-lb-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: none;
+}
+
+/* Foundry and some systems give every <img> a border and shadow; on a letterboxed image that draws a frame. */
+:is(.glimpse-card, #glimpse-lightbox, .glimpse-config) img {
+  box-shadow: none;
+  outline: none;
+}
+
+.glimpse-lb-stage:not(:has(.glimpse-lb-thumbs)) .glimpse-lb-slide { padding-bottom: 2.2em; }
+
+#glimpse-lightbox.is-rumoured .glimpse-lb-slide :is(img, video) {
+  filter: blur(14px) grayscale(0.55) brightness(0.75) sepia(0.25);
+}
+
+#glimpse-lightbox .glimpse-lb-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  padding: 0;
+  border: 1px solid rgba(255, 240, 210, 0.25);
+  border-radius: 50%;
+  background: rgba(10, 8, 12, 0.55);
+  color: #f3e9d6;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease;
+}
+#glimpse-lightbox .glimpse-lb-nav:hover { background: rgba(10, 8, 12, 0.85); transform: scale(1.06); }
+.glimpse-lb-nav.prev { left: 18px; }
+.glimpse-lb-nav.next { right: 18px; }
+
+.glimpse-lb-thumbs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+}
+
+#glimpse-lightbox .glimpse-lb-thumb {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 42px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 240, 210, 0.2);
+  border-radius: 5px;
+  background: rgba(10, 8, 12, 0.7);
+  color: #cbbfa8;
+  opacity: 0.55;
+  cursor: pointer;
+  transition: opacity 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+.glimpse-lb-thumb img { width: 100%; height: 100%; object-fit: cover; border: none; }
+#glimpse-lightbox .glimpse-lb-thumb:hover { opacity: 0.9; }
+#glimpse-lightbox .glimpse-lb-thumb.is-active { opacity: 1; border-color: var(--g-accent); transform: translateY(-2px); }
+
+.glimpse-lb-text {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2.6em 2em 1.6em;
+  border-left: 1px solid var(--g-edge);
+}
+
+.glimpse-lb-stage.no-media .glimpse-lb-text { border-left: none; }
+
+.glimpse-lb-from {
+  margin: 0 0 1.4em;
+  font-family: var(--font-sans, "Signika", sans-serif);
+  font-size: 0.72em;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--g-muted);
+}
+.glimpse-lb-from i { color: var(--g-accent); margin-right: 0.3em; }
+
+#glimpse-lightbox .glimpse-title { font-size: 2.7em; text-shadow: none; }
+#glimpse-lightbox .glimpse-subtitle { text-shadow: none; }
+#glimpse-lightbox .glimpse-facts { margin: 0.9em 0 0; font-size: 0.78em; }
+#glimpse-lightbox .glimpse-rule { margin: 1.1em 0 0.9em; }
+
+.glimpse-lb-caption {
+  margin: 0.9em 0 0;
+  font-family: var(--font-serif, serif);
+  font-style: italic;
+  color: var(--g-muted);
+}
+.glimpse-lb-caption:empty { display: none; }
+
+#glimpse-lightbox .glimpse-lb-body {
+  flex: none; /* Scroll the column instead of squeezing the text under the buttons */
+  max-height: none;
+  padding: 0;
+  overflow: visible;
+  font-size: 1.05em;
+  user-select: text;
+}
+
+.glimpse-lb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-top: auto;
+  padding-top: 1.4em;
+}
+
+#glimpse-lightbox .glimpse-lb-actions button {
+  flex: 1 1 auto;
+  width: auto;
+  min-height: 2.4em;
+  padding: 0 1em;
+  border: 1px solid var(--g-line);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--g-accent) 10%, transparent);
+  color: var(--g-ink);
+  font-family: var(--font-sans, "Signika", sans-serif);
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+#glimpse-lightbox .glimpse-lb-actions button:hover {
+  background: color-mix(in srgb, var(--g-accent) 22%, transparent);
+  border-color: var(--g-accent);
+}
+.glimpse-lb-actions button i { margin-right: 0.35em; color: var(--g-accent); }
+.glimpse-lb-actions:not(:has(button)) { display: none; }
+
+#glimpse-lightbox .glimpse-lb-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--g-line);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--g-bg) 80%, transparent);
+  color: var(--g-ink);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+#glimpse-lightbox .glimpse-lb-close:hover { border-color: var(--g-accent); color: var(--g-accent); }
+
+@media (max-width: 900px) {
+  .glimpse-lb-stage {
+    grid-template-columns: 1fr;
+    grid-template-rows: 55% 45%;
+  }
+  .glimpse-lb-text { border-left: none; border-top: 1px solid var(--g-edge); padding: 1.4em 1.4em 1em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glimpse-lb-stage { transition: none; transform: none; }
+}
+
+/* ==========================================================================
+   Configuration
+   ========================================================================== */
+
+.glimpse-focal {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.glimpse-focal-frame {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0;
+  cursor: crosshair;
+}
+
+.glimpse-focal-frame img {
+  max-width: 100%;
+  max-height: 150px;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.3));
+  border-radius: 4px;
+}
+
+.glimpse-focal-dot {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: rgba(212, 176, 106, 0.7);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 10px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.glimpse-config legend i {
+  margin-right: 0.25em;
+  opacity: 0.8;
+}
+
+.glimpse-config-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.glimpse-config-footer .glimpse-preview-button {
+  flex: 0 0 auto;
+  width: auto;
+  padding: 0 1em;
+}
+
+.glimpse-region-hint { margin: 0.5em 0 0.25em; }

@@ -1,0 +1,51 @@
+<div class="glimpse-lb-backdrop" data-action="close"></div>
+<div class="glimpse-lb-stage{{#unless media.length}} no-media{{/unless}}" role="dialog" aria-modal="true" aria-label="{{title}}">
+  {{#if media.length}}
+  <div class="glimpse-lb-media">
+    <div class="glimpse-lb-glow" style="background-image: url('{{media.0.src}}')"></div>
+    {{#each media}}
+    <figure class="glimpse-lb-slide{{#if @first}} is-active{{/if}}" data-index="{{@index}}" data-caption="{{caption}}">
+      {{#if isVideo}}
+      <video src="{{src}}" muted loop playsinline controls disablepictureinpicture></video>
+      {{else}}
+      <img src="{{src}}" alt="{{caption}}">
+      {{/if}}
+    </figure>
+    {{/each}}
+    {{#if multiple}}
+    <button type="button" class="glimpse-lb-nav prev" data-action="prev" aria-label="{{labels.prev}}"><i class="fa-solid fa-chevron-left"></i></button>
+    <button type="button" class="glimpse-lb-nav next" data-action="next" aria-label="{{labels.next}}"><i class="fa-solid fa-chevron-right"></i></button>
+    <div class="glimpse-lb-thumbs">
+      {{#each media}}
+      <button type="button" class="glimpse-lb-thumb{{#if @first}} is-active{{/if}}" data-action="goto" data-index="{{@index}}" aria-label="{{@index}}">
+        {{#if isVideo}}<i class="fa-solid fa-film"></i>{{else}}<img src="{{src}}" alt="" style="object-position: {{focus}}">{{/if}}
+      </button>
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+  {{/if}}
+
+  <div class="glimpse-lb-text">
+    {{#if revealedBy}}<p class="glimpse-lb-from"><i class="fa-solid fa-eye"></i> {{revealedBy}}</p>{{/if}}
+    {{#if subtitle}}<p class="glimpse-subtitle">{{subtitle}}</p>{{/if}}
+    <h2 class="glimpse-title">{{title}}</h2>
+    {{#if facts.length}}
+    <ul class="glimpse-facts">
+      {{#each facts}}<li>{{#if label}}<span class="glimpse-fact-label">{{label}}</span>{{/if}}<span class="glimpse-fact-value">{{value}}</span></li>{{/each}}
+    </ul>
+    {{/if}}
+    <p class="glimpse-lb-caption">{{media.0.caption}}</p>
+    {{#if body}}
+    <div class="glimpse-rule" aria-hidden="true"><span></span></div>
+    <div class="glimpse-body glimpse-lb-body">{{{body}}}</div>
+    {{/if}}
+    <div class="glimpse-lb-actions">
+      {{#if canOpen}}<button type="button" data-action="journal"><i class="fa-solid fa-book-open"></i> {{labels.journal}}</button>{{/if}}
+      {{#if canReveal}}<button type="button" data-action="reveal"><i class="fa-solid fa-eye"></i> {{labels.reveal}}</button>{{/if}}
+      {{#if canCloseAll}}<button type="button" data-action="closeAll"><i class="fa-solid fa-eye-slash"></i> {{labels.closeAll}}</button>{{/if}}
+    </div>
+  </div>
+
+  <button type="button" class="glimpse-lb-close" data-action="close" aria-label="{{labels.close}}"><i class="fa-solid fa-xmark"></i></button>
+</div>

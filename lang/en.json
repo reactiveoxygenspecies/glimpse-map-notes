@@ -1,0 +1,197 @@
+{
+  "GLIMPSE": {
+    "Title": "Glimpse",
+    "Toggle": "Glimpse: Location Previews",
+    "Enabled": "Location previews enabled",
+    "Disabled": "Location previews disabled",
+    "OpenHint": "Double-click to read more",
+    "GalleryHint": "Double-click for the gallery",
+    "Rumoured": "Rumoured",
+    "RumourDefault": "Little is known of this place. Perhaps someone has been there.",
+    "RumourBadge": "Players see the rumour",
+    "Travel": {
+      "UnderADay": "under a day",
+      "Day": "≈ {days} day",
+      "Days": "≈ {days} days"
+    },
+    "Lightbox": {
+      "Previous": "Previous image",
+      "Next": "Next image",
+      "Close": "Close",
+      "OpenJournal": "Open journal",
+      "Reveal": "Show to players",
+      "CloseAll": "Close for everyone",
+      "RevealedBy": "Shown by {name}",
+      "Revealed": "Showing {name} to the table",
+      "NothingToReveal": "There is nothing to show for this location yet."
+    },
+    "Context": {
+      "Gallery": "Glimpse: Open gallery",
+      "Reveal": "Glimpse: Show to players",
+      "MarkVisited": "Glimpse: Mark as discovered",
+      "MarkUnvisited": "Glimpse: Mark as undiscovered"
+    },
+    "Settings": {
+      "enabled": {
+        "Name": "Show location previews",
+        "Hint": "Show a preview card when you hover a map note."
+      },
+      "style": {
+        "Name": "Card style",
+        "Hint": "The look of preview cards and the gallery.",
+        "Choices": {
+          "dusk": "Dusk (dark)",
+          "parchment": "Parchment (light)",
+          "auto": "Match interface theme"
+        }
+      },
+      "size": {
+        "Name": "Card size",
+        "Hint": "Default size of preview cards. Individual notes can override this.",
+        "Choices": {
+          "small": "Small",
+          "medium": "Medium",
+          "large": "Large",
+          "cinematic": "Cinematic"
+        }
+      },
+      "excerpt": {
+        "Name": "Text excerpt",
+        "Hint": "How much of the journal text to show beneath the image.",
+        "Choices": {
+          "none": "None (images only)",
+          "short": "Short",
+          "medium": "Medium",
+          "long": "Long"
+        }
+      },
+      "textScale": {
+        "Name": "Text size",
+        "Hint": "Scale the card text, as a percentage."
+      },
+      "delay": {
+        "Name": "Hover delay",
+        "Hint": "Milliseconds to wait before the card appears. Moving from one note to another skips the delay."
+      },
+      "regionMode": {
+        "Name": "Region banners",
+        "Hint": "Regions the GM has set up with Glimpse show a banner at the bottom of the screen.",
+        "Choices": {
+          "hover": "When the pointer rests in a region",
+          "key": "Only while holding the Peek key (G)",
+          "off": "Never"
+        }
+      },
+      "slideshow": {
+        "Name": "Cycle through images",
+        "Hint": "When a location has several images, slowly cross-fade between them while the card is open."
+      },
+      "motion": {
+        "Name": "Slow pan on images",
+        "Hint": "Images slowly pan while the card is open. Off by default; turned off automatically if your system asks for reduced motion."
+      },
+      "soundVolume": {
+        "Name": "Ambient sound volume",
+        "Hint": "Volume of the ambient sounds some locations play while their card is open. Set to 0 to turn them off."
+      },
+      "travel": {
+        "Name": "Show travel distance",
+        "Hint": "Show how far a note is from your selected token, or your character's token."
+      },
+      "hideLabel": {
+        "Name": "Hide note label while previewing",
+        "Hint": "The card already shows the name of the place."
+      },
+      "secrets": {
+        "Name": "Show secrets to owners",
+        "Hint": "Include secret blocks in the excerpt when you own the page. Off by default, so screen-sharing stays safe."
+      },
+      "doubleClick": {
+        "Name": "Double-clicking a note opens",
+        "Hint": "The gallery shows a location's images full screen, with a button to open the journal.",
+        "Choices": {
+          "gallery": "The gallery, when the location has images",
+          "journal": "The journal, as usual"
+        }
+      },
+      "travelPerDay": {
+        "Name": "Travel per day",
+        "Hint": "Distance a party covers in a day, in scene units (for example 24 for miles). Set to 0 to show distance only."
+      },
+      "nightStart": {
+        "Name": "Night begins at",
+        "Hint": "The in-game hour when night images take over."
+      },
+      "nightEnd": {
+        "Name": "Night ends at",
+        "Hint": "The in-game hour when day images return."
+      }
+    },
+    "Keybindings": {
+      "toggle": {
+        "Name": "Toggle location previews"
+      },
+      "reveal": {
+        "Name": "Show hovered location to players",
+        "Hint": "While hovering a note, show its location to everyone."
+      },
+      "peek": {
+        "Name": "Peek at regions",
+        "Hint": "Hold to show the banner for the region under the pointer, when region banners are set to use this key."
+      }
+    },
+    "Config": {
+      "Legend": "Glimpse Preview",
+      "DiscoveryLegend": "Glimpse Discovery",
+      "RegionLegend": "Region",
+      "PageLegend": "Glimpse",
+      "RegionIntro": "Give this region a card of its own. Players see it as a banner when their pointer rests inside the region.",
+      "Mode": "Display",
+      "ModeHint": "Automatic shows images and text when available.",
+      "Modes": {
+        "auto": "Automatic",
+        "full": "Image and text",
+        "image": "Image only",
+        "text": "Text only",
+        "off": "No preview"
+      },
+      "Size": "Card size",
+      "SizeDefault": "Player's choice",
+      "SizeHint": "Make this location open larger or smaller than usual, for example Cinematic for a grand vista.",
+      "Image": "Preview image",
+      "ImageHint": "Optional image or video shown first. Visible to everyone who can see this, even if they cannot open the journal.",
+      "Focus": "Focal point",
+      "FocusHint": "Click the part of the image that must stay in view when the card crops it.",
+      "FocusTooltip": "Click to set the focal point",
+      "NightImage": "Night image",
+      "NightImageHint": "Shown instead during the night hours set in the module settings.",
+      "Subtitle": "Subtitle",
+      "SubtitlePlaceholder": "e.g. The Ashen Reach · Region",
+      "SubtitleHint": "A short line shown above the name.",
+      "Facts": "Facts",
+      "FactsPlaceholder": "Population: 140\nRuled by: House Vey\nDanger: Low",
+      "FactsHint": "One per line, as \"Label: value\". Shown as a row of chips under the name.",
+      "Sound": "Ambient sound",
+      "SoundHint": "A quiet loop that plays while the card is open.",
+      "Discovery": "Discovery",
+      "DiscoveryHint": "Undiscovered places show players only a veiled image and the rumour below.",
+      "DiscoveryModes": {
+        "known": "Known to everyone",
+        "rumour": "Rumoured until the GM marks it discovered",
+        "explore": "Rumoured until explored (fog of war)"
+      },
+      "Rumour": "Rumour",
+      "RumourHint": "What players have heard about this place.",
+      "Visited": "Discovered",
+      "VisitedHint": "Players see the full card. Showing the location to players also sets this.",
+      "Enabled": "Show a Glimpse for this region",
+      "EnabledHint": "Turn on the banner for this region.",
+      "Entry": "Journal entry",
+      "EntryHint": "Images and text come from this journal, as for notes.",
+      "Page": "Page",
+      "RegionTitle": "Name",
+      "RegionTitleHint": "Defaults to the page or journal name.",
+      "Preview": "Hover to preview"
+    }
+  }
+}
