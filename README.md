@@ -3,7 +3,7 @@
 <p align="center"><em>Hover a place on the map. See what it looks like, hear what it sounds like, learn what it is.</em></p>
 
 <p align="center">
-  <img src="docs/hero.jpg" alt="Hovering West Galante on a world map shows a card with a painting of the canal city, its name, facts and a description" width="100%">
+  <img src="docs/hero.jpg" alt="Hovering the Black Sun Hideout on a world map shows a card with a painting of an airship in a hidden cavern hangar, its name, subtitle, facts and a description" width="100%">
 </p>
 
 <p align="center">
@@ -21,7 +21,7 @@ place at a glance: a painting, its name, a few facts and the opening lines from 
 single window. Double-click for a full-screen gallery, or push a place to every player's screen at the right
 dramatic moment.
 
-It is built for worldbuilders: image-first, permission-aware, and happy to read the journals you already have.
+It is built for worldbuilders: image-first, permission-aware, and works with the journals you already have.
 
 **Requires Foundry VTT v14.**
 
@@ -41,7 +41,9 @@ Glimpse works with the journals you already have: hover any map note and it buil
 For the richest cards:
 
 1. Give the journal entry one or more **image pages** for the mood, and a **text page** for the description.
-   Images pasted inside text pages are picked up too.
+   Images pasted inside text pages are picked up too. Only the first text page is shown, so if the entry has
+   several, drag them into a different order in the journal to change which one the card uses. Each viewer gets the
+   first text page they are allowed to see, so a GM-only page on top shows to you while players see the next one.
 2. Link a map note to the journal entry. Link it to a single **page** to show just that page.
 3. Give players at least **Limited** permission to see images, or **Observer** to also read the text.
 
@@ -86,6 +88,9 @@ Image pages also get a **focal point** and a **night image** when you edit them.
 - Cards follow the map as you pan and zoom, flip to whichever side has room, and never leave the screen.
 - Hovering a note in the v14 **Notes** sidebar list shows its card beside the list.
 
+For now the card styles are designed around the **Pathfinder Second Edition** system, which runs the author's main
+campaign. Glimpse works in any system, and more themes may follow.
+
 ### The gallery
 
 <p align="center">
@@ -120,6 +125,10 @@ Players can choose to see banners on hover, only while holding <kbd>G</kbd>, or 
 Mark a place as rumoured and players see only a veiled image and the rumour you wrote. It opens up when you mark it
 discovered, when you show it to them, or, if you prefer, when they uncover it through fog of war. The GM always sees
 the full card, with a small reminder of what players see.
+
+To keep part of a description from the players, format it with the **Secret** text style in the journal editor.
+Players never see secret passages on cards, in the gallery or when a place is shown to them, so GM notes can sit right
+beside the text players read (see [Permissions](#permissions)).
 
 ### Map icons
 
@@ -203,7 +212,7 @@ Hooks.once("glimpseReady", api => {
 Glimpse was inspired by *Map Note Hover Display* by FriendlyLambda, which in turn built on
 [Pin Cushion](https://github.com/death-save/pin-cushion) by Death Save Development.
 
-Screenshots show the world of Fama, a homebrew campaign setting by the author. Its map, art and text are not part of
+Screenshots show the world of Fama, my homebrew campaign setting. Its map, art and text are not part of
 the module.
 
 Glimpse is released under the [MIT License](LICENSE).
