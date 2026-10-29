@@ -1,7 +1,8 @@
 import {LIGHTBOX_TEMPLATE, MODULE_ID, SOCKET, TEMPLATE, api, flagsOf, setting} from "./constants.mjs";
 import {registerSettings, toggleEnabled} from "./settings.mjs";
-import {PAGE_READERS, clearCache, isNight, regionEnabled} from "./content.mjs";
-import {onRenderImagePageSheet, onRenderNoteConfig, onRenderRegionConfig} from "./config.mjs";
+import {PAGE_READERS, clearCache, isNight, isRumoured, noteSource, regionEnabled} from "./content.mjs";
+import {onRenderImagePageSheet, onRenderNoteConfig, onRenderRegionConfig, onRenderSceneConfig, pruneCreateFlags,
+  pruneUpdateFlags} from "./config.mjs";
 import {NoteCard} from "./card.mjs";
 import {RegionBanner, RegionTracker} from "./regions.mjs";
 import {GlimpseLightbox, noteHasMedia, onSocketMessage, openGallery, revealToPlayers} from "./lightbox.mjs";
@@ -11,7 +12,31 @@ import {styleNoteIcon} from "./note-icons.mjs";
 Hooks.once("init", () => {
   registerSettings();
   foundry.applications.handlebars.loadTemplates([TEMPLATE, LIGHTBOX_TEMPLATE]);
+  extendNoteClass();
 });
+
+/**
+ * Core only lets a note be double-clicked when it links a journal entry. Let notes that carry their own Glimpse
+ * content open the gallery too.
+ */
+function extendNoteClass() {
+  const hasOwnContent = doc => {
+    const flags = flagsOf(doc);
+    return !doc.entry && (flags.mode !== "off") && !!(flags.image || flags.nightImage || flags.subtitle || flags.facts);
+  };
+  CONFIG.Note.objectClass = class GlimpseNote extends CONFIG.Note.objectClass {
+    /** @override */
+    _canView(user) {
+      return super._canView(user) || hasOwnContent(this.document);
+    }
+
+    /** @override */
+    _onClickLeft2(event) {
+      if ( this.document.entry ) return super._onClickLeft2(event);
+      if ( hasOwnContent(this.document) ) openGallery(this.document);
+    }
+  };
+}
 
 Hooks.once("ready", () => {
   const card = new NoteCard();
@@ -95,9 +120,17 @@ Hooks.on("canvasPan", () => {
 /* -------------------------------------------- */
 
 Hooks.on("activateNote", note => {
+  const doc = note.document;
+
+  // Players never open the journal of a place they have only heard rumours of: they get the rumour instead.
+  if ( !game.user.isGM && isRumoured(noteSource(doc)) ) {
+    if ( flagsOf(doc).mode !== "off" ) openGallery(doc);
+    return false;
+  }
+
   if ( setting("doubleClick") !== "gallery" ) return;
-  if ( !noteHasMedia(note.document) ) return;
-  openGallery(note.document);
+  if ( !noteHasMedia(doc) ) return;
+  openGallery(doc);
   return false;
 });
 
@@ -141,6 +174,13 @@ Hooks.on("updateWorldTime", () => {
 Hooks.on("renderNoteConfig", onRenderNoteConfig);
 Hooks.on("renderRegionConfig", onRenderRegionConfig);
 Hooks.on("renderJournalEntryPageImageSheet", onRenderImagePageSheet);
+Hooks.on("renderSceneConfig", onRenderSceneConfig);
+
+// Keep unset fields unset, rather than storing their defaults on every save.
+for ( const type of ["Note", "Region", "Scene", "JournalEntryPage"] ) {
+  Hooks.on(`preCreate${type}`, pruneCreateFlags);
+  Hooks.on(`preUpdate${type}`, pruneUpdateFlags);
+}
 Hooks.on("closeNoteConfig", () => {
   const card = api()?.card;
   if ( card?.target?.key.startsWith("preview:") ) card.hide({immediate: true});

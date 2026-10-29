@@ -1,5 +1,5 @@
 import {LIGHTBOX_TEMPLATE, MODULE_ID, SOCKET, api, flagsOf, loc} from "./constants.mjs";
-import {getLocation, isRumoured, noteSource, readPage, regionSource} from "./content.mjs";
+import {canViewPage, getLocation, isRumoured, noteSource, readPage, regionSource} from "./content.mjs";
 import {resolveStyle} from "./card.mjs";
 
 /**
@@ -213,30 +213,51 @@ export function noteHasMedia(doc) {
   if ( flags.image || flags.nightImage ) return true;
   const pages = doc.page ? [doc.page] : (doc.entry?.pages.contents ?? []);
   return pages.some(p => {
+    if ( !canViewPage(p) ) return false;
     const content = readPage(p);
     return !!content.image || /<img\s/i.test(content.html);
   });
 }
 
 /**
- * Show a location to every connected player, as the GM sees it. Discovering a rumoured place marks it visited.
+ * Show a location to every connected player, whatever their permissions: every page except GM-only ones, with secret
+ * blocks removed and any rumour lifted. Discovering a rumoured place marks it visited.
+ *
+ * The card is sent through a world setting rather than the socket, because only GMs can write those, so players
+ * know it really came from a GM.
  * @param {NoteDocument|RegionDocument} doc
  */
 export async function revealToPlayers(doc) {
   if ( !game.user.isGM ) return;
-  const location = await getLocation(sourceFor(doc), {excerpt: "long", secrets: false, reveal: true, cache: false});
+  const location = await getLocation(sourceFor(doc), {excerpt: "long", secrets: false, reveal: true,
+    audience: "table", cache: false});
   if ( !location ) {
     ui.notifications.warn(loc("Lightbox.NothingToReveal"));
     return;
   }
-  const payload = {...location, rumoured: false, rumourBadge: false};
-  game.socket.emit(SOCKET, {action: "reveal", location: payload, userId: game.user.id});
+  const payload = {...location, rumourBadge: false};
+  await game.settings.set(MODULE_ID, "reveal", {location: payload, time: Date.now()});
   api().lightbox.open(payload, {revealedBy: game.user.name});
   ui.notifications.info(loc("Lightbox.Revealed", {name: location.title}));
   const flags = flagsOf(doc);
   if ( (flags.discovery ?? "known") !== "known" && !flags.visited ) {
     await doc.setFlag(MODULE_ID, "visited", true);
   }
+}
+
+/**
+ * A GM showed a location to the table.
+ * @param {{location: GlimpseLocation, time: number}} value   The new value of the reveal setting
+ * @param {string} userId                                      The user who wrote it, as reported by Foundry
+ */
+export function onRevealChange(value, userId) {
+  const lightbox = api()?.lightbox;
+  const gm = game.users.get(userId);
+  if ( !lightbox || !value?.location || !gm?.isGM || (userId === game.user.id) ) return;
+  const location = {...value.location};
+  const doc = fromUuidSync(location.uuid, {strict: false});
+  location.canOpen = doc ? sourceFor(doc).canOpen : false;
+  lightbox.open(location, {revealedBy: gm.name});
 }
 
 /**
@@ -247,15 +268,6 @@ export function onSocketMessage(message) {
   const lightbox = api()?.lightbox;
   if ( !lightbox ) return;
   switch ( message.action ) {
-    case "reveal": {
-      const gm = game.users.get(message.userId);
-      if ( !gm?.isGM ) return;
-      const location = {...message.location};
-      const doc = fromUuidSync(location.uuid);
-      location.canOpen = doc ? sourceFor(doc).canOpen : false;
-      lightbox.open(location, {revealedBy: gm.name});
-      break;
-    }
     case "close":
       if ( lightbox.location?.uuid === message.uuid ) lightbox.close();
       break;

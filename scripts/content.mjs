@@ -64,9 +64,23 @@ export function noteSource(doc) {
     entry: doc.entry ?? null,
     page: doc.page ?? null,
     title: doc.label,
-    canOpen: doc.object ? !!doc.object._canView(game.user) : false,
+    canOpen: canOpenNote(doc),
     point: {x: doc.x, y: doc.y}
   };
+}
+
+/**
+ * Can this user open the journal a note links to? Mirrors core Note#_canView, but works from the document so it
+ * also answers for notes on scenes that are not being viewed.
+ * @param {NoteDocument} doc
+ * @returns {boolean}
+ */
+export function canOpenNote(doc) {
+  const {entry, page} = doc;
+  if ( !entry ) return false;
+  if ( game.user.isGM ) return true;
+  if ( page?.testUserPermission(game.user, "LIMITED", {exact: true}) ) return page.type === "image";
+  return (page ?? entry).testUserPermission(game.user, "OBSERVER");
 }
 
 /**
@@ -116,6 +130,16 @@ export function canViewPage(page) {
   if ( game.user.isGM ) return true;
   if ( page.type === "image" ) return page.testUserPermission(game.user, "LIMITED");
   return page.testUserPermission(game.user, "OBSERVER");
+}
+
+/**
+ * Is this page included when the GM shows a location to the table? Every page is, shared or not, except pages whose
+ * own permission the GM set to None: those are kept as GM notes.
+ * @param {JournalEntryPage} page
+ * @returns {boolean}
+ */
+export function shownToTable(page) {
+  return page._source.ownership?.default !== CONST.DOCUMENT_OWNERSHIP_LEVELS.NONE;
 }
 
 /* -------------------------------------------- */
@@ -238,17 +262,19 @@ export function isRumoured(source, {ignoreExploration=false}={}) {
  * @param {string} [options.excerpt]       Override the excerpt length setting
  * @param {boolean} [options.secrets]      Override the secrets setting
  * @param {boolean} [options.reveal]       Build the full location for a GM reveal, ignoring rumours
+ * @param {"self"|"table"} [options.audience="self"]  The current user's permissions, or what the GM shows the
+ *                                         table: every page except GM-only ones.
  * @param {boolean} [options.cache=true]   Use and fill the cache
  * @returns {Promise<GlimpseLocation|null>}   Null when there is nothing worth showing.
  */
-export async function getLocation(source, {excerpt, secrets, reveal=false, cache: useCache=true}={}) {
+export async function getLocation(source, {excerpt, secrets, reveal=false, audience="self", cache: useCache=true}={}) {
   excerpt ??= setting("excerpt");
   secrets ??= setting("secrets");
   const rumoured = !reveal && !game.user.isGM && isRumoured(source);
   const night = isNight();
-  const key = [source.uuid, excerpt, secrets, rumoured, night, reveal].join(":");
+  const key = [source.uuid, excerpt, secrets, rumoured, night, reveal, audience].join(":");
   if ( useCache && cache.has(key) ) return cache.get(key);
-  const location = await buildLocation(source, {excerpt, secrets, rumoured, night, reveal});
+  const location = await buildLocation(source, {excerpt, secrets, rumoured, night, reveal, audience});
   if ( useCache ) cache.set(key, location);
   return location;
 }
@@ -258,16 +284,18 @@ export async function getLocation(source, {excerpt, secrets, reveal=false, cache
  * @param {object} options
  * @returns {Promise<GlimpseLocation|null>}
  */
-async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal}) {
+async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal, audience}) {
   const flags = source.flags;
   const mode = flags.mode || "auto";
   if ( (mode === "off") && !reveal ) return null;
 
-  // Determine which pages this user may read. A source pinned to a single page only ever shows that page.
+  // Determine which pages the audience may read. A source pinned to a single page only ever shows that page.
   const {entry, page} = source;
+  const forTable = audience === "table";
+  const visible = forTable ? shownToTable : canViewPage;
   let pages = [];
-  if ( page ) pages = canViewPage(page) ? [page] : [];
-  else if ( entry ) pages = entry.pages.contents.sort((a, b) => a.sort - b.sort).filter(canViewPage);
+  if ( page ) pages = visible(page) ? [page] : [];
+  else if ( entry ) pages = entry.pages.contents.sort((a, b) => a.sort - b.sort).filter(visible);
 
   // Media: the source's own image first, then image and video pages in journal order.
   const media = [];
@@ -323,7 +351,8 @@ async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal}
 
   // A note pinned to one page of a larger journal shows the journal's name as its subtitle.
   let subtitle = rumoured ? loc("Rumoured") : (flags.subtitle || "");
-  if ( !subtitle && page && entry && (entry.name !== source.title) && entry.testUserPermission(game.user, "LIMITED") ) {
+  if ( !subtitle && page && entry && (entry.name !== source.title)
+    && (forTable || entry.testUserPermission(game.user, "LIMITED")) ) {
     subtitle = entry.name;
   }
 
@@ -356,6 +385,9 @@ function rumourHTML(text) {
   return lines.map(l => `<p>${foundry.utils.escapeHTML(l)}</p>`).join("");
 }
 
+/** Most facts shown as chips on one card. */
+export const MAX_FACTS = 6;
+
 /**
  * Parse "Label: value" lines into facts.
  * @param {string} [text]
@@ -363,7 +395,7 @@ function rumourHTML(text) {
  */
 export function parseFacts(text) {
   if ( !text ) return [];
-  return text.split(/\n|;/).map(line => line.trim()).filter(Boolean).slice(0, 6).map(line => {
+  return text.split("\n").map(line => line.trim()).filter(Boolean).slice(0, MAX_FACTS).map(line => {
     const i = line.indexOf(":");
     if ( i < 0 ) return {label: "", value: line};
     return {label: line.slice(0, i).trim(), value: line.slice(i + 1).trim()};
@@ -398,7 +430,8 @@ function extractExcerpt(html, maxLength) {
     if ( !el.textContent.trim() && !el.querySelector("hr") ) el.remove();
   }
 
-  // Keep whole top-level blocks until the budget is spent.
+  // Keep whole top-level blocks until the budget is spent. A block that would run well past it is cut at a word
+  // instead, unless only a few characters would be left of it.
   let used = 0;
   let truncated = false;
   for ( const node of Array.from(root.childNodes) ) {
@@ -412,8 +445,15 @@ function extractExcerpt(html, maxLength) {
       node.remove();
       continue;
     }
-    used += length;
-    if ( used > maxLength * 1.4 ) truncated = true;
+    if ( used + length <= maxLength * 1.4 ) {
+      used += length;
+      continue;
+    }
+    const room = maxLength - used;
+    if ( (used > 0) && (room < MIN_CUT) ) node.remove();
+    else cutText(node, Math.max(room, MIN_CUT));
+    used = maxLength;
+    truncated = true;
   }
 
   // Remove trailing horizontal rules or headings that would dangle at the end.
@@ -425,4 +465,36 @@ function extractExcerpt(html, maxLength) {
   }
 
   return {html: template.innerHTML.trim(), images, truncated};
+}
+
+/** Fewest characters worth keeping when a block has to be cut. */
+const MIN_CUT = 80;
+
+/**
+ * Shorten a node's text to about `length` characters, ending on a whole word with an ellipsis. Inline markup
+ * before the cut is kept; everything after it is removed.
+ * @param {Node} node
+ * @param {number} length
+ */
+function cutText(node, length) {
+  const walker = node.ownerDocument.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+  let remaining = length;
+  let text = (node.nodeType === Node.TEXT_NODE) ? node : walker.nextNode();
+  for ( ; text; text = walker.nextNode() ) {
+    if ( text.data.length <= remaining ) {
+      remaining -= text.data.length;
+      continue;
+    }
+    // Cut at the last space that keeps most of the allowance, or mid-word if there is none.
+    const space = text.data.lastIndexOf(" ", remaining);
+    const at = space > remaining * 0.6 ? space : remaining;
+    if ( text !== node ) {
+      const range = node.ownerDocument.createRange();
+      range.setStart(text, at);
+      range.setEnd(node, node.childNodes.length);
+      range.deleteContents();
+    }
+    text.data = `${text.data.slice(0, at).replace(/[\s,;:.\-–—]+$/, "")}…`;
+    return;
+  }
 }
