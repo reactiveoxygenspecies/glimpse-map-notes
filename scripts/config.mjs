@@ -2,8 +2,8 @@ import {MODULE_ID, CARD_WIDTHS, DISCOVERY_MODES, NOTE_MODES, api, flagsOf, loc, 
 import {IconPicker, cssUrl, glimpseIconId, iconLabel} from "./icon-picker.mjs";
 import {regionSource} from "./content.mjs";
 
-const {createCheckboxInput, createFormGroup, createSelectInput, createTextareaInput, createTextInput} =
-  foundry.applications.fields;
+const {createCheckboxInput, createFormGroup, createNumberInput, createSelectInput, createTextareaInput,
+  createTextInput} = foundry.applications.fields;
 
 const name = key => `flags.${MODULE_ID}.${key}`;
 
@@ -350,6 +350,93 @@ export function onRenderImagePageSheet(app, element) {
   const src = element.querySelector("[name='src']");
   src?.addEventListener("change", () => focal.setSource(src.value));
   preview.closest("section")?.append(fs);
+}
+
+/* -------------------------------------------- */
+/*  Scene Config                                */
+/* -------------------------------------------- */
+
+/**
+ * Add a travel-per-day override to the Grid tab, beside the scene's units.
+ * @param {SceneConfig} app
+ * @param {HTMLElement} element
+ */
+export function onRenderSceneConfig(app, element) {
+  const units = element.querySelector("[name='grid.units']")?.closest(".form-group");
+  if ( !units || element.querySelector(`[name='${name("travelPerDay")}']`) ) return;
+  const input = createNumberInput({
+    name: name("travelPerDay"),
+    value: flagsOf({flags: app.document._source.flags}).travelPerDay,
+    min: 0,
+    step: 0.5,
+    placeholder: String(setting("travelPerDay"))
+  });
+  units.after(group("TravelPerDay", input, {rootId: app.id}));
+}
+
+/* -------------------------------------------- */
+/*  Flag Defaults                               */
+/* -------------------------------------------- */
+
+/**
+ * What an unset Glimpse flag means. Values equal to these are not stored, so saving a sheet does not stamp every
+ * document with a full set of empty flags.
+ */
+const FLAG_DEFAULTS = {
+  mode: "auto", size: "", image: "", focusX: 50, focusY: 50, nightImage: "", subtitle: "", facts: "", sound: "",
+  discovery: "known", rumour: "", visited: false, enabled: false, entryId: "", pageId: "", title: "", night: "",
+  travelPerDay: null
+};
+
+/**
+ * Is a submitted value the same as leaving the flag unset?
+ * @param {string} key
+ * @param {*} value
+ * @returns {boolean}
+ */
+function isDefault(key, value) {
+  const fallback = FLAG_DEFAULTS[key];
+  if ( fallback === null ) return (value === null) || (value === undefined) || (value === "");
+  if ( typeof fallback === "number" ) return (value !== "") && (value !== null) && (Number(value) === fallback);
+  return value === fallback;
+}
+
+/**
+ * Drop default-valued Glimpse flags from a new document. V14 sends the pending document rather than the hook's
+ * data, so the change goes through its source.
+ * @param {ClientDocument} doc
+ */
+export function pruneCreateFlags(doc) {
+  const flags = doc._source.flags?.[MODULE_ID];
+  if ( !flags || (typeof flags !== "object") ) return;
+  const drop = {};
+  for ( const [key, value] of Object.entries(flags) ) {
+    if ( (key in FLAG_DEFAULTS) && isDefault(key, value) ) drop[key] = foundry.data.operators.ForcedDeletion.create();
+  }
+  if ( !foundry.utils.isEmpty(drop) ) doc.updateSource({flags: {[MODULE_ID]: drop}});
+}
+
+/**
+ * Drop default-valued Glimpse flags from an update, deleting any the document already stores.
+ * @param {ClientDocument} doc
+ * @param {object} changes
+ */
+export function pruneUpdateFlags(doc, changes) {
+  const stored = doc._source.flags?.[MODULE_ID] ?? {};
+  const prune = (container, prop, key) => {
+    if ( !(key in FLAG_DEFAULTS) || !isDefault(key, container[prop]) ) return;
+    if ( key in stored ) container[prop] = foundry.data.operators.ForcedDeletion.create();
+    else delete container[prop];
+  };
+  const flags = changes.flags?.[MODULE_ID];
+  if ( flags && (typeof flags === "object") ) {
+    for ( const key of Object.keys(flags) ) prune(flags, key, key);
+  }
+  // Document#setFlag submits a dotted path rather than a nested object.
+  const prefix = `flags.${MODULE_ID}.`;
+  for ( const path of Object.keys(changes) ) {
+    if ( path.startsWith(prefix) ) prune(changes, path, path.slice(prefix.length));
+  }
 }
 
 /* -------------------------------------------- */

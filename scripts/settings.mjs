@@ -1,5 +1,6 @@
 import {MODULE_ID, CARD_WIDTHS, EXCERPT_LENGTHS, api, loc, setting} from "./constants.mjs";
 import {restyleAllNotes} from "./note-icons.mjs";
+import {onRevealChange} from "./lightbox.mjs";
 
 const {BooleanField, NumberField, StringField} = foundry.data.fields;
 
@@ -96,6 +97,15 @@ export function registerSettings() {
   register("nightEnd", new NumberField({
     initial: 6, min: 0, max: 23, step: 1, integer: true, nullable: false
   }), {scope: "world", onChange: refreshAll});
+
+  // The location a GM last showed to the table. Only GMs may write world settings, and Foundry reports who did, so
+  // players can trust what arrives here.
+  game.settings.register(MODULE_ID, "reveal", {
+    scope: "world",
+    config: false,
+    type: new foundry.data.fields.ObjectField(),
+    onChange: (value, options, userId) => onRevealChange(value, userId)
+  });
 
   registerKeybindings();
 }

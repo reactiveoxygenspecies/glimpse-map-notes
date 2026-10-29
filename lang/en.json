@@ -116,7 +116,7 @@
       },
       "travelPerDay": {
         "Name": "Travel per day",
-        "Hint": "Distance a party covers in a day, in scene units (for example 24 for miles). Set to 0 to show distance only."
+        "Hint": "Distance a party covers in a day, in scene units (for example 24 for miles). Set to 0 to show distance only. Each scene can override this in its Grid settings."
       },
       "nightStart": {
         "Name": "Night begins at",
@@ -193,7 +193,7 @@
       "SubtitleHint": "A short line shown above the name.",
       "Facts": "Facts",
       "FactsPlaceholder": "Population: 140\nRuled by: House Vey\nDanger: Low",
-      "FactsHint": "One per line, as \"Label: value\". Shown as a row of chips under the name.",
+      "FactsHint": "One per line, as \"Label: value\", up to six. Shown as a row of chips under the name.",
       "Sound": "Ambient sound",
       "SoundHint": "A quiet loop that plays while the card is open.",
       "Discovery": "Discovery",
@@ -214,6 +214,8 @@
       "Page": "Page",
       "RegionTitle": "Name",
       "RegionTitleHint": "Defaults to the page or journal name.",
+      "TravelPerDay": "Glimpse travel per day",
+      "TravelPerDayHint": "Distance a party covers in a day on this scene, in its units. Leave blank to use the world setting, or set to 0 to hide travel distance here (for example on a city map).",
       "Preview": "Hover to preview"
     },
     "Icons": {

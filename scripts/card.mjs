@@ -529,6 +529,12 @@ function noteAnchor(note) {
  */
 function travelInfo(point) {
   if ( !point || !setting("travel") || !canvas.ready ) return null;
+
+  // A scene can set its own pace, or 0 to hide travel, for example on a city map measured in feet.
+  const scenePace = flagsOf(canvas.scene).travelPerDay;
+  if ( Number.isFinite(scenePace) && (scenePace <= 0) ) return null;
+  const perDay = Number.isFinite(scenePace) ? scenePace : setting("travelPerDay");
+
   const token = canvas.tokens.controlled[0] ?? game.user.character?.getActiveTokens()[0];
   if ( !token ) return null;
   const {distance} = canvas.grid.measurePath([token.center, point]);
@@ -536,7 +542,6 @@ function travelInfo(point) {
   const units = canvas.grid.units || "";
   const round = n => (n >= 100 ? Math.round(n) : Math.round(n * 10) / 10).toLocaleString(game.i18n.lang);
   let text = `${round(distance)} ${units}`.trim();
-  const perDay = setting("travelPerDay");
   if ( perDay > 0 ) {
     const days = distance / perDay;
     if ( days < 0.75 ) text += ` · ${loc("Travel.UnderADay")}`;
