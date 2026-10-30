@@ -1,6 +1,6 @@
 <h1 align="center">Glimpse: Map Note Previews</h1>
 
-<p align="center"><em>Hover a place on the map. See what it looks like, hear what it sounds like, learn what it is.</em></p>
+<p align="center"><em>Hover a place on the map. See what it looks like, hear what it sounds like, learn what it is. Smelling locations is not yet supported though.</em></p>
 
 <p align="center">
   <img src="docs/hero.jpg" alt="Hovering the Glass Obelisk on a world map shows a card with a painting of crystal shards over a desert, its name, subtitle, facts and a description" width="100%">
