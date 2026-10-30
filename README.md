@@ -300,8 +300,7 @@ Glimpse was built using coding assistance from Claude Opus 5.5. No AI art is use
 Glimpse was inspired by *Map Note Hover Display* by FriendlyLambda, which in turn built on
 [Pin Cushion](https://github.com/death-save/pin-cushion) by Death Save Development.
 
-Screenshots show the world of Fama, my homebrew campaign setting. Its map and text are not part of the module. The location art in the screenshots comes from Guild Wars concept art by Daniel Dociu and ArenaNet, it is not part of the module and remains the property of its owners. The style showcase uses simple
-illustrations drawn for it.
+Screenshots show the world of Fama, my homebrew campaign setting. Its map and text are not part of the module. The location art in the screenshots comes from Guild Wars concept art by Daniel Dociu and ArenaNet, it is not part of the module and remains the property of its owners. The card style showcase uses amazing, mind-blowing, "masterpiece" handmade illustrations.
 
 The card styles bundle Chakra Petch, Cinzel, Cormorant Garamond, Courier Prime, Crimson Pro, EB Garamond, Eczar,
 Exo 2, IM Fell English (and its SC cut), Old Standard TT, Oswald, PT Sans, PT Serif, Rye, Share Tech Mono,
