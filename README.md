@@ -114,6 +114,13 @@ Glimpse settings.
 Choose **Match game system** to get the style made for your system automatically. Systems without one follow the
 interface theme (Dusk or Parchment).
 
+If you like the whole interface to look consistent, choose **Foundry**: cards, region banners and the gallery are
+drawn like Foundry's own windows, with its fonts and colours, and switch with your light or dark theme.
+
+<p align="center">
+  <img src="docs/styles-foundry.jpg" alt="The Foundry style in the dark and light interface themes: a location card above a region banner for each, drawn like Foundry's own windows" width="100%">
+</p>
+
 ### The gallery
 
 <p align="center">

@@ -244,8 +244,18 @@
       dossier: "Call of Cthulhu", terminal: "Alien RPG · Mothership", neon: "Cyberpunk RED · Shadowrun",
       woodcut: "Forbidden Lands · OSR", gothic: "Vampire: The Masquerade", frontier: "Deadlands", ink: "Legend of the Five Rings"
     };
-    const showcase = params.get("showcase") === "1";
-    if ( showcase ) {
+    // ?showcase=foundry shows the Foundry style in both interface themes, card over region banner, for
+    // docs/styles-foundry.jpg.
+    const showcaseFoundry = params.get("showcase") === "foundry";
+    if ( showcaseFoundry ) {
+      document.body.classList.add("showcase", "showcase-foundry");
+      const picked = STYLES.filter(s => s.id === "foundry").map(s => ({...s, name: s.theme === "dark" ? "Dark interface" : "Light interface",
+        body: s.body.slice(0, 1)}));
+      STYLES.splice(0, STYLES.length, ...picked);
+      SHOWCASE.foundry = "Foundry style";
+    }
+    const showcase = (params.get("showcase") === "1") || showcaseFoundry;
+    if ( showcase && !showcaseFoundry ) {
       document.body.classList.add("showcase");
       state.size = "small";
       // Column by column: each pair stacks in one column, a tall card over a short one where possible.
@@ -341,6 +351,17 @@
                data-motion="${state.motion ? "on" : "off"}" data-scanlines="${state.scanlines ? "on" : "off"}" data-side="right">${cardHTML(s)}</div>`;
     }
 
+    /** A hover card and the region banner for one style, one above the other. */
+    function cardAndBanner(s) {
+      const view = state.view;
+      state.view = "card";
+      const card = preview(s);
+      state.view = "banner";
+      const banner = preview(s);
+      state.view = view;
+      return card + banner;
+    }
+
     function render() {
       const grid = document.getElementById("grid");
       const width = {card: WIDTHS[state.size], banner: 640, lightbox: 1100}[state.view];
@@ -356,11 +377,11 @@
             <p><span class="fits">${esc(s.fits)}</span></p>
             <p>${esc(s.fonts)}</p>
           </div>`}
-          ${preview(s)}
+          ${showcaseFoundry ? cardAndBanner(s) : preview(s)}
         </section>`).join("");
 
       // The showcase stacks the cells in pairs, one pair per column.
-      if ( showcase ) {
+      if ( showcase && !showcaseFoundry ) {
         const cells = [...grid.children];
         for ( let i = 0; i < cells.length; i += 2 ) {
           const col = document.createElement("div");
