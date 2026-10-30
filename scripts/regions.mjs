@@ -19,6 +19,47 @@ export class RegionBanner extends GlimpseCard {
     super({id: "glimpse-banner", classes: ["glimpse-banner"]});
   }
 
+  /** Whether a timed banner is up. Hovering leaves it alone until it ends. */
+  flashing = false;
+
+  #flashTimer = null;
+
+  /** Increments with every timed banner, so an older one that fails to show does not end a newer one. */
+  #flashSeq = 0;
+
+  /**
+   * Show a region's banner for a few seconds, whatever the pointer is doing. Used by the Glimpse region behavior.
+   * @param {RegionDocument} doc
+   * @param {number} seconds
+   * @returns {Promise<boolean>}   Whether the banner is showing
+   */
+  async flash(doc, seconds) {
+    const seq = ++this.#flashSeq;
+    clearTimeout(this.#flashTimer);
+    this.flashing = true;
+    const shown = await this.show({key: doc.uuid, source: () => regionSource(doc), anchor: () => null,
+      options: {titleOnly: true}});
+    if ( !shown ) {
+      if ( seq === this.#flashSeq ) this.flashing = false;
+      return false;
+    }
+    this.#flashTimer = setTimeout(() => {
+      // Hand back to hovering, which shows the banner again if the pointer is still over a region.
+      const regions = api()?.regions;
+      if ( !regions ) return this.hide();
+      regions.reset();
+      regions.schedule();
+    }, seconds * 1000);
+    return true;
+  }
+
+  /** @override */
+  hide(options) {
+    clearTimeout(this.#flashTimer);
+    this.flashing = false;
+    super.hide(options);
+  }
+
   /** @override */
   _prepareContext(location, target) {
     const context = super._prepareContext(location, target);
@@ -117,6 +158,7 @@ export class RegionTracker {
   }
 
   #evaluate() {
+    if ( this.banner.flashing ) return;
     const mode = setting("regionMode");
     const noteOpen = !!api()?.card?.target;
     const active = setting("enabled") && (mode !== "off") && ((mode === "hover") || this.#peeking) && !noteOpen;
@@ -131,13 +173,13 @@ export class RegionTracker {
 
     if ( !region ) {
       if ( noteOpen || !active ) this.banner.hide({immediate: noteOpen});
-      else this.#hideTimer = setTimeout(() => this.banner.hide(), LEAVE_DELAY);
+      else this.#hideTimer = setTimeout(() => this.banner.flashing || this.banner.hide(), LEAVE_DELAY);
       return;
     }
 
     const delay = (mode === "key") ? 0 : (this.banner.visible ? SWITCH_DWELL : DWELL);
     this.#showTimer = setTimeout(() => {
-      if ( this.#region !== region ) return;
+      if ( (this.#region !== region) || this.banner.flashing ) return;
       this.banner.show({
         key: region.document.uuid,
         source: () => (region.destroyed ? null : regionSource(region.document)),

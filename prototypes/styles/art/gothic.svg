@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1624"/>
+      <stop offset="0.7" stop-color="#3a2236"/>
+      <stop offset="1" stop-color="#6a2026"/>
+    </linearGradient>
+    <radialGradient id="moon" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e2b6a8"/>
+      <stop offset="0.7" stop-color="#b0453a"/>
+      <stop offset="1" stop-color="#6a1a1a"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#b0353a" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#b0353a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="560" cy="130" r="150" fill="url(#halo)"/>
+  <circle cx="560" cy="130" r="58" fill="url(#moon)"/>
+  <g fill="#0b0a10">
+    <rect x="0" y="300" width="90" height="200"/><rect x="80" y="250" width="70" height="250"/>
+    <rect x="150" y="320" width="60" height="180"/><rect x="590" y="280" width="80" height="220"/>
+    <rect x="660" y="230" width="60" height="270"/><rect x="715" y="300" width="85" height="200"/>
+    <rect x="300" y="200" width="200" height="300"/>
+    <path d="M300 202 L400 120 L500 202Z"/>
+    <rect x="388" y="40" width="24" height="100"/><path d="M384 44 L400 0 L416 44Z"/>
+    <rect x="260" y="250" width="40" height="250"/><path d="M256 252 L280 200 L304 252Z"/>
+    <rect x="500" y="250" width="40" height="250"/><path d="M496 252 L520 200 L544 252Z"/>
+  </g>
+  <circle cx="400" cy="250" r="34" fill="#b0353a" opacity="0.55"/>
+  <path d="M400 216 V284 M366 250 H434 M376 226 L424 274 M424 226 L376 274" stroke="#0b0a10" stroke-width="4"/>
+  <g fill="#e0b070" opacity="0.6">
+    <rect x="100" y="280" width="6" height="9"/><rect x="120" y="330" width="6" height="9"/><rect x="610" y="310" width="6" height="9"/>
+    <rect x="680" y="260" width="6" height="9"/><rect x="740" y="340" width="6" height="9"/><rect x="30" y="340" width="6" height="9"/>
+  </g>
+  <rect y="440" width="800" height="60" fill="#08070b"/>
+</svg>

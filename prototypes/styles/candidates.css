@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Candidate styles (mockups, not part of the module yet). Gothic, Frontier and Ink & Seal have moved to
+   styles/themes.css.
+   Same conventions as styles/themes.css, so a chosen one can move across as it is.
+   ========================================================================== */
+
+/* ==========================================================================
+   Storybook: Ryuutama, Wanderhome, Root, cosy and fairy-tale games
+   Cream paper with watercolour washes, rounded corners, pastel chips, a soft serif.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="storybook"] {
+  --g-bg: #fbf3e4;
+  --g-paper:
+    radial-gradient(circle at 12% 8%, rgba(244, 170, 140, 0.22), transparent 38%),
+    radial-gradient(circle at 92% 88%, rgba(140, 200, 175, 0.26), transparent 42%),
+    radial-gradient(circle at 85% 30%, rgba(250, 215, 130, 0.18), transparent 35%);
+  --g-title: #3e2d50;
+  --g-ink: #3d3644;
+  --g-ink-soft: #524a5a;
+  --g-muted: #8c8193;
+  --g-accent: #d4694c;
+  --g-sage: #4f9a80;
+  --g-line: rgba(212, 105, 76, 0.45);
+  --g-edge: rgba(62, 45, 80, 0.1);
+  --g-hero-bg: #f0e4cf;
+  --g-title-shadow: none;
+  --g-shadow:
+    0 24px 50px -18px rgba(70, 50, 80, 0.45),
+    0 8px 18px -8px rgba(70, 50, 80, 0.3);
+}
+
+.glimpse-card[data-style="storybook"] .glimpse-frame { border-radius: 22px; box-shadow: var(--g-shadow), 0 0 0 1px rgba(62, 45, 80, 0.12); }
+.glimpse-card[data-style="storybook"] .glimpse-frame::after { inset: 6px; border: 1.5px dashed rgba(212, 105, 76, 0.35); border-radius: 17px; opacity: 1; }
+
+.glimpse-card[data-style="storybook"] .glimpse-hero { margin: 12px 12px 0; border-radius: 15px; }
+.glimpse-card[data-style="storybook"] .glimpse-scrim { display: none; }
+
+.glimpse-card[data-style="storybook"] .glimpse-header,
+.glimpse-card[data-style="storybook"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="storybook"][data-layout="image"] .glimpse-hero + .glimpse-header {
+  margin-top: 0;
+  padding-top: 0.9em;
+  text-align: center;
+}
+.glimpse-card[data-style="storybook"] .glimpse-facts { justify-content: center; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="storybook"] .glimpse-title {
+  font-family: "Fraunces", var(--font-serif, serif);
+  font-size: 1.95em;
+  font-weight: 600;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  line-height: 1.05;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="storybook"] .glimpse-subtitle {
+  font-family: "Nunito", var(--font-sans, sans-serif);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--g-sage);
+}
+
+/* Pastel chips, each a different wash. */
+[data-style="storybook"] .glimpse-facts { font-family: "Nunito", var(--font-sans, sans-serif); font-size: 0.78em; }
+[data-style="storybook"] .glimpse-facts li { border: none; background: rgba(212, 105, 76, 0.13); font-weight: 600; }
+[data-style="storybook"] .glimpse-facts li:nth-child(3n + 2) { background: rgba(79, 154, 128, 0.15); }
+[data-style="storybook"] .glimpse-facts li:nth-child(3n) { background: rgba(130, 100, 170, 0.14); }
+[data-style="storybook"] .glimpse-facts .glimpse-travel { border: none; background: rgba(250, 200, 100, 0.25); }
+[data-style="storybook"] .glimpse-fact-label { color: var(--g-ink-soft); font-weight: 800; }
+
+/* Three dots in three colours. */
+[data-style="storybook"] .glimpse-rule { justify-content: center; }
+[data-style="storybook"] .glimpse-rule::before,
+[data-style="storybook"] .glimpse-rule::after { display: none; }
+[data-style="storybook"] .glimpse-rule span {
+  width: 6px;
+  height: 6px;
+  border: none;
+  border-radius: 50%;
+  background: var(--g-sage);
+  opacity: 1;
+  transform: none;
+  box-shadow: -14px 0 0 var(--g-accent), 14px 0 0 #8a6bb0;
+}
+
+[data-style="storybook"] .glimpse-body { font-family: "Nunito", var(--font-sans, sans-serif); font-size: 0.98em; line-height: 1.62; }
+[data-style="storybook"] .glimpse-body > p:first-child::first-letter {
+  font-family: "Fraunces", var(--font-serif, serif);
+  font-size: 2.9em;
+  font-weight: 600;
+  line-height: 0.85;
+}
+[data-style="storybook"] .glimpse-footer { font-family: "Nunito", var(--font-sans, sans-serif); }
+[data-style="storybook"] .glimpse-badge { border-radius: 999px; }
+
+/* ==========================================================================
+   Blackletter: Warhammer Fantasy Roleplay, grim Renaissance fantasy
+   Parchment, blackletter headings, black and blood-red ink, a framed initial.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="blackletter"] {
+  --g-bg: #e9dfc8;
+  --g-paper:
+    radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(100, 70, 30, 0.22) 100%),
+    linear-gradient(#ede4ce, #e2d5b8);
+  --g-title: #1b1410;
+  --g-ink: #2a2017;
+  --g-ink-soft: #3a2e22;
+  --g-muted: #7a6a54;
+  --g-accent: #8e1b14;
+  --g-line: rgba(27, 20, 16, 0.75);
+  --g-edge: rgba(27, 20, 16, 0.18);
+  --g-hero-bg: #d9ccb0;
+  --g-title-shadow: none;
+}
+
+/* Black outer line, red inner line. */
+.glimpse-card[data-style="blackletter"] .glimpse-frame { border-radius: 0; box-shadow: var(--g-shadow), 0 0 0 2px #1b1410; }
+.glimpse-card[data-style="blackletter"] .glimpse-frame::after { inset: 5px; border: 1px solid var(--g-accent); border-radius: 0; opacity: 0.8; }
+
+.glimpse-card[data-style="blackletter"] .glimpse-hero { margin: 11px 11px 0; border: 1px solid #1b1410; }
+.glimpse-card[data-style="blackletter"] .glimpse-slide :is(img, video) { filter: sepia(0.3) contrast(1.06) saturate(0.85); }
+.glimpse-card[data-style="blackletter"].is-rumoured .glimpse-slide :is(img, video) { filter: sepia(0.3) contrast(1.06) blur(9px); }
+.glimpse-card[data-style="blackletter"] .glimpse-scrim { background: radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(40, 20, 6, 0.3) 100%); }
+
+.glimpse-card[data-style="blackletter"] .glimpse-header,
+.glimpse-card[data-style="blackletter"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="blackletter"][data-layout="image"] .glimpse-hero + .glimpse-header {
+  margin-top: 0;
+  padding-top: 0.75em;
+  text-align: center;
+}
+.glimpse-card[data-style="blackletter"] .glimpse-facts { justify-content: center; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="blackletter"] .glimpse-title {
+  font-family: "Pirata One", var(--font-serif, serif);
+  font-size: 2.35em;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="blackletter"] .glimpse-subtitle {
+  font-family: "Cardo", var(--font-serif, serif);
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+[data-style="blackletter"] .glimpse-facts { gap: 0.15em 0.9em; font-family: "Cardo", var(--font-serif, serif); font-size: 0.9em; }
+[data-style="blackletter"] .glimpse-facts li { padding: 0; border: none; border-radius: 0; background: none; }
+[data-style="blackletter"] .glimpse-fact-label {
+  font-size: 0.95em;
+  font-variant: small-caps;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--g-accent);
+}
+
+/* Double black rule, red lozenge. */
+[data-style="blackletter"] .glimpse-rule::before,
+[data-style="blackletter"] .glimpse-rule::after { flex: 1; height: 0; border-top: 3px double var(--g-title); background: none; }
+[data-style="blackletter"] .glimpse-rule span { width: 8px; height: 8px; border: 1px solid var(--g-title); background: var(--g-accent); opacity: 1; }
+
+[data-style="blackletter"] .glimpse-body { font-family: "Cardo", var(--font-serif, serif); font-size: 1.02em; line-height: 1.5; }
+
+/* A red blackletter initial in a ruled box. */
+[data-style="blackletter"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.06em 0.2em 0 0;
+  padding: 0.04em 0.12em 0;
+  border: 1px solid var(--g-title);
+  box-shadow: inset 0 0 0 2px var(--g-bg), inset 0 0 0 3px var(--g-accent);
+  font-family: "Pirata One", var(--font-serif, serif);
+  font-size: 2.9em;
+  font-weight: 400;
+  line-height: 0.95;
+  color: var(--g-accent);
+}
+.glimpse-card[data-style="blackletter"].is-rumoured .glimpse-body > p:first-child::first-letter { padding: 0; border: none; box-shadow: none; }
+[data-style="blackletter"] .glimpse-footer { font-family: "Cardo", var(--font-serif, serif); }
+[data-style="blackletter"] .glimpse-badge { border-radius: 0; }
+
+/* The two framed mockups show their picture whole, like the framed styles in themes.css. */
+.glimpse-card:is([data-style="storybook"], [data-style="blackletter"]) .glimpse-hero {
+  -webkit-mask-image: none;
+  mask-image: none;
+}

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#1b1712" stroke-width="2.4"/>
+    </pattern>
+    <pattern id="hatch-sky" width="10" height="10" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="5" x2="10" y2="5" stroke="#1b1712" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="#e9e1cc"/>
+  <rect width="800" height="170" fill="url(#hatch-sky)" opacity="0.5"/>
+  <circle cx="610" cy="110" r="42" fill="#e9e1cc" stroke="#1b1712" stroke-width="3"/>
+  <path d="M0 330 Q200 300 400 320 T800 310 V500 H0Z" fill="url(#hatch)"/>
+  <path d="M180 340 Q400 150 620 340Z" fill="#1b1712"/>
+  <path d="M360 340 v-56 q40 -30 80 0 v56Z" fill="#e9e1cc"/>
+  <path d="M372 340 v-48 q28 -22 56 0 v48Z" fill="#1b1712"/>
+  <g fill="#1b1712" stroke="#e9e1cc" stroke-width="3">
+    <path d="M120 360 l8 -88 l26 0 l6 90Z"/>
+    <path d="M660 360 l4 -70 l24 -4 l8 76Z"/>
+    <path d="M90 366 l6 -50 l20 2 l2 50Z"/>
+  </g>
+  <rect y="360" width="800" height="140" fill="#1b1712"/>
+  <path d="M0 360 Q200 352 400 362 T800 358" stroke="#e9e1cc" stroke-width="3" fill="none"/>
+  <g fill="#1b1712">
+    <path d="M250 150 q10 -8 20 0 q10 -8 20 0 q-10 -2 -20 6 q-10 -8 -20 -6Z"/>
+    <path d="M300 110 q8 -6 16 0 q8 -6 16 0 q-8 -1 -16 5 q-8 -6 -16 -5Z"/>
+    <path d="M500 170 q7 -5 14 0 q7 -5 14 0 q-7 -1 -14 4 q-7 -5 -14 -4Z"/>
+  </g>
+</svg>

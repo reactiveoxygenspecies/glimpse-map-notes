@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6f7273"/>
+      <stop offset="1" stop-color="#b9b2a0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <g fill="#8a8a86" opacity="0.5">
+    <ellipse cx="200" cy="90" rx="160" ry="30"/><ellipse cx="600" cy="120" rx="200" ry="34"/>
+  </g>
+  <path d="M0 320 Q200 290 400 310 T800 300 V500 H0Z" fill="#4f5444"/>
+  <g>
+    <rect x="360" y="150" width="70" height="190" fill="#3a352e"/>
+    <path d="M354 152 L395 60 L436 152Z" fill="#2a2621"/>
+    <rect x="388" y="40" width="14" height="24" fill="#2a2621"/>
+    <path d="M385 48 H405 M395 38 V58" stroke="#2a2621" stroke-width="4"/>
+    <rect x="384" y="180" width="22" height="34" rx="11" fill="#d8b56a" opacity="0.7"/>
+  </g>
+  <g>
+    <rect x="160" y="250" width="110" height="90" fill="#e2d6b8"/>
+    <path d="M150 252 L215 196 L280 252Z" fill="#6a2a20"/>
+    <path d="M160 250 L270 340 M270 250 L160 340 M215 250 V340 M160 295 H270" stroke="#3a2a1e" stroke-width="5"/>
+    <rect x="480" y="240" width="120" height="100" fill="#e2d6b8"/>
+    <path d="M470 242 L540 180 L610 242Z" fill="#6a2a20"/>
+    <path d="M480 240 L600 340 M600 240 L480 340 M540 240 V340 M480 290 H600" stroke="#3a2a1e" stroke-width="5"/>
+    <rect x="610" y="270" width="80" height="70" fill="#d6c9a8"/>
+    <path d="M602 272 L650 232 L698 272Z" fill="#5a241c"/>
+    <path d="M610 270 L690 340 M690 270 L610 340" stroke="#3a2a1e" stroke-width="4"/>
+  </g>
+  <g fill="#e8c46a"><rect x="190" y="300" width="14" height="18"/><rect x="560" y="300" width="14" height="18"/></g>
+  <path d="M90 340 V220 H130 M130 220 V240" stroke="#2a2621" stroke-width="7" fill="none"/>
+  <path d="M130 240 v18" stroke="#2a2621" stroke-width="2"/>
+  <rect y="340" width="800" height="160" fill="#3e4236"/>
+  <path d="M0 360 Q300 350 520 366 T800 360" stroke="#5f6352" stroke-width="3" fill="none"/>
+  <g fill="#2a2621"><path d="M280 140 q8 -6 16 0 q8 -6 16 0 q-8 -1 -16 5 q-8 -6 -16 -5Z"/><path d="M520 110 q7 -5 14 0 q7 -5 14 0 q-7 -1 -14 4 q-7 -5 -14 -4Z"/></g>
+</svg>

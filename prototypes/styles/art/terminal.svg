@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1311"/>
+      <stop offset="1" stop-color="#4a5a50"/>
+    </linearGradient>
+    <radialGradient id="giant" cx="0.4" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#b9c7b8"/>
+      <stop offset="1" stop-color="#2c3a33"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="600" cy="140" r="90" fill="url(#giant)"/>
+  <ellipse cx="600" cy="140" rx="170" ry="26" fill="none" stroke="#9aaa9c" stroke-width="5" transform="rotate(-12 600 140)"/>
+  <path d="M0 360 L120 320 L200 345 L300 300 L380 330 L470 310 L560 340 L660 305 L800 330 V500 H0Z" fill="#26302b"/>
+  <path d="M0 420 L180 395 L360 415 L520 390 L700 412 L800 400 V500 H0Z" fill="#141a17"/>
+  <g fill="#0b0f0d">
+    <rect x="250" y="292" width="150" height="40"/>
+    <rect x="270" y="270" width="60" height="26"/>
+    <path d="M400 300 h60 l14 32 h-74Z"/>
+    <rect x="352" y="200" width="6" height="94"/>
+    <path d="M330 206 q25 -22 50 0" stroke="#0b0f0d" stroke-width="5" fill="none"/>
+  </g>
+  <circle cx="355" cy="198" r="3.5" fill="#d8ffd0"/>
+  <rect x="280" y="278" width="10" height="6" fill="#d8ffd0"/>
+  <path d="M440 332 L520 380 M460 332 L560 384" stroke="#2f3b35" stroke-width="3"/>
+</svg>

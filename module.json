@@ -16,7 +16,9 @@
     "scripts/main.mjs"
   ],
   "styles": [
-    "styles/glimpse.css"
+    "styles/fonts.css",
+    "styles/glimpse.css",
+    "styles/themes.css"
   ],
   "languages": [
     {
@@ -25,8 +27,13 @@
       "path": "lang/en.json"
     }
   ],
+  "documentTypes": {
+    "RegionBehavior": {
+      "banner": {}
+    }
+  },
   "socket": true,
-  "url": "https://github.com/reactiveoxygenspecies/glimpse-map-notes",
+  "url":"https://github.com/reactiveoxygenspecies/glimpse-map-notes",
   "manifest": "https://github.com/reactiveoxygenspecies/glimpse-map-notes/releases/latest/download/module.json",
   "download": "https://github.com/reactiveoxygenspecies/glimpse-map-notes/releases/latest/download/module.zip",
   "readme": "README.md",

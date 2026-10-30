@@ -1,4 +1,4 @@
-import {MODULE_ID, CARD_WIDTHS, EXCERPT_LENGTHS, api, loc, setting} from "./constants.mjs";
+import {MODULE_ID, CARD_STYLES, CARD_WIDTHS, EXCERPT_LENGTHS, api, loc, setting} from "./constants.mjs";
 import {restyleAllNotes} from "./note-icons.mjs";
 import {onRevealChange} from "./lightbox.mjs";
 
@@ -45,7 +45,7 @@ export function registerSettings() {
     }
   });
   register("style", new StringField({
-    initial: "dusk", required: true, blank: false, choices: choices("style", ["dusk", "parchment", "auto"])
+    initial: "dusk", required: true, blank: false, choices: choices("style", [...CARD_STYLES, "system", "auto"])
   }));
   register("size", new StringField({
     initial: "medium", required: true, blank: false, choices: choices("size", Object.keys(CARD_WIDTHS))
@@ -66,6 +66,7 @@ export function registerSettings() {
   // Atmosphere
   register("slideshow", new BooleanField({initial: true}));
   register("motion", new BooleanField({initial: false}));
+  register("scanlines", new BooleanField({initial: true}));
   register("soundVolume", new NumberField({
     initial: 40, min: 0, max: 100, step: 5, integer: true, nullable: false
   }), {onChange: () => api()?.sound?.stop()});
@@ -87,6 +88,10 @@ export function registerSettings() {
   // World
   register("doubleClick", new StringField({
     initial: "gallery", required: true, blank: false, choices: choices("doubleClick", ["gallery", "journal"])
+  }), {scope: "world", onChange: () => {}});
+  register("shareOnDiscovery", new StringField({
+    initial: "observer", required: true, blank: false,
+    choices: choices("shareOnDiscovery", ["off", "limited", "observer"])
   }), {scope: "world", onChange: () => {}});
   register("travelPerDay", new NumberField({
     initial: 24, min: 0, step: 0.5, nullable: false

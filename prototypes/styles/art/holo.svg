@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="space" cx="0.3" cy="0.3" r="0.9">
+      <stop offset="0" stop-color="#1b2a4a"/>
+      <stop offset="1" stop-color="#05070f"/>
+    </radialGradient>
+    <radialGradient id="planet" cx="0.35" cy="0.3" r="0.75">
+      <stop offset="0" stop-color="#e7a35c"/>
+      <stop offset="0.55" stop-color="#9a4b2a"/>
+      <stop offset="1" stop-color="#2a1210"/>
+    </radialGradient>
+    <linearGradient id="hull" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9d6e6"/>
+      <stop offset="1" stop-color="#5a6a80"/>
+    </linearGradient>
+    <pattern id="stars" width="160" height="120" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="18" r="1.2" fill="#fff"/><circle cx="70" cy="44" r="0.8" fill="#cfe"/>
+      <circle cx="130" cy="12" r="1" fill="#fff"/><circle cx="104" cy="90" r="1.4" fill="#fff"/>
+      <circle cx="34" cy="76" r="0.7" fill="#fff"/><circle cx="150" cy="66" r="0.9" fill="#bdf"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#space)"/>
+  <rect width="800" height="500" fill="url(#stars)" opacity="0.8"/>
+  <circle cx="620" cy="560" r="330" fill="url(#planet)"/>
+  <ellipse cx="620" cy="560" rx="335" ry="335" fill="none" stroke="#ffcf9a" stroke-opacity="0.35" stroke-width="4"/>
+  <g transform="translate(300 220) rotate(-14)">
+    <ellipse rx="190" ry="52" fill="none" stroke="url(#hull)" stroke-width="16"/>
+    <ellipse rx="190" ry="52" fill="none" stroke="#7de3f4" stroke-opacity="0.6" stroke-width="2" stroke-dasharray="6 10"/>
+    <rect x="-8" y="-52" width="16" height="104" fill="#8a9ab0"/>
+    <rect x="-190" y="-4" width="380" height="8" fill="#8a9ab0" opacity="0.8"/>
+    <circle r="34" fill="url(#hull)"/>
+    <circle r="12" fill="#7de3f4"/>
+    <rect x="-60" y="-110" width="18" height="56" fill="#7b8da6"/>
+    <rect x="-90" y="-128" width="78" height="20" fill="#3c5d8c" stroke="#9cc4ff" stroke-width="1"/>
+  </g>
+  <path d="M60 420 L160 400" stroke="#ff9a3c" stroke-width="2" stroke-opacity="0.8"/>
+  <circle cx="160" cy="400" r="3" fill="#ffd9a0"/>
+</svg>

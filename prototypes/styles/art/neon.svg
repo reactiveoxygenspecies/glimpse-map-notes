@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0b0716"/>
+      <stop offset="1" stop-color="#3a0f3d"/>
+    </linearGradient>
+    <linearGradient id="street" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a0b22"/>
+      <stop offset="1" stop-color="#05030a"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <g fill="#120a1c">
+    <rect x="0" y="40" width="150" height="400"/><rect x="140" y="120" width="120" height="320"/>
+    <rect x="540" y="80" width="130" height="360"/><rect x="660" y="20" width="140" height="420"/>
+    <rect x="300" y="160" width="90" height="280" fill="#1c1029"/><rect x="400" y="130" width="110" height="310" fill="#1c1029"/>
+  </g>
+  <g fill="#ffd36a" opacity="0.5">
+    <rect x="20" y="80" width="8" height="5"/><rect x="60" y="120" width="8" height="5"/><rect x="100" y="180" width="8" height="5"/>
+    <rect x="690" y="60" width="8" height="5"/><rect x="740" y="140" width="8" height="5"/><rect x="560" y="140" width="8" height="5"/>
+    <rect x="420" y="170" width="8" height="5"/><rect x="460" y="220" width="8" height="5"/><rect x="320" y="200" width="8" height="5"/>
+  </g>
+  <g filter="url(#glow)" fill="none" stroke-width="4">
+    <rect x="110" y="150" width="26" height="150" stroke="#ff2a6d"/>
+    <rect x="600" y="110" width="40" height="110" stroke="#05d9e8"/>
+    <path d="M410 250 h80" stroke="#f9f002"/>
+    <circle cx="350" cy="230" r="18" stroke="#ff2a6d"/>
+    <path d="M690 260 h70 v30 h-70Z" stroke="#ff2a6d"/>
+  </g>
+  <rect y="430" width="800" height="70" fill="url(#street)"/>
+  <g filter="url(#glow)" opacity="0.45">
+    <rect x="110" y="440" width="26" height="50" fill="#ff2a6d"/>
+    <rect x="600" y="440" width="40" height="40" fill="#05d9e8"/>
+  </g>
+  <g stroke="#a7a0ff" stroke-opacity="0.25" stroke-width="1.5">
+    <path d="M60 10 l-10 40 M220 60 l-10 40 M380 20 l-10 40 M520 90 l-10 40 M700 30 l-10 40 M280 300 l-10 40 M620 260 l-10 40 M460 340 l-10 40 M140 330 l-10 40"/>
+  </g>
+</svg>
