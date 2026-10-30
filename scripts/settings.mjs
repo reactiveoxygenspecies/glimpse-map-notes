@@ -1,6 +1,8 @@
-import {MODULE_ID, CARD_STYLES, CARD_WIDTHS, EXCERPT_LENGTHS, api, loc, setting} from "./constants.mjs";
+import {MODULE_ID, CARD_STYLES, CARD_WIDTHS, EXCERPT_LENGTHS, IMAGE_EFFECT_STYLES, SCANLINE_STYLES, api, loc,
+  setting} from "./constants.mjs";
 import {restyleAllNotes} from "./note-icons.mjs";
 import {onRevealChange} from "./lightbox.mjs";
+import {resolveStyle} from "./card.mjs";
 
 const {BooleanField, NumberField, StringField} = foundry.data.fields;
 
@@ -47,6 +49,9 @@ export function registerSettings() {
   register("style", new StringField({
     initial: "dusk", required: true, blank: false, choices: choices("style", [...CARD_STYLES, "system", "auto"])
   }));
+  // Right under the style, and shown only for the styles that have them (see onRenderSettingsConfig).
+  register("imageEffects", new BooleanField({initial: true}));
+  register("scanlines", new BooleanField({initial: true}));
   register("size", new StringField({
     initial: "medium", required: true, blank: false, choices: choices("size", Object.keys(CARD_WIDTHS))
   }));
@@ -66,7 +71,6 @@ export function registerSettings() {
   // Atmosphere
   register("slideshow", new BooleanField({initial: true}));
   register("motion", new BooleanField({initial: false}));
-  register("scanlines", new BooleanField({initial: true}));
   register("soundVolume", new NumberField({
     initial: 40, min: 0, max: 100, step: 5, integer: true, nullable: false
   }), {onChange: () => api()?.sound?.stop()});
@@ -149,6 +153,27 @@ function registerKeybindings() {
       api()?.regions?.setPeeking(false);
     }
   });
+}
+
+/**
+ * In the settings window, show Image effects and Scanlines only while the chosen card style has them, following the
+ * style picker as it changes.
+ * @param {SettingsConfig} app
+ * @param {HTMLElement} element
+ */
+export function onRenderSettingsConfig(app, element) {
+  const select = element.querySelector(`select[name="${MODULE_ID}.style"]`);
+  if ( !select ) return;
+  const dependents = {imageEffects: IMAGE_EFFECT_STYLES, scanlines: SCANLINE_STYLES};
+  const update = () => {
+    const style = resolveStyle(select.value);
+    for ( const [key, styles] of Object.entries(dependents) ) {
+      const group = element.querySelector(`[name="${MODULE_ID}.${key}"]`)?.closest(".form-group");
+      if ( group ) group.style.display = styles.includes(style) ? "" : "none";
+    }
+  };
+  select.addEventListener("change", update);
+  update();
 }
 
 /**

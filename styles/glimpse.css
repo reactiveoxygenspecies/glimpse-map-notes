@@ -137,9 +137,12 @@
     rgb(0 0 0 / 0.53) 78%, rgb(0 0 0 / 0.35) 84%, rgb(0 0 0 / 0.19) 90%, rgb(0 0 0 / 0.07) 95%, transparent 100%;
 }
 
+/* Foundry gives every <figure> a full width, which pushes the picture past the right edge in styles that inset it
+   with side margins. */
 .glimpse-hero {
   position: relative;
   flex: none;
+  width: auto;
   margin: 0;
   aspect-ratio: var(--glimpse-ratio, 1.6);
   max-height: 62vh;

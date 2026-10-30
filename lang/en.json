@@ -196,6 +196,10 @@
         "Name": "Slow pan on images",
         "Hint": "Images slowly pan while the card is open. Off by default; turned off automatically if your system asks for reduced motion."
       },
+      "imageEffects": {
+        "Name": "Image effects",
+        "Hint": "Recolour pictures to suit the style: the green phosphor screen of Terminal, the black ink print of Woodcut, the faded photo of Dossier, the sepia of Frontier, the drained colour of Gothic. Turn off to show pictures in their own colours."
+      },
       "scanlines": {
         "Name": "Scanlines",
         "Hint": "Draw screen scanlines over images in the Holo and Terminal styles, and across Terminal cards."

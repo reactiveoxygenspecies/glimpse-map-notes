@@ -13,6 +13,12 @@ export const CARD_WIDTHS = {small: 300, medium: 380, large: 480, cinematic: 640}
 export const CARD_STYLES = ["dusk", "parchment", "foundry", "tome", "bound", "holo", "horizon", "horizon-cream",
   "dossier", "terminal", "neon", "woodcut", "gothic", "frontier", "ink"];
 
+/** Styles that draw screen scanlines, which the Scanlines setting turns off. */
+export const SCANLINE_STYLES = ["holo", "terminal"];
+
+/** Styles that recolour their pictures, which the Image effects setting turns off. */
+export const IMAGE_EFFECT_STYLES = ["dossier", "terminal", "woodcut", "gothic", "frontier"];
+
 /** The style "Match game system" picks for each system id. Systems not listed fall back to the interface theme. */
 export const SYSTEM_STYLES = {
   dnd5e: "tome", pf1: "tome",

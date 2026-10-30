@@ -10,6 +10,16 @@
   --g-scanlines-hero: linear-gradient(transparent, transparent);
 }
 
+/* The Image effects setting: off, pictures keep their own colours in every style (no phosphor green, ink print,
+   sepia or faded photo). Rumoured places are still veiled, the same way as in the plain styles. */
+.glimpse-card[data-style][data-image-effects="off"] .glimpse-slide :is(img, video) {
+  filter: none;
+  mix-blend-mode: normal;
+}
+.glimpse-card[data-style][data-image-effects="off"].is-rumoured .glimpse-slide :is(img, video) {
+  filter: blur(9px) grayscale(0.55) brightness(0.75) sepia(0.25);
+}
+
 /* Styles that frame the picture inside a border show it whole, without the fade into the card. */
 .glimpse-card:is([data-style="bound"], [data-style="dossier"], [data-style="terminal"], [data-style="woodcut"],
   [data-style="frontier"], [data-style="ink"]) .glimpse-hero {

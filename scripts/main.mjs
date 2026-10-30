@@ -1,5 +1,5 @@
 import {LIGHTBOX_TEMPLATE, MODULE_ID, SOCKET, TEMPLATE, api, flagsOf, setting} from "./constants.mjs";
-import {registerSettings, toggleEnabled} from "./settings.mjs";
+import {onRenderSettingsConfig, registerSettings, toggleEnabled} from "./settings.mjs";
 import {PAGE_READERS, clearCache, isNight, isRumoured, noteSource, regionEnabled} from "./content.mjs";
 import {onRenderImagePageSheet, onRenderNoteConfig, onRenderRegionConfig, onRenderSceneConfig, pruneCreateFlags,
   pruneUpdateFlags} from "./config.mjs";
@@ -225,6 +225,7 @@ Hooks.on("renderNoteConfig", onRenderNoteConfig);
 Hooks.on("renderRegionConfig", onRenderRegionConfig);
 Hooks.on("renderJournalEntryPageImageSheet", onRenderImagePageSheet);
 Hooks.on("renderSceneConfig", onRenderSceneConfig);
+Hooks.on("renderSettingsConfig", onRenderSettingsConfig);
 
 // Keep unset fields unset, rather than storing their defaults on every save.
 for ( const type of ["Note", "Region", "Scene", "JournalEntryPage"] ) {

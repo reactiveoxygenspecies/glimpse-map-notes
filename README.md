@@ -243,13 +243,14 @@ pages need **Limited**, the same as core Foundry. Secret blocks are hidden, even
 | --- | --- |
 | Show location previews | On |
 | Card style (one of fifteen styles, match the game system, or match the interface) | Dusk |
+| Image effects: the colour treatment some styles give pictures (Terminal, Woodcut, Dossier, Frontier, Gothic) | On |
+| Scanlines on the Holo and Terminal styles | On |
 | Card size (small, medium, large, cinematic) | Medium |
 | Text excerpt (none, short, medium, long) | Medium |
 | Text size, hover delay | 100%, 200 ms |
 | Region banners (on hover, while holding <kbd>G</kbd>, never) | On hover |
 | Cycle through images | On |
 | Slow pan on images | Off |
-| Scanlines on the Holo and Terminal styles | On |
 | Ambient sound volume | 40% |
 | Show travel distance, hide the note's label while previewing | On |
 | Show secrets to owners | Off |

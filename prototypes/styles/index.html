@@ -41,6 +41,7 @@
     <button class="proto-toggle" data-toggle="rumoured" aria-pressed="false"><i class="fa-solid fa-feather"></i> Rumoured</button>
     <button class="proto-toggle" data-toggle="motion" aria-pressed="false"><i class="fa-solid fa-wind"></i> Motion</button>
     <button class="proto-toggle" data-toggle="scanlines" aria-pressed="true"><i class="fa-solid fa-bars"></i> Scanlines</button>
+    <button class="proto-toggle" data-toggle="imageEffects" aria-pressed="true"><i class="fa-solid fa-palette"></i> Image effects</button>
   </header>
 
   <main class="proto-grid" id="grid"></main>
@@ -227,12 +228,12 @@
       ({...STYLES.find(s => s.id === "dusk"), id: "foundry", theme, name, tag: "",
         fits: "Any system: a plain Foundry window that follows the interface theme", fonts: "Signika (Foundry core)"})));
 
-    const state = {view: "card", layout: "full", size: "medium", rumoured: false, motion: false, scanlines: true};
+    const state = {view: "card", layout: "full", size: "medium", rumoured: false, motion: false, scanlines: true, imageEffects: true};
 
     // ?view=banner&layout=text&size=large&rumoured=1 opens the gallery in that state.
     const params = new URLSearchParams(location.search);
     for ( const key of ["view", "layout", "size"] ) if ( params.has(key) ) state[key] = params.get(key);
-    for ( const key of ["rumoured", "motion", "scanlines"] ) if ( params.has(key) ) state[key] = params.get(key) === "1";
+    for ( const key of ["rumoured", "motion", "scanlines", "imageEffects"] ) if ( params.has(key) ) state[key] = params.get(key) === "1";
     for ( const seg of document.querySelectorAll("[data-control]") ) {
       for ( const b of seg.querySelectorAll("button") ) b.setAttribute("aria-pressed", String(b.dataset.value === state[seg.dataset.control]));
     }
@@ -348,7 +349,7 @@
       const banner = state.view === "banner" ? " glimpse-banner" : "";
       return `<div class="glimpse-card is-visible${banner}${rumoured}"
                data-style="${s.id}" data-layout="${state.layout}" data-size="${state.size}"
-               data-motion="${state.motion ? "on" : "off"}" data-scanlines="${state.scanlines ? "on" : "off"}" data-side="right">${cardHTML(s)}</div>`;
+               data-motion="${state.motion ? "on" : "off"}" data-scanlines="${state.scanlines ? "on" : "off"}" data-image-effects="${state.imageEffects ? "on" : "off"}" data-side="right">${cardHTML(s)}</div>`;
     }
 
     /** A hover card and the region banner for one style, one above the other. */

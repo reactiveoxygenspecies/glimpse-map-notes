@@ -291,6 +291,7 @@ export class GlimpseCard {
     el.dataset.size = size;
     el.dataset.motion = (setting("motion") && !reduceMotion) ? "on" : "off";
     el.dataset.scanlines = setting("scanlines") ? "on" : "off";
+    el.dataset.imageEffects = setting("imageEffects") ? "on" : "off";
     el.classList.toggle("is-rumoured", location.rumoured);
     el.style.setProperty("--glimpse-width", `${CARD_WIDTHS[size] ?? CARD_WIDTHS.medium}px`);
     el.style.setProperty("--glimpse-scale", String((setting("textScale") ?? 100) / 100));
@@ -556,10 +557,10 @@ function travelInfo(point) {
 
 /**
  * The card style to use.
- * @returns {string}   One of CARD_STYLES
+ * @param {string} [style]   A value of the style setting, the current one by default
+ * @returns {string}         One of CARD_STYLES
  */
-export function resolveStyle() {
-  const style = setting("style");
+export function resolveStyle(style=setting("style")) {
   if ( (style === "system") && (game.system.id in SYSTEM_STYLES) ) return SYSTEM_STYLES[game.system.id];
   if ( !["system", "auto"].includes(style) ) return style;
   return document.getElementById("interface")?.classList.contains("theme-light") ? "parchment" : "dusk";
