@@ -85,10 +85,16 @@ Image pages also get a **focal point** and an alternative **night image** when y
 - Cards follow the map as you pan and zoom, flip to whichever side has room, and never leave the screen.
 - Hovering a note in the v14 **Notes** sidebar list shows its card beside the list.
 
-Besides the default Dusk and Parchment styles, alternatives are available to better fit popular systems or your homebrew. 
+Besides the default Dusk and Parchment styles, alternatives are available to better fit popular systems or your homebrew. If you like the whole interface to look consistent, a plain Foundry style is available where cards, region banners and the gallery are drawn like Foundry's own windows, with its fonts and colours, and switch with your light or dark theme.
+
+<p align="center">
+  <img src="docs/styles-foundry.jpg" alt="The Foundry style in the dark and light interface themes: a location card above a region banner for each, drawn like Foundry's own windows" width="100%">
+</p>
 
 <p align="center">
   <img src="docs/styles.jpg" alt="Twelve Glimpse cards side by side, one per style: Dusk, Tome, Holo, Bound, Third Horizon, Woodcut, Dossier, Terminal, Frontier, Neon, Ink &amp; Seal and Gothic" width="100%">
+  <br>
+  <sub>All the art in the showcase is handmade, and extremely detailed.</sub>
 </p>
 
 | Style | Made for | Look |
@@ -111,15 +117,10 @@ In Ink & Seal, the seal follows the note's map icon: a city gets 都, a castle �
 on, or 所 ("place") when the icon has no match. Pick a different seal, or none, under **Seal** in the note's
 Glimpse settings.
 
-Choose **Match game system** to get the style made for your system automatically. Systems without one follow the
-interface theme (Dusk or Parchment).
 
-If you like the whole interface to look consistent, choose **Foundry**: cards, region banners and the gallery are
-drawn like Foundry's own windows, with its fonts and colours, and switch with your light or dark theme.
 
-<p align="center">
-  <img src="docs/styles-foundry.jpg" alt="The Foundry style in the dark and light interface themes: a location card above a region banner for each, drawn like Foundry's own windows" width="100%">
-</p>
+
+
 
 ### The gallery
 
@@ -148,8 +149,7 @@ To show the banner without hovering, add the **Show Glimpse Banner** behavior to
 for a few seconds when a token walks in, or when a token starts its turn or a new round begins inside it. For
 example, mark difficult terrain on a battlemap with a title and a fact like `Movement: half speed`, and players get a
 reminder as they step into it during combat. Choose who sees it (GM, the token's owners, or everyone who can see the
-token), how long it stays, and whether it fires only once. The banner uses the region's Glimpse tab, so it works even
-when hovering the region is switched off.
+token), how long it stays, and whether it fires only once. 
 
 
 ### Rumours and discovery
@@ -227,7 +227,7 @@ private journal (None), shared when they are discovered; known places get Observ
 
 - **Day and night images** swap automatically with the world clock.
 - **Ambient sound** plays a quiet loop while a card or the gallery is open, at each player's chosen volume.
-- **Travel distance** shows how far the place is from your selected token, and roughly how many days away.
+- **Travel distance** shows how far the place is from your selected token, and roughly how many hours/days/whatever away.
 - **Focal points** help to keep the important parts of the image in frame when they get cropped.
 
 ## Permissions
