@@ -1,4 +1,4 @@
-import {MODULE_ID, CARD_WIDTHS, DISCOVERY_MODES, NOTE_MODES, api, flagsOf, loc, setting} from "./constants.mjs";
+import {MODULE_ID, CARD_WIDTHS, DISCOVERY_MODES, NOTE_MODES, SEALS, api, flagsOf, loc, setting} from "./constants.mjs";
 import {IconPicker, cssUrl, glimpseIconId, iconLabel} from "./icon-picker.mjs";
 import {regionSource} from "./content.mjs";
 
@@ -97,6 +97,15 @@ function presentationGroups(flags, rootId, {withSize=true}={}) {
   }), {rootId, classes: ["stacked"]}));
   groups.push(group("Sound", foundry.applications.elements.HTMLFilePickerElement.create({
     name: name("sound"), type: "audio", value: flags.sound || ""
+  }), {rootId}));
+  groups.push(group("Seal", createSelectInput({
+    name: name("seal"),
+    value: flags.seal || "",
+    options: [
+      {value: "", label: loc("Config.SealAuto")},
+      {value: "none", label: loc("Config.SealNone")},
+      ...Object.entries(SEALS).map(([value, glyph]) => ({value, label: `${glyph}  ${loc(`Config.Seals.${value}`)}`}))
+    ]
   }), {rootId}));
   return groups;
 }
@@ -383,7 +392,7 @@ export function onRenderSceneConfig(app, element) {
  * document with a full set of empty flags.
  */
 const FLAG_DEFAULTS = {
-  mode: "auto", size: "", image: "", focusX: 50, focusY: 50, nightImage: "", subtitle: "", facts: "", sound: "",
+  mode: "auto", size: "", image: "", focusX: 50, focusY: 50, nightImage: "", subtitle: "", facts: "", sound: "", seal: "",
   discovery: "known", rumour: "", visited: false, enabled: false, entryId: "", pageId: "", title: "", night: "",
   travelPerDay: null
 };

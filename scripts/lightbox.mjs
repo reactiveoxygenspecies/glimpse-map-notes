@@ -1,4 +1,4 @@
-import {LIGHTBOX_TEMPLATE, MODULE_ID, SOCKET, api, flagsOf, loc} from "./constants.mjs";
+import {LIGHTBOX_TEMPLATE, MODULE_ID, api, flagsOf, loc, setting} from "./constants.mjs";
 import {canViewPage, getLocation, isRumoured, noteSource, readPage, regionSource} from "./content.mjs";
 import {resolveStyle} from "./card.mjs";
 
@@ -48,14 +48,12 @@ export class GlimpseLightbox {
       multiple: location.media.length > 1,
       revealedBy: revealedBy ? loc("Lightbox.RevealedBy", {name: revealedBy}) : "",
       canReveal: game.user.isGM && !revealedBy && !!doc,
-      canCloseAll: game.user.isGM && !!revealedBy,
       labels: {
         prev: loc("Lightbox.Previous"),
         next: loc("Lightbox.Next"),
         close: loc("Lightbox.Close"),
         journal: loc("Lightbox.OpenJournal"),
-        reveal: loc("Lightbox.Reveal"),
-        closeAll: loc("Lightbox.CloseAll")
+        reveal: loc("Lightbox.Reveal")
       }
     });
     if ( seq !== this.#seq ) return;
@@ -68,6 +66,7 @@ export class GlimpseLightbox {
     this.#index = 0;
     const el = this.element;
     el.dataset.style = resolveStyle();
+    el.dataset.scanlines = setting("scanlines") ? "on" : "off";
     el.classList.toggle("is-rumoured", !!location.rumoured);
     el.innerHTML = html;
     el.querySelector(".glimpse-lb-slide.is-active video")?.play().catch(() => {});
@@ -140,9 +139,6 @@ export class GlimpseLightbox {
         if ( doc ) revealToPlayers(doc);
         return;
       }
-      case "closeAll":
-        game.socket.emit(SOCKET, {action: "close", uuid: this.location?.uuid});
-        return this.close();
     }
   }
 
@@ -258,18 +254,4 @@ export function onRevealChange(value, userId) {
   const doc = fromUuidSync(location.uuid, {strict: false});
   location.canOpen = doc ? sourceFor(doc).canOpen : false;
   lightbox.open(location, {revealedBy: gm.name});
-}
-
-/**
- * Handle messages from other clients.
- * @param {object} message
- */
-export function onSocketMessage(message) {
-  const lightbox = api()?.lightbox;
-  if ( !lightbox ) return;
-  switch ( message.action ) {
-    case "close":
-      if ( lightbox.location?.uuid === message.uuid ) lightbox.close();
-      break;
-  }
 }

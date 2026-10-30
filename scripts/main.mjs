@@ -5,35 +5,63 @@ import {onRenderImagePageSheet, onRenderNoteConfig, onRenderRegionConfig, onRend
   pruneUpdateFlags} from "./config.mjs";
 import {NoteCard} from "./card.mjs";
 import {RegionBanner, RegionTracker} from "./regions.mjs";
-import {GlimpseLightbox, noteHasMedia, onSocketMessage, openGallery, revealToPlayers} from "./lightbox.mjs";
+import {GlimpseLightbox, noteHasMedia, openGallery, revealToPlayers} from "./lightbox.mjs";
 import GlimpseSound from "./sound.mjs";
 import {styleNoteIcon} from "./note-icons.mjs";
+import {onDiscovered, onSocketMessage, reportExplored} from "./discovery.mjs";
+import GlimpseBannerBehavior from "./behavior.mjs";
+import {openOverview, refreshOverview} from "./overview.mjs";
+import {applyLocations, exportLocations, planLocations} from "./manifest.mjs";
 
 Hooks.once("init", () => {
   registerSettings();
   foundry.applications.handlebars.loadTemplates([TEMPLATE, LIGHTBOX_TEMPLATE]);
   extendNoteClass();
+  CONFIG.RegionBehavior.dataModels[GlimpseBannerBehavior.TYPE] = GlimpseBannerBehavior;
+  CONFIG.RegionBehavior.typeIcons[GlimpseBannerBehavior.TYPE] = "fa-solid fa-mountain-sun";
 });
 
 /**
- * Core only lets a note be double-clicked when it links a journal entry. Let notes that carry their own Glimpse
- * content open the gallery too.
+ * Core only lets a note be double-clicked when it links a journal entry, and only puts a note on the map for players
+ * who can see that journal. Let notes that carry their own Glimpse content open the gallery too, and keep places
+ * with a Discovery setting on the map, so their journal can stay private until they are discovered.
  */
 function extendNoteClass() {
   const hasOwnContent = doc => {
     const flags = flagsOf(doc);
     return !doc.entry && (flags.mode !== "off") && !!(flags.image || flags.nightImage || flags.subtitle || flags.facts);
   };
+  const hasDiscovery = doc => {
+    const flags = flagsOf(doc);
+    return (flags.mode !== "off") && ((flags.discovery ?? "known") !== "known");
+  };
+  const showsRumour = doc => !game.user.isGM && hasDiscovery(doc) && isRumoured(noteSource(doc));
   CONFIG.Note.objectClass = class GlimpseNote extends CONFIG.Note.objectClass {
+    /**
+     * Mirrors core, except that a place with a Discovery setting is shown whatever its journal's permissions.
+     * Fog of war still applies.
+     * @override
+     */
+    get isVisible() {
+      const visible = super.isVisible;
+      if ( visible || !hasDiscovery(this.document) ) return visible;
+      if ( this.hasPreview || this.isFilteredOut ) return false;
+      if ( !canvas.visibility.tokenVision || this.document.global ) return true;
+      const point = {x: this.document.x, y: this.document.y};
+      const tolerance = this.document.iconSize / 4;
+      return canvas.fog.isPointExplored(point) || canvas.visibility.testVisibility(point, {tolerance, object: this});
+    }
+
     /** @override */
     _canView(user) {
-      return super._canView(user) || hasOwnContent(this.document);
+      return super._canView(user) || hasOwnContent(this.document) || showsRumour(this.document);
     }
 
     /** @override */
     _onClickLeft2(event) {
-      if ( this.document.entry ) return super._onClickLeft2(event);
-      if ( hasOwnContent(this.document) ) openGallery(this.document);
+      // Core opens what this user may open; anything else was allowed for its Glimpse gallery.
+      if ( super._canView(game.user) ) return super._onClickLeft2(event);
+      openGallery(this.document);
     }
   };
 }
@@ -58,6 +86,13 @@ Hooks.once("ready", () => {
     reveal: doc => revealToPlayers(doc),
     openGallery: doc => openGallery(doc),
     toggle: value => toggleEnabled(value ?? !setting("enabled")),
+    overview: () => openOverview(),
+    /** Export and import a scene's places as JSON, in the glimpse skill's manifest format. */
+    locations: {
+      export: scene => exportLocations(scene),
+      plan: (locations, options) => planLocations(locations, options),
+      apply: (locations, options) => applyLocations(locations, options)
+    },
     /**
      * Teach Glimpse to read a system's own journal page type.
      * @param {string} type                                         The page type, e.g. "mysystem.location"
@@ -116,6 +151,15 @@ Hooks.on("canvasPan", () => {
 });
 
 /* -------------------------------------------- */
+/*  Discovery                                   */
+/* -------------------------------------------- */
+
+// Share a place's journal once it is discovered, by the GM or by exploring.
+Hooks.on("updateNote", onDiscovered);
+Hooks.on("updateRegion", onDiscovered);
+Hooks.on("sightRefresh", () => reportExplored());
+
+/* -------------------------------------------- */
 /*  Double-Click Gallery                        */
 /* -------------------------------------------- */
 
@@ -157,6 +201,12 @@ for ( const hook of ["deleteNote", "deleteRegion"] ) {
     if ( glimpse?.banner.target?.key === doc.uuid ) glimpse.banner.hide({immediate: true});
   });
 }
+
+// Keep the GM overview current.
+for ( const type of ["Note", "Region", "RegionBehavior", "JournalEntry", "JournalEntryPage"] ) {
+  for ( const action of ["create", "update", "delete"] ) Hooks.on(`${action}${type}`, () => refreshOverview());
+}
+Hooks.on("canvasReady", () => refreshOverview());
 
 // Swap day and night images when the world clock crosses the configured hours.
 let wasNight = null;
@@ -201,6 +251,15 @@ Hooks.on("getSceneControlButtons", controls => {
     toggle: true,
     active: setting("enabled"),
     onChange: (event, active) => toggleEnabled(active)
+  };
+  notes.tools.glimpseOverview = {
+    name: "glimpseOverview",
+    order: Object.keys(notes.tools).length + 1,
+    title: "GLIMPSE.Overview.Title",
+    icon: "fa-solid fa-map-location-dot",
+    button: true,
+    visible: game.user.isGM,
+    onChange: () => openOverview()
   };
 });
 

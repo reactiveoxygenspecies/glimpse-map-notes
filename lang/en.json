@@ -1,6 +1,20 @@
 {
+  "TYPES.RegionBehavior.glimpse-map-notes.banner": "Show Glimpse Banner",
+  "TYPES.HINTS.RegionBehavior.glimpse-map-notes.banner": "Show this region's Glimpse banner for a few seconds when a token enters it or starts its turn there.",
   "GLIMPSE": {
     "Title": "Glimpse",
+    "Behavior": {
+      "FIELDS": {
+        "duration": {
+          "label": "Seconds shown",
+          "hint": "How long the banner stays up. It uses what the region's Glimpse tab is set up with, even if the region's hover banner is off."
+        },
+        "visibility": {
+          "label": "Visibility",
+          "hint": "Who sees the banner: only the GM, the token's owners and observers, or everyone who can see the token."
+        }
+      }
+    },
     "Toggle": "Glimpse: Location Previews",
     "Enabled": "Location previews enabled",
     "Disabled": "Location previews disabled",
@@ -20,7 +34,6 @@
       "Close": "Close",
       "OpenJournal": "Open journal",
       "Reveal": "Show to players",
-      "CloseAll": "Close for everyone",
       "RevealedBy": "Shown by {name}",
       "Revealed": "Showing {name} to the table",
       "NothingToReveal": "There is nothing to show for this location yet."
@@ -31,6 +44,85 @@
       "MarkVisited": "Glimpse: Mark as discovered",
       "MarkUnvisited": "Glimpse: Mark as undiscovered"
     },
+    "Overview": {
+      "Title": "Glimpse Places",
+      "Search": "Search places",
+      "SelectAll": "Select all shown places",
+      "NoScene": "View a scene to see its places.",
+      "Empty": "This scene has no map notes or Glimpse regions yet.",
+      "NoMatch": "No places match.",
+      "Selected": "{n} selected",
+      "MarkDiscovered": "Mark discovered",
+      "MarkUndiscovered": "Mark undiscovered",
+      "NothingToMark": "None of the selected places are rumoured.",
+      "AlreadyDiscovered": "The selected places are already discovered.",
+      "AlreadyUndiscovered": "The selected places are already undiscovered.",
+      "DiscoveredOne": "Marked 1 place discovered.",
+      "Discovered": "Marked {n} places discovered.",
+      "UndiscoveredOne": "Marked 1 place undiscovered.",
+      "Undiscovered": "Marked {n} places undiscovered.",
+      "Export": "Export JSON",
+      "Import": "Import JSON",
+      "ImportInvalid": "That file is not a Glimpse places file.",
+      "ImportedOne": "Imported 1 place.",
+      "Imported": "Imported {n} places.",
+      "ImportPartial": "Some places could not be imported ({failed} of {total}). The console has the details.",
+      "Filters": {
+        "all": "All",
+        "rumoured": "Rumoured",
+        "issues": "Needs attention"
+      },
+      "Kinds": {
+        "note": "Map note",
+        "region": "Region"
+      },
+      "Columns": {
+        "Place": "Place",
+        "Discovery": "Discovery",
+        "Players": "Players",
+        "Images": "Images",
+        "Text": "Text",
+        "Issues": "Issues"
+      },
+      "Status": {
+        "known": "Known",
+        "rumour": "Rumoured",
+        "explore": "Until explored",
+        "discovered": "Discovered"
+      },
+      "Issues": {
+        "Off": "Previews off",
+        "NoImage": "No image",
+        "NoText": "No text",
+        "Readable": "Journal readable while rumoured",
+        "NoJournal": "No journal",
+        "Hidden": "Players can't see the pin"
+      },
+      "Actions": {
+        "Pan": "Pan to it",
+        "Edit": "Configure",
+        "Gallery": "Open gallery",
+        "Reveal": "Show to players"
+      },
+      "Plan": {
+        "Intro": "{n} places will be imported into {scene}. Pages an earlier import made are replaced; pages written by hand are kept.",
+        "JournalColumn": "Journal",
+        "NoteColumn": "Map note",
+        "Journal": {
+          "create": "Create",
+          "update": "Update",
+          "link": "Link, keep as is"
+        },
+        "Note": {
+          "create": "Create",
+          "update": "Update",
+          "skip": "None (no position)"
+        },
+        "Invalid": "Skipped: {error}",
+        "HandMade": "{n} hand-written pages are kept, and imported pages are added beside them",
+        "Missing": "Missing files: {files}"
+      }
+    },
     "Settings": {
       "enabled": {
         "Name": "Show location previews",
@@ -38,10 +130,24 @@
       },
       "style": {
         "Name": "Card style",
-        "Hint": "The look of preview cards and the gallery.",
+        "Hint": "The look of preview cards and the gallery. Match game system picks the style made for your system, or follows the interface theme when there is none.",
         "Choices": {
           "dusk": "Dusk (dark)",
           "parchment": "Parchment (light)",
+          "foundry": "Foundry (plain, follows the interface theme)",
+          "tome": "Tome (D&D 5e, classic fantasy)",
+          "bound": "Bound (Pathfinder 2e)",
+          "holo": "Holo (Starfinder, space opera)",
+          "horizon": "Third Horizon (Coriolis)",
+          "horizon-cream": "Third Horizon, cream page (Coriolis)",
+          "dossier": "Dossier (Call of Cthulhu, investigative horror)",
+          "terminal": "Terminal (Alien RPG, Mothership)",
+          "neon": "Neon (Cyberpunk RED, Shadowrun)",
+          "woodcut": "Woodcut (Forbidden Lands, Dragonbane, OSR)",
+          "gothic": "Gothic (Vampire: The Masquerade, World of Darkness)",
+          "frontier": "Frontier (Deadlands, the Weird West)",
+          "ink": "Ink & Seal (Legend of the Five Rings)",
+          "system": "Match game system",
           "auto": "Match interface theme"
         }
       },
@@ -90,6 +196,10 @@
         "Name": "Slow pan on images",
         "Hint": "Images slowly pan while the card is open. Off by default; turned off automatically if your system asks for reduced motion."
       },
+      "scanlines": {
+        "Name": "Scanlines",
+        "Hint": "Draw screen scanlines over images in the Holo and Terminal styles, and across Terminal cards."
+      },
       "soundVolume": {
         "Name": "Ambient sound volume",
         "Hint": "Volume of the ambient sounds some locations play while their card is open. Set to 0 to turn them off."
@@ -112,6 +222,15 @@
         "Choices": {
           "gallery": "The gallery, when the location has images",
           "journal": "The journal, as usual"
+        }
+      },
+      "shareOnDiscovery": {
+        "Name": "Share journals when discovered",
+        "Hint": "When a rumoured place is discovered, give players this permission on its journal, so it can stay private until then. Exploring shares it with that player only. Permissions are never lowered, and pages set to None stay private.",
+        "Choices": {
+          "off": "Don't change permissions",
+          "limited": "Limited (images only)",
+          "observer": "Observer (images and text)"
         }
       },
       "travelPerDay": {
@@ -196,8 +315,38 @@
       "FactsHint": "One per line, as \"Label: value\", up to six. Shown as a row of chips under the name.",
       "Sound": "Ambient sound",
       "SoundHint": "A quiet loop that plays while the card is open.",
+      "Seal": "Seal",
+      "SealHint": "The red seal beside the name in the Ink & Seal style. Automatic picks one to match the map icon.",
+      "SealAuto": "Automatic (from the map icon)",
+      "SealNone": "No seal",
+      "Seals": {
+        "place": "Place",
+        "land": "Land",
+        "city": "City",
+        "town": "Town",
+        "village": "Village",
+        "inn": "Inn",
+        "market": "Market",
+        "harbor": "Harbour",
+        "castle": "Castle",
+        "temple": "Temple",
+        "shrine": "Shrine",
+        "mountain": "Mountain",
+        "cave": "Cave",
+        "forest": "Forest",
+        "water": "Water",
+        "road": "Road",
+        "ruins": "Ruins",
+        "grave": "Grave",
+        "danger": "Danger",
+        "battle": "Battle",
+        "spirit": "Spirit",
+        "secret": "Secret",
+        "treasure": "Treasure",
+        "people": "People"
+      },
       "Discovery": "Discovery",
-      "DiscoveryHint": "Undiscovered places show players only a veiled image and the rumour below.",
+      "DiscoveryHint": "Undiscovered places show players only a veiled image and the rumour below. The note stays on the map even if players can't see its journal yet.",
       "DiscoveryModes": {
         "known": "Known to everyone",
         "rumour": "Rumoured until the GM marks it discovered",

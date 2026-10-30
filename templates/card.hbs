@@ -19,7 +19,7 @@
   <span class="glimpse-badge"><i class="fa-solid fa-eye-slash"></i> {{localize "GLIMPSE.RumourBadge"}}</span>
   {{/if}}
 
-  <header class="glimpse-header">
+  <header class="glimpse-header"{{#if seal}} data-seal="{{seal}}"{{/if}}>
     {{#if subtitle}}<p class="glimpse-subtitle">{{#if rumoured}}<i class="fa-solid fa-feather"></i> {{/if}}{{subtitle}}</p>{{/if}}
     <h2 class="glimpse-title">{{title}}</h2>
   </header>

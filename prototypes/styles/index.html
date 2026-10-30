@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glimpse Style Prototypes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <!-- The module's own stylesheets, in module.json order. -->
+  <link rel="stylesheet" href="../../styles/fonts.css">
+  <link rel="stylesheet" href="../../styles/glimpse.css">
+  <link rel="stylesheet" href="../../styles/themes.css">
+  <!-- Mockups of possible extra styles (Storybook, Blackletter), with their fonts from Google for now. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght,SOFT,WONK@9..144,600,100,1&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&family=Pirata+One&display=swap">
+  <link rel="stylesheet" href="candidates.css">
+  <link rel="stylesheet" href="prototype.css">
+</head>
+<body>
+  <header class="proto-top">
+    <h1>Glimpse styles <small>test gallery</small></h1>
+    <div class="proto-group">View
+      <div class="proto-seg" data-control="view">
+        <button data-value="card" aria-pressed="true">Card</button>
+        <button data-value="banner">Region banner</button>
+        <button data-value="lightbox">Gallery</button>
+      </div>
+    </div>
+    <div class="proto-group">Layout
+      <div class="proto-seg" data-control="layout">
+        <button data-value="full" aria-pressed="true">Full</button>
+        <button data-value="image">Image</button>
+        <button data-value="text">Text</button>
+      </div>
+    </div>
+    <div class="proto-group">Size
+      <div class="proto-seg" data-control="size">
+        <button data-value="small">Small</button>
+        <button data-value="medium" aria-pressed="true">Medium</button>
+        <button data-value="large">Large</button>
+      </div>
+    </div>
+    <button class="proto-toggle" data-toggle="rumoured" aria-pressed="false"><i class="fa-solid fa-feather"></i> Rumoured</button>
+    <button class="proto-toggle" data-toggle="motion" aria-pressed="false"><i class="fa-solid fa-wind"></i> Motion</button>
+    <button class="proto-toggle" data-toggle="scanlines" aria-pressed="true"><i class="fa-solid fa-bars"></i> Scanlines</button>
+  </header>
+
+  <main class="proto-grid" id="grid"></main>
+
+  <script>
+    const WIDTHS = {small: 300, medium: 380, large: 480};
+
+    const STYLES = [
+      {
+        id: "dusk", name: "Dusk", tag: "current default",
+        fits: "Any system", fonts: "Modesto Condensed, Amiri, Signika (Foundry core)",
+        art: "dusk", caption: "The last light before the pass",
+        subtitle: "Watchtower · The Ember Pass", title: "Kell's Lantern",
+        travel: "1 day, 4 hours", facts: [["Held by", "Ash Wardens"], ["Danger", "Moderate"]],
+        body: [
+          "A single tower keeps the pass, its beacon lit every dusk since the war. The wardens trade news for firewood and ask no names.",
+          "Travellers say the flame burned green the night the old captain died, and that nobody has climbed to the lamp room since."
+        ]
+      },
+      {
+        id: "tome", name: "Tome",
+        fits: "D&D 5e, Level Up, Tales of the Valiant, most classic fantasy",
+        fonts: "Modesto Condensed (core), Crimson Pro, Signika",
+        art: "tome", caption: "Highwater from the harbour road",
+        subtitle: "Fortress of the Duchy of Vell", title: "Highwater Keep",
+        travel: "2 days", facts: [["Population", "1,200"], ["Ruler", "Lady Orsa Venn"], ["Temple", "Lathander"]],
+        body: [
+          "Built on a spur of black rock above the Sundering Sea, Highwater has never fallen to siege. Its lighthouse doubles as a signal tower for the coastal watch.",
+          "The duchess pays well for anyone willing to clear the flooded vaults beneath the old chapel."
+        ]
+      },
+      {
+        id: "bound", name: "Bound",
+        fits: "Pathfinder 2e, Starfinder 2e",
+        fonts: "Eczar, Spectral, Signika",
+        art: "golarion", caption: "The bridge at low water",
+        subtitle: "Settlement 3", title: "Brinmoor Crossing",
+        travel: "18 hours", facts: [["", "Town"], ["", "Lawful"], ["Pop.", "640"]],
+        body: [
+          "A toll town grown fat on the only bridge for forty miles. The Brinmoor council collects a copper a hoof and a silver a wagon, and argues about everything else.",
+          "Pilgrims bound for the Abbey of the Dawnflower stop here for supplies and gossip."
+        ]
+      },
+      {
+        id: "holo", name: "Holo",
+        fits: "Starfinder, Stars Without Number, Traveller, Star Wars FFG",
+        fonts: "Bruno Ace SC (core), Exo 2",
+        art: "holo", caption: "Approach vector 3, Kessra traffic control",
+        subtitle: "Orbital station", title: "Kessra Anchorage",
+        travel: "2.4 days (drift)", facts: [["Gravity", "0.8 g"], ["Atmosphere", "Normal"], ["Docking", "Open"]],
+        body: [
+          "A ring station in high orbit over the furnace world Kessra, run by a mining consortium that tolerates anyone who pays docking fees in hard credit.",
+          "The lower ring went dark six cycles ago. Station security calls it a coolant leak."
+        ]
+      },
+      {
+        id: "horizon", name: "Third Horizon",
+        fits: "Coriolis: The Third Horizon and The Great Dark",
+        fonts: "Cinzel, PT Serif, PT Sans",
+        art: "horizon", caption: "Dusk over the Bazaar of Mira",
+        subtitle: "Station city of the Kua system", title: "The Veiled Bazaar",
+        travel: "3 days by portal", facts: [["Faction", "Free League"], ["Icon", "The Merchant"]],
+        body: [
+          "Under turquoise domes, a thousand stalls sell spice, data and prayers. The bazaar never closes: when one shift of merchants sleeps, their cousins take the awnings.",
+          "Pilgrims light lamps to the Merchant at the eastern gate before any deal worth remembering."
+        ]
+      },
+      {
+        id: "dossier", name: "Dossier",
+        fits: "Call of Cthulhu, Delta Green, Trail of Cthulhu, Vaesen",
+        fonts: "Special Elite, Courier Prime",
+        art: "dossier", caption: "Photograph, Arkham Advertiser archive, 1919",
+        subtitle: "Essex County, Mass. · 1924", title: "Ashcombe Asylum",
+        travel: "2 hours by car", facts: [["Case no.", "0417-B"], ["Status", "Closed 1919"], ["Contact", "Dr. H. Pryor"]],
+        body: [
+          "Closed after the fire of 1919, when eleven patients were never accounted for. The county still pays a caretaker, though no one can say what he takes care of.",
+          "Local children dare each other to touch the gate after dark. Two have stopped speaking since spring."
+        ]
+      },
+      {
+        id: "terminal", name: "Terminal",
+        fits: "Alien RPG, Mothership, Coriolis horror, The Expanse",
+        fonts: "VT323, Share Tech Mono",
+        art: "terminal", caption: "Last uplink frame, cam 2",
+        subtitle: "Survey outpost · LV-17", title: "Tamsin-7 Relay",
+        travel: "11 days", facts: [["Crew", "14 (last contact)"], ["Atmo", "Toxic"], ["Signal", "Lost"]],
+        body: [
+          "A survey relay on a moon with no name worth registering. Fourteen crew, two years into a three-year contract. Telemetry stopped mid-transmission 41 days ago.",
+          "The company has filed it as an equipment failure and is offering a salvage bonus."
+        ]
+      },
+      {
+        id: "neon", name: "Neon",
+        fits: "Cyberpunk RED, Shadowrun, The Sprawl, Cities Without Number",
+        fonts: "Chakra Petch",
+        art: "neon", caption: "Gutterline, 02:40, after the rain",
+        subtitle: "Night market", title: "The Gutterline",
+        travel: "20 min (metro)", facts: [["Turf", "Red Lanterns"], ["Heat", "High"]],
+        body: [
+          "Six blocks of stalls under the elevated rail, selling everything from noodle soup to unlicensed cyberware. The Lanterns keep the peace for a cut of every sale.",
+          "Ask for Mama Jun if you need something fixed quietly. Ask twice and you will not need anything fixed again."
+        ]
+      },
+      {
+        id: "woodcut", name: "Woodcut",
+        fits: "Forbidden Lands, Dragonbane, OSE, Shadowdark, Mörk Borg-lite",
+        fonts: "IM Fell English, IM Fell English SC",
+        art: "woodcut", caption: "Barrowmere, as drawn by a travelling friar",
+        subtitle: "Ruin of the Bitter Reach", title: "Barrowmere",
+        travel: "3 quarter-days", facts: [["Danger", "Deadly"], ["Terrain", "Marsh"]],
+        body: [
+          "A great mound ringed by leaning stones, older than any kingdom that has claimed it. Crows gather here in their thousands and fall silent all at once at dusk.",
+          "The door in its flank was sealed with iron. Someone has since pried it open."
+        ]
+      },
+      {
+        id: "gothic", name: "Gothic",
+        fits: "Vampire: The Masquerade, World of Darkness, gothic horror", fonts: "Cormorant Garamond, EB Garamond",
+        art: "gothic", caption: "St. Columba's, from the river",
+        subtitle: "Elysium of the old city", title: "The Velvet Hour",
+        travel: "15 min by cab", facts: [["Domain", "The Ivory Court"], ["Hunting", "Forbidden"]],
+        body: [
+          "A deconsecrated cathedral turned members-only club. Nobody dances before midnight, and nobody asks why the stained glass was painted over from the inside.",
+          "The Keeper of Elysium remembers every insult, and every guest's true name."
+        ]
+      },
+      {
+        id: "frontier", name: "Frontier",
+        fits: "Deadlands, Savage Worlds westerns, the Weird West", fonts: "Rye, Oswald, Old Standard TT",
+        art: "frontier", caption: "Main Street at sundown",
+        subtitle: "Mining town", title: "Gallows Creek",
+        travel: "3 days by stage", facts: [["Sheriff", "Ada Crane"], ["Bounty", "$500"]],
+        body: [
+          "A boom town that went bust the day the silver ran out and something else came up the shaft. The saloon still pours, and the undertaker is the richest man in town.",
+          "Folks say the hanging tree grows a new branch for every soul it takes."
+        ]
+      },
+      {
+        id: "ink", name: "Ink & Seal",
+        fits: "Legend of the Five Rings, East Asian settings", fonts: "Shippori Mincho",
+        art: "ink", caption: "The shrine gate in first snow",
+        subtitle: "Mountain shrine", title: "Kasumi Pass", seal: "社",
+        travel: "4 days", facts: [["Season", "Winter"], ["Keeper", "Abbot Renji"]],
+        body: [
+          "Pilgrims climb to the shrine above the clouds to leave paper prayers on the gate. In winter the pass closes, and the monks speak only to the snow.",
+          "A traveller who reaches the gate in silence is granted one question."
+        ]
+      }
+    ];
+
+    // ?set=candidates shows mockups of styles that might be added next.
+    const CANDIDATES = [
+      {
+        id: "storybook", name: "Storybook", tag: "candidate",
+        fits: "Ryuutama, Wanderhome, Root, cosy and fairy-tale games", fonts: "Fraunces, Nunito",
+        art: "storybook", caption: "Thimblewick on market morning",
+        subtitle: "Hamlet in the Hollow Hills", title: "Thimblewick",
+        travel: "half a day", facts: [["Folk", "Hares & hedgehogs"], ["Market", "Thursdays"]],
+        body: [
+          "A handful of round doors tucked into a hill, each with a kettle always on. The mayor is a very old tortoise who has never once been in a hurry.",
+          "Travellers are welcome, so long as they bring a story to trade."
+        ]
+      },
+      {
+        id: "blackletter", name: "Blackletter", tag: "candidate",
+        fits: "Warhammer Fantasy Roleplay, grim Renaissance fantasy", fonts: "Pirata One, Cardo",
+        art: "blackletter", caption: "Grauwald from the north road",
+        subtitle: "Market town of the Reikland", title: "Grauwald",
+        travel: "2 days by coach", facts: [["Population", "2,300"], ["Temple", "Sigmar"], ["Danger", "Beastmen"]],
+        body: [
+          "A walled market town of timber and mud, prosperous enough to tax and poor enough to riot. The witch hunters arrived in spring and have not left.",
+          "Three merchants' daughters have vanished since the last fair. The burgomeister calls it elopement."
+        ]
+      }
+    ];
+    if ( new URLSearchParams(location.search).get("set") === "candidates" ) STYLES.splice(0, STYLES.length, ...CANDIDATES);
+
+    // Third Horizon's cream page shares the dark one's place and content.
+    STYLES.splice(STYLES.findIndex(s => s.id === "horizon") + 1, 0,
+      {...STYLES.find(s => s.id === "horizon"), id: "horizon-cream", name: "Third Horizon, cream page"});
+
+    // The Foundry style once per interface theme.
+    STYLES.splice(1, 0, ...[["dark", "Foundry, dark interface"], ["light", "Foundry, light interface"]].map(([theme, name]) =>
+      ({...STYLES.find(s => s.id === "dusk"), id: "foundry", theme, name, tag: "",
+        fits: "Any system: a plain Foundry window that follows the interface theme", fonts: "Signika (Foundry core)"})));
+
+    const state = {view: "card", layout: "full", size: "medium", rumoured: false, motion: false, scanlines: true};
+
+    // ?view=banner&layout=text&size=large&rumoured=1 opens the gallery in that state.
+    const params = new URLSearchParams(location.search);
+    for ( const key of ["view", "layout", "size"] ) if ( params.has(key) ) state[key] = params.get(key);
+    for ( const key of ["rumoured", "motion", "scanlines"] ) if ( params.has(key) ) state[key] = params.get(key) === "1";
+    for ( const seg of document.querySelectorAll("[data-control]") ) {
+      for ( const b of seg.querySelectorAll("button") ) b.setAttribute("aria-pressed", String(b.dataset.value === state[seg.dataset.control]));
+    }
+    for ( const btn of document.querySelectorAll("[data-toggle]") ) btn.setAttribute("aria-pressed", String(state[btn.dataset.toggle]));
+
+    // ?showcase=1 lays out the system styles for the README image, docs/styles.jpg.
+    const SHOWCASE = {
+      dusk: "Any system", tome: "D&D 5e", bound: "Pathfinder 2e", holo: "Starfinder", horizon: "Coriolis",
+      dossier: "Call of Cthulhu", terminal: "Alien RPG · Mothership", neon: "Cyberpunk RED · Shadowrun",
+      woodcut: "Forbidden Lands · OSR", gothic: "Vampire: The Masquerade", frontier: "Deadlands", ink: "Legend of the Five Rings"
+    };
+    // ?showcase=foundry shows the Foundry style in both interface themes, card over region banner, for
+    // docs/styles-foundry.jpg.
+    const showcaseFoundry = params.get("showcase") === "foundry";
+    if ( showcaseFoundry ) {
+      document.body.classList.add("showcase", "showcase-foundry");
+      const picked = STYLES.filter(s => s.id === "foundry").map(s => ({...s, name: s.theme === "dark" ? "Dark interface" : "Light interface",
+        body: s.body.slice(0, 1)}));
+      STYLES.splice(0, STYLES.length, ...picked);
+      SHOWCASE.foundry = "Foundry style";
+    }
+    const showcase = (params.get("showcase") === "1") || showcaseFoundry;
+    if ( showcase && !showcaseFoundry ) {
+      document.body.classList.add("showcase");
+      state.size = "small";
+      // Column by column: each pair stacks in one column, a tall card over a short one where possible.
+      const order = ["dusk", "dossier", "tome", "terminal", "holo", "frontier", "bound", "neon", "horizon", "ink",
+        "woodcut", "gothic"];
+      const picked = order.map(id => STYLES.find(s => s.id === id)).map(s => ({...s, body: s.body.slice(0, 1)}));
+      STYLES.splice(0, STYLES.length, ...picked);
+    }
+
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;"}[c]));
+
+    /** The same markup templates/card.hbs produces. */
+    function cardHTML(s) {
+      const media = state.layout !== "text";
+      const body = state.layout !== "image";
+      const rumoured = state.rumoured;
+      const hero = media ? `
+        <figure class="glimpse-hero" style="--glimpse-ratio: 1.6">
+          <div class="glimpse-slide is-active" data-index="0"><img src="art/${s.art}.svg" alt=""></div>
+          <div class="glimpse-scrim"></div>
+        </figure>` : "";
+      const facts = `
+        <ul class="glimpse-facts">
+          <li class="glimpse-travel"><i class="fa-solid fa-route"></i><span class="glimpse-fact-value">${esc(s.travel)}</span></li>
+          ${s.facts.map(([l, v]) => `<li>${l ? `<span class="glimpse-fact-label">${esc(l)}</span>` : ""}<span class="glimpse-fact-value">${esc(v)}</span></li>`).join("")}
+        </ul>`;
+      const text = body ? `
+        <div class="glimpse-rule" aria-hidden="true"><span></span></div>
+        <div class="glimpse-body">${s.body.map(p => `<p>${esc(p)}</p>`).join("")}</div>` : "";
+      const footer = `
+        <footer class="glimpse-footer">
+          <span class="glimpse-caption">${media ? esc(s.caption) : ""}</span>
+          ${media ? `<span class="glimpse-dots" aria-hidden="true"><i class="is-active"></i><i></i><i></i></span>` : ""}
+          ${rumoured ? "" : `<span class="glimpse-hint"><i class="fa-solid fa-images"></i> Double-click for the gallery</span>`}
+        </footer>`;
+      return `
+        <div class="glimpse-frame">
+          ${hero}
+          ${rumoured ? `<span class="glimpse-badge"><i class="fa-solid fa-eye-slash"></i> Players see the rumour</span>` : ""}
+          <header class="glimpse-header"${s.seal ? ` data-seal="${s.seal}"` : ""}>
+            <p class="glimpse-subtitle">${rumoured ? `<i class="fa-solid fa-feather"></i> ` : ""}${esc(s.subtitle)}</p>
+            <h2 class="glimpse-title">${esc(s.title)}</h2>
+          </header>
+          ${facts}
+          ${text}
+          ${footer}
+        </div>`;
+    }
+
+    /** The same markup templates/lightbox.hbs produces, for a GM who can open the journal. */
+    function lightboxHTML(s) {
+      const media = state.layout !== "text";
+      return `
+        <div class="glimpse-lb-backdrop"></div>
+        <div class="glimpse-lb-stage${media ? "" : " no-media"}">
+          ${media ? `
+          <div class="glimpse-lb-media">
+            <div class="glimpse-lb-glow" style="background-image: url('art/${s.art}.svg')"></div>
+            <figure class="glimpse-lb-slide is-active" data-index="0"><img src="art/${s.art}.svg" alt=""></figure>
+            <button type="button" class="glimpse-lb-nav prev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="glimpse-lb-nav next"><i class="fa-solid fa-chevron-right"></i></button>
+            <div class="glimpse-lb-thumbs">
+              ${[0, 1, 2].map(i => `<button type="button" class="glimpse-lb-thumb${i ? "" : " is-active"}"><img src="art/${s.art}.svg" alt=""></button>`).join("")}
+            </div>
+          </div>` : ""}
+          <div class="glimpse-lb-text">
+            <p class="glimpse-lb-from"><i class="fa-solid fa-eye"></i> Shown by the Gamemaster</p>
+            <p class="glimpse-subtitle">${esc(s.subtitle)}</p>
+            <h2 class="glimpse-title">${esc(s.title)}</h2>
+            <ul class="glimpse-facts">
+              ${s.facts.map(([l, v]) => `<li>${l ? `<span class="glimpse-fact-label">${esc(l)}</span>` : ""}<span class="glimpse-fact-value">${esc(v)}</span></li>`).join("")}
+            </ul>
+            <p class="glimpse-lb-caption">${media ? esc(s.caption) : ""}</p>
+            <div class="glimpse-rule" aria-hidden="true"><span></span></div>
+            <div class="glimpse-body glimpse-lb-body">${s.body.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+            <div class="glimpse-lb-actions">
+              <button type="button"><i class="fa-solid fa-book-open"></i> Open journal</button>
+              <button type="button"><i class="fa-solid fa-eye"></i> Show to players</button>
+            </div>
+          </div>
+          <button type="button" class="glimpse-lb-close"><i class="fa-solid fa-xmark"></i></button>
+        </div>`;
+    }
+
+    function preview(s) {
+      const rumoured = state.rumoured ? " is-rumoured" : "";
+      if ( state.view === "lightbox" ) {
+        return `<div class="proto-lb"><div id="glimpse-lightbox" class="is-open${rumoured}" data-style="${s.id}" data-scanlines="${state.scanlines ? "on" : "off"}">${lightboxHTML(s)}</div></div>`;
+      }
+      const banner = state.view === "banner" ? " glimpse-banner" : "";
+      return `<div class="glimpse-card is-visible${banner}${rumoured}"
+               data-style="${s.id}" data-layout="${state.layout}" data-size="${state.size}"
+               data-motion="${state.motion ? "on" : "off"}" data-scanlines="${state.scanlines ? "on" : "off"}" data-side="right">${cardHTML(s)}</div>`;
+    }
+
+    /** A hover card and the region banner for one style, one above the other. */
+    function cardAndBanner(s) {
+      const view = state.view;
+      state.view = "card";
+      const card = preview(s);
+      state.view = "banner";
+      const banner = preview(s);
+      state.view = view;
+      return card + banner;
+    }
+
+    function render() {
+      const grid = document.getElementById("grid");
+      const width = {card: WIDTHS[state.size], banner: 640, lightbox: 1100}[state.view];
+      grid.style.setProperty("--cell", `${width + 40}px`);
+      // ?only=gothic,ink shows just the styles whose id starts with one of those.
+      const only = params.get("only")?.split(",");
+      grid.innerHTML = STYLES.filter(s => !only || only.some(o => s.id.startsWith(o))).map(s => `
+        <section class="proto-cell${s.theme ? ` proto-foundry-${s.theme} theme-${s.theme}` : ""}" style="--glimpse-width: ${width}px">
+          ${showcase ? `
+          <div class="proto-label"><h2>${esc(s.name)}<span>${esc(SHOWCASE[s.id])}</span></h2></div>` : `
+          <div class="proto-label">
+            <h2>${esc(s.name)}${s.tag ? `<span>${esc(s.tag)}</span>` : ""}</h2>
+            <p><span class="fits">${esc(s.fits)}</span></p>
+            <p>${esc(s.fonts)}</p>
+          </div>`}
+          ${showcaseFoundry ? cardAndBanner(s) : preview(s)}
+        </section>`).join("");
+
+      // The showcase stacks the cells in pairs, one pair per column.
+      if ( showcase && !showcaseFoundry ) {
+        const cells = [...grid.children];
+        for ( let i = 0; i < cells.length; i += 2 ) {
+          const col = document.createElement("div");
+          col.className = "proto-col";
+          grid.append(col);
+          col.append(...cells.slice(i, i + 2));
+        }
+      }
+
+      // Mark excerpts that overflow, as the module does. Measure again once the web fonts arrive.
+      const clip = () => {
+        for ( const el of grid.querySelectorAll(".glimpse-body") ) {
+          el.classList.toggle("is-clipped", el.scrollHeight > el.clientHeight + 2);
+        }
+      };
+      requestAnimationFrame(clip);
+      document.fonts.ready.then(clip);
+    }
+
+    for ( const seg of document.querySelectorAll("[data-control]") ) {
+      seg.addEventListener("click", ev => {
+        const btn = ev.target.closest("button");
+        if ( !btn ) return;
+        state[seg.dataset.control] = btn.dataset.value;
+        for ( const b of seg.querySelectorAll("button") ) b.setAttribute("aria-pressed", String(b === btn));
+        render();
+      });
+    }
+    for ( const btn of document.querySelectorAll("[data-toggle]") ) {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.toggle;
+        state[key] = !state[key];
+        btn.setAttribute("aria-pressed", String(state[key]));
+        render();
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>

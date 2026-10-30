@@ -1,4 +1,5 @@
-import {MODULE_ID, CARD_WIDTHS, EXCERPT_LENGTHS, MAX_MEDIA, flagsOf, loc, setting} from "./constants.mjs";
+import {MODULE_ID, CARD_WIDTHS, EXCERPT_LENGTHS, ICON_SEALS, MAX_MEDIA, SEALS, flagsOf, loc, setting}
+  from "./constants.mjs";
 
 /**
  * @typedef GlimpseSource
@@ -9,6 +10,7 @@ import {MODULE_ID, CARD_WIDTHS, EXCERPT_LENGTHS, MAX_MEDIA, flagsOf, loc, settin
  * @property {JournalEntry|null} entry        The linked journal entry
  * @property {JournalEntryPage|null} page     The linked page, if the source points at a single page
  * @property {string} title                   The name of the place
+ * @property {string} icon                    File name of the note's map icon, without extension ("" for regions)
  * @property {boolean} canOpen                Whether this user can open the linked journal
  * @property {{x: number, y: number}|null} point   Scene position, for exploration and travel
  */
@@ -27,6 +29,7 @@ import {MODULE_ID, CARD_WIDTHS, EXCERPT_LENGTHS, MAX_MEDIA, flagsOf, loc, settin
  * @property {string} uuid
  * @property {string} title
  * @property {string} subtitle
+ * @property {string} seal              The Ink & Seal style's seal character, or ""
  * @property {GlimpseMedia[]} media
  * @property {string} body              Enriched, trimmed HTML excerpt
  * @property {boolean} truncated        Whether the excerpt was cut short
@@ -64,6 +67,7 @@ export function noteSource(doc) {
     entry: doc.entry ?? null,
     page: doc.page ?? null,
     title: doc.label,
+    icon: doc.texture?.src?.split("/").pop().replace(/\.\w+$/, "") ?? "",
     canOpen: canOpenNote(doc),
     point: {x: doc.x, y: doc.y}
   };
@@ -101,6 +105,7 @@ export function regionSource(doc) {
     entry,
     page,
     title: flags.title || page?.name || entry?.name || doc.name,
+    icon: "",
     canOpen: !!viewable && (game.user.isGM || (page ? canViewPage(page) : entry.testUserPermission(game.user, "OBSERVER"))),
     point: center ? {x: center.x, y: center.y} : null
   };
@@ -264,17 +269,19 @@ export function isRumoured(source, {ignoreExploration=false}={}) {
  * @param {boolean} [options.reveal]       Build the full location for a GM reveal, ignoring rumours
  * @param {"self"|"table"} [options.audience="self"]  The current user's permissions, or what the GM shows the
  *                                         table: every page except GM-only ones.
+ * @param {boolean} [options.titleOnly]   A name alone is worth showing, for example on a timed region banner
  * @param {boolean} [options.cache=true]   Use and fill the cache
  * @returns {Promise<GlimpseLocation|null>}   Null when there is nothing worth showing.
  */
-export async function getLocation(source, {excerpt, secrets, reveal=false, audience="self", cache: useCache=true}={}) {
+export async function getLocation(source, {excerpt, secrets, reveal=false, audience="self", titleOnly=false,
+  cache: useCache=true}={}) {
   excerpt ??= setting("excerpt");
   secrets ??= setting("secrets");
   const rumoured = !reveal && !game.user.isGM && isRumoured(source);
   const night = isNight();
-  const key = [source.uuid, excerpt, secrets, rumoured, night, reveal, audience].join(":");
+  const key = [source.uuid, excerpt, secrets, rumoured, night, reveal, audience, titleOnly].join(":");
   if ( useCache && cache.has(key) ) return cache.get(key);
-  const location = await buildLocation(source, {excerpt, secrets, rumoured, night, reveal, audience});
+  const location = await buildLocation(source, {excerpt, secrets, rumoured, night, reveal, audience, titleOnly});
   if ( useCache ) cache.set(key, location);
   return location;
 }
@@ -284,7 +291,7 @@ export async function getLocation(source, {excerpt, secrets, reveal=false, audie
  * @param {object} options
  * @returns {Promise<GlimpseLocation|null>}
  */
-async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal, audience}) {
+async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal, audience, titleOnly}) {
   const flags = source.flags;
   const mode = flags.mode || "auto";
   if ( (mode === "off") && !reveal ) return null;
@@ -346,7 +353,7 @@ async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal,
   if ( (mode === "text") && !reveal ) media.length = 0;
   if ( (mode === "image") && !reveal ) body = "";
   const facts = rumoured ? [] : parseFacts(flags.facts);
-  if ( !media.length && !body && !flags.subtitle && !facts.length ) return null;
+  if ( !media.length && !body && !flags.subtitle && !facts.length && !titleOnly ) return null;
   const layout = media.length ? (body ? "full" : "image") : "text";
 
   // A note pinned to one page of a larger journal shows the journal's name as its subtitle.
@@ -361,6 +368,7 @@ async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal,
     uuid: source.uuid,
     title: source.title,
     subtitle,
+    seal: sealFor(source),
     media,
     body,
     truncated,
@@ -373,6 +381,19 @@ async function buildLocation(source, {excerpt, secrets, rumoured, night, reveal,
     canOpen: source.canOpen && !rumoured,
     point: source.point
   };
+}
+
+/**
+ * The seal the Ink & Seal style stamps beside the name: the one chosen for the note, else one that matches its map
+ * icon, else "place" for notes and "land" for regions.
+ * @param {GlimpseSource} source
+ * @returns {string}   The seal's character, or "" for none
+ */
+function sealFor(source) {
+  const chosen = source.flags.seal;
+  if ( chosen === "none" ) return "";
+  const key = (chosen in SEALS) ? chosen : (ICON_SEALS[source.icon] ?? (source.kind === "region" ? "land" : "place"));
+  return SEALS[key];
 }
 
 /**

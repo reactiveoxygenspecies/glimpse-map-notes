@@ -1,4 +1,4 @@
-import {TEMPLATE, CARD_WIDTHS, api, flagsOf, loc, setting} from "./constants.mjs";
+import {TEMPLATE, CARD_WIDTHS, SYSTEM_STYLES, api, flagsOf, loc, setting} from "./constants.mjs";
 import {getLocation, noteSource} from "./content.mjs";
 
 /** Space kept between the card and the edges of the screen. */
@@ -290,6 +290,7 @@ export class GlimpseCard {
     el.dataset.layout = location.layout;
     el.dataset.size = size;
     el.dataset.motion = (setting("motion") && !reduceMotion) ? "on" : "off";
+    el.dataset.scanlines = setting("scanlines") ? "on" : "off";
     el.classList.toggle("is-rumoured", location.rumoured);
     el.style.setProperty("--glimpse-width", `${CARD_WIDTHS[size] ?? CARD_WIDTHS.medium}px`);
     el.style.setProperty("--glimpse-scale", String((setting("textScale") ?? 100) / 100));
@@ -554,12 +555,13 @@ function travelInfo(point) {
 }
 
 /**
- * The card palette to use.
- * @returns {"dusk"|"parchment"}
+ * The card style to use.
+ * @returns {string}   One of CARD_STYLES
  */
 export function resolveStyle() {
   const style = setting("style");
-  if ( style !== "auto" ) return style;
+  if ( (style === "system") && (game.system.id in SYSTEM_STYLES) ) return SYSTEM_STYLES[game.system.id];
+  if ( !["system", "auto"].includes(style) ) return style;
   return document.getElementById("interface")?.classList.contains("theme-light") ? "parchment" : "dusk";
 }
 

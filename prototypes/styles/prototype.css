@@ -1,0 +1,195 @@
+/* Page chrome for the style gallery. Nothing here is meant for the module. */
+
+@font-face { font-family: "Modesto Condensed"; font-weight: 700; src: url("fonts/modesto-condensed-bold.woff2") format("woff2"); }
+@font-face { font-family: "Signika"; font-weight: 400; src: url("fonts/signika-regular.woff2") format("woff2"); }
+@font-face { font-family: "Signika"; font-weight: 600; src: url("fonts/signika-semibold.woff2") format("woff2"); }
+@font-face { font-family: "Amiri"; font-weight: 400; src: url("fonts/amiri-regular.woff2") format("woff2"); }
+@font-face { font-family: "Amiri"; font-weight: 700; src: url("fonts/amiri-bold.woff2") format("woff2"); }
+@font-face { font-family: "Bruno Ace SC"; font-weight: 400; src: url("fonts/bruno-ace-sc.woff2") format("woff2"); }
+
+:root {
+  --font-sans: "Signika", sans-serif;
+  --font-serif: "Amiri", serif;
+  --page-ink: #e8e2d6;
+  --page-muted: #9a9384;
+  --page-line: rgba(232, 226, 214, 0.14);
+  --page-chip: rgba(232, 226, 214, 0.06);
+  --page-accent: #d4b06a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--page-ink);
+  font-family: var(--font-sans);
+  background:
+    radial-gradient(circle at 18% 22%, rgba(120, 150, 110, 0.16), transparent 30%),
+    radial-gradient(circle at 78% 64%, rgba(160, 120, 80, 0.14), transparent 34%),
+    repeating-radial-gradient(circle at 30% 40%, transparent 0 38px, rgba(255, 255, 255, 0.025) 38px 39px),
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px) 0 0 / 64px 64px,
+    #1f2421;
+  background-attachment: fixed;
+}
+
+.proto-top {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--page-line);
+  background: rgba(20, 23, 21, 0.86);
+  backdrop-filter: blur(8px);
+}
+
+.proto-top h1 {
+  margin: 0 12px 0 0;
+  font-family: "Modesto Condensed", serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.proto-top h1 small {
+  margin-left: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--page-muted);
+}
+
+.proto-group { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--page-muted); }
+.proto-seg { display: flex; overflow: hidden; border: 1px solid var(--page-line); border-radius: 7px; }
+.proto-seg button,
+.proto-toggle {
+  padding: 6px 11px;
+  border: none;
+  background: transparent;
+  color: var(--page-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.proto-seg button + button { border-left: 1px solid var(--page-line); }
+.proto-seg button[aria-pressed="true"] { background: rgba(212, 176, 106, 0.22); color: #fff; }
+.proto-toggle { border: 1px solid var(--page-line); border-radius: 7px; }
+.proto-toggle[aria-pressed="true"] { border-color: var(--page-accent); background: rgba(212, 176, 106, 0.22); color: #fff; }
+
+.proto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--cell, 420px), 1fr));
+  gap: 46px 34px;
+  padding: 34px 28px 60px;
+  align-items: start;
+}
+
+.proto-cell { display: flex; flex-direction: column; align-items: center; gap: 14px; min-width: 0; }
+
+.proto-label { width: min(100%, var(--glimpse-width, 380px)); }
+.proto-label h2 { margin: 0; font-size: 17px; font-weight: 600; }
+.proto-label h2 span { margin-left: 6px; font-size: 12px; font-weight: 400; color: var(--page-accent); }
+.proto-label p { margin: 3px 0 0; font-size: 12.5px; line-height: 1.4; color: var(--page-muted); }
+.proto-label .fits { color: var(--page-ink); }
+
+/* Cards sit in the flow here rather than following the cursor. */
+.proto-cell .glimpse-card {
+  position: relative;
+  left: auto;
+  top: auto;
+  max-height: none;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+.proto-cell .glimpse-frame { max-height: none; }
+
+/* The gallery lightbox, boxed into its cell instead of covering the screen. */
+.proto-lb { width: min(100%, var(--glimpse-width)); height: 560px; }
+.proto-lb #glimpse-lightbox { position: relative; inset: auto; width: 100%; height: 100%; }
+.proto-lb .glimpse-lb-backdrop { display: none; }
+.proto-lb .glimpse-lb-stage { width: 100%; height: 100%; transform: none; }
+.proto-lb .glimpse-lb-stage.no-media { width: min(640px, 100%); height: auto; margin: 0 auto; }
+
+/* The README showcase: six columns of small cards, no controls. Shot at 2400x1500, scaled to 2000x1250. */
+.showcase { overflow: hidden; }
+.showcase .proto-top { display: none; }
+.showcase .proto-grid {
+  grid-template-columns: repeat(6, 300px);
+  justify-content: center;
+  align-items: center;
+  gap: 0 64px;
+  height: 100vh;
+  padding: 0;
+}
+.showcase .proto-col { display: flex; flex-direction: column; gap: 34px; }
+.showcase .proto-cell { gap: 10px; }
+.showcase .proto-label h2 { font-size: 18px; }
+.showcase .proto-label h2 span { margin-left: 8px; font-size: 13px; }
+
+/* The Foundry showcase: dark and light side by side, each a card over its region banner. Shot at 1600x1000, 1.25x. */
+.showcase-foundry .proto-grid { grid-template-columns: repeat(2, 640px); gap: 0 110px; }
+.showcase-foundry .proto-cell { align-items: flex-start; gap: 22px; }
+.showcase-foundry .proto-label { width: 640px; }
+
+@media (max-width: 520px) {
+  .proto-top { padding: 12px 16px; }
+  .proto-grid { grid-template-columns: 1fr; padding: 24px 16px 48px; }
+}
+
+/* Foundry's colour variables, as foundry2.css sets them on <body>, so the Foundry style can be seen in both themes
+   outside Foundry. Each cell also gets theme-light or theme-dark, as <body> does in Foundry. */
+.proto-foundry-dark,
+.proto-foundry-light {
+  --font-sans: "Signika", ui-sans-serif, sans-serif;
+  --font-body: var(--font-sans);
+  --color-warm-1: #ee9b3a;
+  --color-warm-2: #c9593f;
+  --color-cool-3: #584a75;
+  --color-cool-4: #302831;
+  --color-cool-5: #0b0a13;
+  --color-light-1: #f7f3e8;
+  --color-light-2: #efe6d8;
+  --color-light-3: #e7d1b1;
+  --color-light-4: #d0b8a3;
+  --color-light-5: #9f8475;
+  --color-light-6: #816b66;
+  --color-dark-1: #111;
+  --color-dark-2: #222;
+  --color-dark-3: #333;
+  --color-dark-4: #444;
+  --color-dark-5: #555;
+  --color-dark-6: #666;
+}
+.proto-foundry-dark {
+  --color-text-emphatic: var(--color-light-1);
+  --color-text-primary: var(--color-light-2);
+  --color-text-secondary: var(--color-light-3);
+  --color-text-subtle: var(--color-light-5);
+  --hr-border: 0;
+  --hr-gradient: linear-gradient(90deg, transparent 0%, #e7d1b1 50%, transparent 100%);
+  --background: rgba(11, 10, 19, 0.9);
+  --color-header-background: rgba(0, 0, 0, 0.5);
+  --color-border: var(--color-cool-4);
+  --color-data-border: var(--color-cool-3);
+  --color-data-background: var(--color-cool-4);
+}
+.proto-foundry-light {
+  --color-text-emphatic: var(--color-dark-1);
+  --color-text-primary: var(--color-dark-2);
+  --color-text-secondary: var(--color-dark-3);
+  --color-text-subtle: var(--color-dark-5);
+  --hr-border: 2px groove var(--color-light-2);
+  --hr-gradient: none;
+  --background: url("art/foundry-parchment.jpg") repeat;
+  --color-header-background: var(--color-dark-3);
+  --color-border: var(--color-cool-4);
+  --color-data-border: var(--color-dark-4);
+  --color-data-background: #ddd;
+}
+/* Foundry serves its parchment at /ui/parchment.jpg; here it comes from a local copy. */
+.proto-foundry-light :is(.glimpse-card, #glimpse-lightbox)[data-style="foundry"] { --background: url("/prototypes/styles/art/foundry-parchment.jpg") repeat; }

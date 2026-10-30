@@ -1,0 +1,7 @@
+# Copied from the local Foundry install for previews only. Not ours to publish: Foundry's parchment texture, and its
+# core fonts (Modesto Condensed is under a commercial, non-transferable licence). Copy them from your own install.
+styles/art/foundry-parchment.jpg
+styles/fonts/
+
+# Illustrator source files for the preview drawings.
+*.ai
