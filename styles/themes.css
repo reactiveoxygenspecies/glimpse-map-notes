@@ -1633,3 +1633,255 @@ body.noblur .glimpse-card[data-style="foundry"] .glimpse-frame { backdrop-filter
 /* With no picture the badge sits under the header bar, so the bar keeps its height and the facts move down instead. */
 .glimpse-card[data-style="foundry"] .glimpse-frame:has(.glimpse-badge):not(:has(.glimpse-hero)) .glimpse-header { padding-top: 0; }
 .glimpse-card[data-style="foundry"] .glimpse-frame:has(.glimpse-badge):not(:has(.glimpse-hero)) .glimpse-facts { margin-top: 2.8em; }
+
+/* ==========================================================================
+   Domain: Daggerheart
+   After the Foundryborne system's sheets and domain cards and the Daggerheart rulebook: frosted dark-blue glass in the
+   dark interface, plaster parchment in the light one. A double gold rule crosses the picture's lower edge with the
+   subtitle in a plate like the rulebook's section headers; the facts sit in octagon boxes; the name is Cinzel, the
+   opening letter Cinzel Decorative, and the rule below carries the Duality Dice, a gold d12 for Hope and a violet one
+   for Fear.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="domain"] {
+  --g-heading-font: "Cinzel", var(--font-serif, serif);
+  /* The system's dark sheets are 75% opaque; a little more here, so the card keeps its deep blue over light maps. */
+  --g-bg: rgba(24, 22, 46, 0.92);
+  /* The faint grain of the system's parchments. */
+  --g-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --g-paper: var(--g-grain);
+  --g-title: #f4efe6;
+  --g-ink: #e9e4dc;
+  --g-ink-soft: #d9d3c8;
+  --g-muted: rgba(239, 230, 216, 0.5);
+  --g-accent: #f3c267;
+  --g-line: rgba(243, 194, 103, 0.45);
+  --g-edge: rgba(239, 230, 216, 0.1);
+  --g-hero-bg: #0e0d15;
+  --g-title-shadow: 0 0 4px rgba(34, 34, 34, 0.5), 0 0 8px rgba(34, 34, 34, 0.5), 0 0 14px rgba(34, 34, 34, 0.5);
+  --g-trim: linear-gradient(to right, #ff9933 -15%, #f3c267 14%, #f3c267 86%, #ff9933 115%);
+  /* The plate's colour, standing in for a domain colour. */
+  --g-plate: #3f3388;
+  --g-box-line: rgba(243, 194, 103, 0.85);
+  --g-dice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='14' viewBox='0 0 34 14'%3E%3Cg fill='none' stroke-width='1.3' stroke-linejoin='round'%3E%3Cpath d='M7 1.2L12.6 5.2L10.5 12L3.5 12L1.4 5.2Z' stroke='%23f3c267'/%3E%3Cpath d='M27 1.2L32.6 5.2L30.5 12L23.5 12L21.4 5.2Z' stroke='%238f87ee'/%3E%3C/g%3E%3Cpath d='M7 4.6L9.4 6.4L8.5 9.3L5.5 9.3L4.6 6.4Z' fill='%23f3c267'/%3E%3Cpath d='M27 4.6L29.4 6.4L28.5 9.3L25.5 9.3L24.6 6.4Z' fill='%238f87ee'/%3E%3C/svg%3E");
+}
+
+/* The light interface: plaster parchment, dark-blue ink, a deeper gold, and the dice in deeper colours so they hold
+   up on the pale ground. */
+.theme-light :is(.glimpse-card, #glimpse-lightbox)[data-style="domain"] {
+  --g-bg: #f2efe9;
+  --g-paper:
+    var(--g-grain),
+    radial-gradient(ellipse at 20% 10%, rgba(255, 255, 255, 0.7), transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(200, 192, 178, 0.35), transparent 60%);
+  --g-title: #18162e;
+  --g-ink: #222222;
+  --g-ink-soft: #2b2938;
+  --g-muted: rgba(24, 22, 46, 0.55);
+  --g-accent: #a8741e;
+  --g-line: rgba(168, 116, 30, 0.5);
+  --g-edge: rgba(24, 22, 46, 0.1);
+  --g-hero-bg: #dcd7ce;
+  --g-title-shadow: 0 0 4px rgba(255, 255, 255, 0.63), 0 0 8px rgba(255, 255, 255, 0.63), 0 0 14px rgba(255, 255, 255, 0.63);
+  --g-shadow:
+    0 26px 60px -18px rgba(14, 13, 21, 0.55),
+    0 8px 20px -8px rgba(14, 13, 21, 0.4);
+  --g-box-line: rgba(168, 116, 30, 0.85);
+  --g-dice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='14' viewBox='0 0 34 14'%3E%3Cg fill='none' stroke-width='1.4' stroke-linejoin='round'%3E%3Cpath d='M7 1.2L12.6 5.2L10.5 12L3.5 12L1.4 5.2Z' stroke='%23b07a1c'/%3E%3Cpath d='M27 1.2L32.6 5.2L30.5 12L23.5 12L21.4 5.2Z' stroke='%235d54c8'/%3E%3C/g%3E%3Cpath d='M7 4.6L9.4 6.4L8.5 9.3L5.5 9.3L4.6 6.4Z' fill='%23b07a1c'/%3E%3Cpath d='M27 4.6L29.4 6.4L28.5 9.3L25.5 9.3L24.6 6.4Z' fill='%235d54c8'/%3E%3C/svg%3E");
+}
+
+/* Without the blur, the glass turns solid dark blue, as the system's own windows do. */
+body.noblur :is(.glimpse-card, #glimpse-lightbox)[data-style="domain"]:not(.theme-light *) { --g-bg: #18162e; }
+@media (prefers-reduced-transparency) {
+  :is(.glimpse-card, #glimpse-lightbox)[data-style="domain"]:not(.theme-light *) { --g-bg: #18162e; }
+}
+
+.glimpse-card[data-style="domain"] .glimpse-frame {
+  border-radius: 8px;
+  box-shadow: var(--g-shadow), 0 0 0 1px rgba(243, 194, 103, 0.4);
+  backdrop-filter: blur(7px);
+}
+body.noblur .glimpse-card[data-style="domain"] .glimpse-frame { backdrop-filter: none; }
+.glimpse-card[data-style="domain"] .glimpse-frame::after { display: none; }
+
+/* The picture runs full bleed, without a fade: the trim covers its edge. */
+.glimpse-card[data-style="domain"] .glimpse-hero { -webkit-mask-image: none; mask-image: none; }
+.glimpse-card[data-style="domain"] .glimpse-scrim { background: linear-gradient(to bottom, rgba(14, 13, 21, 0.3), transparent 25%); }
+
+/* The header straddles the picture's lower edge: the double rule across the full width, the plate in the middle. "~",
+   not "+": on a rumoured place the GM's badge sits between the picture and the header. */
+.glimpse-card[data-style="domain"] .glimpse-header,
+.glimpse-card[data-style="domain"] .glimpse-hero ~ .glimpse-header,
+.glimpse-card[data-style="domain"] .glimpse-hero ~ .glimpse-header:not(:has(.glimpse-subtitle)),
+.glimpse-card[data-style="domain"][data-layout="image"] .glimpse-hero ~ .glimpse-header {
+  margin-top: 12px;
+  padding: 0 1.1em;
+  text-align: center;
+}
+.glimpse-card[data-style="domain"] .glimpse-hero ~ .glimpse-header,
+.glimpse-card[data-style="domain"] .glimpse-hero ~ .glimpse-header:not(:has(.glimpse-subtitle)),
+.glimpse-card[data-style="domain"][data-layout="image"] .glimpse-hero ~ .glimpse-header {
+  margin-top: -16px;
+}
+.glimpse-card[data-style="domain"][data-layout="image"] .glimpse-header { padding-bottom: 0.9em; }
+
+/* The rule: two thin gold lines, which run into the plate's nubs. */
+.glimpse-card[data-style="domain"] .glimpse-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background:
+    var(--g-trim) 0 calc(50% - 2.5px) / 100% 1.5px no-repeat,
+    var(--g-trim) 0 calc(50% + 2.5px) / 100% 1.5px no-repeat;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.55));
+}
+.glimpse-card[data-style="domain"] .glimpse-header:not(:has(.glimpse-subtitle)) { padding-top: 32px; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="domain"] .glimpse-subtitle {
+  font-family: "Overpass", var(--font-sans, sans-serif);
+  font-size: 0.74em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-shadow: none;
+}
+
+/* The plate, after the Daggerheart rulebook's section headers: a thin gold outline round the domain colour, low
+   trapezoid bands on the middle of its top and bottom edges, and a pointed nub beyond each end where the rule comes
+   in. The element is 32px tall: the outline runs from y 5 to 27, the bands sit 3px outside it, the nubs span y 11 to
+   21; the ends point 8px in, with 45° sides 11px long. */
+.glimpse-card[data-style="domain"] .glimpse-subtitle {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  width: fit-content;
+  max-width: calc(100% - 2em);
+  height: 32px;
+  margin: 0 auto 0.45em;
+  padding: 1px 2.4em 0;
+  overflow: hidden;
+  line-height: 32px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+  background: linear-gradient(#fbe2a6, #f3c267 45%, #d9973a);
+  clip-path: polygon(0 16px, 5px 11px, 13px 11px, 19px 5px, calc(27% - 3px) 5px, 27% 2px, 73% 2px, calc(73% + 3px) 5px,
+    calc(100% - 19px) 5px, calc(100% - 13px) 11px, calc(100% - 5px) 11px, 100% 16px, calc(100% - 5px) 21px,
+    calc(100% - 13px) 21px, calc(100% - 19px) 27px, calc(73% + 3px) 27px, 73% 30px, 27% 30px, calc(27% - 3px) 27px,
+    19px 27px, 13px 21px, 5px 21px);
+}
+/* The fill: the outline's hexagon, 1.5px in all round. */
+.glimpse-card[data-style="domain"] .glimpse-subtitle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(color-mix(in srgb, var(--g-plate), white 14%), color-mix(in srgb, var(--g-plate), black 18%));
+  clip-path: polygon(10.1px 16px, 19.6px 6.5px, calc(100% - 19.6px) 6.5px, calc(100% - 10.1px) 16px,
+    calc(100% - 19.6px) 25.5px, 19.6px 25.5px);
+}
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="domain"] .glimpse-title {
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 1.8em;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.02em;
+}
+.glimpse-card[data-style="domain"][data-size="small"] .glimpse-title { font-size: 1.6em; }
+.glimpse-card[data-style="domain"][data-size="large"] .glimpse-title { font-size: 2.1em; }
+
+/* Facts in octagon boxes, drawn as two gold brackets: a 1.5px line along the top and its bevels, the same along the
+   bottom. The box itself has no fill, so its open sides show nothing at all; each bevel tapers to a point 1.5px short
+   of the side. The travel time is a solid gold octagon. */
+[data-style="domain"] .glimpse-facts { justify-content: center; gap: 5px; font-family: "Overpass", var(--font-sans, sans-serif); font-size: 0.78em; }
+.glimpse-card[data-style="domain"] .glimpse-facts { margin-top: 0.6em; }
+[data-style="domain"] .glimpse-facts li {
+  position: relative;
+  padding: 6px 14px 5px;
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+[data-style="domain"] .glimpse-facts li::before,
+[data-style="domain"] .glimpse-facts li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: var(--g-box-line);
+  pointer-events: none;
+}
+[data-style="domain"] .glimpse-facts li::before {
+  top: 0;
+  clip-path: polygon(1.5px 4.5px, 6px 0, calc(100% - 6px) 0, calc(100% - 1.5px) 4.5px, calc(100% - 6.6px) 1.5px,
+    6.6px 1.5px);
+}
+[data-style="domain"] .glimpse-facts li::after {
+  bottom: 0;
+  clip-path: polygon(1.5px 1.5px, 6px 6px, calc(100% - 6px) 6px, calc(100% - 1.5px) 1.5px, calc(100% - 6.6px) 4.5px,
+    6.6px 4.5px);
+}
+[data-style="domain"] .glimpse-fact-label { font-size: 0.9em; font-weight: 700; letter-spacing: 0.06em; color: var(--g-accent); }
+[data-style="domain"] .glimpse-facts .glimpse-travel {
+  border: none;
+  background: linear-gradient(#fbe2a6, #e9ad4f);
+  color: #241d4d;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%,
+    0 calc(100% - 6px), 0 6px);
+}
+[data-style="domain"] .glimpse-facts .glimpse-travel::before,
+[data-style="domain"] .glimpse-facts .glimpse-travel::after { display: none; }
+[data-style="domain"] .glimpse-facts .glimpse-travel i { color: #241d4d; }
+
+/* The Duality Dice between two fading gold lines. */
+[data-style="domain"] .glimpse-rule { gap: 0.7em; margin: 0.85em 1.1em 0.7em; }
+[data-style="domain"] .glimpse-rule::before,
+[data-style="domain"] .glimpse-rule::after { flex: 1; background: linear-gradient(to right, transparent, var(--g-line)); }
+[data-style="domain"] .glimpse-rule::after { background: linear-gradient(to left, transparent, var(--g-line)); }
+[data-style="domain"] .glimpse-rule span {
+  width: 34px;
+  height: 14px;
+  border: none;
+  background: var(--g-dice) center / contain no-repeat;
+  opacity: 1;
+  transform: none;
+}
+
+[data-style="domain"] .glimpse-body {
+  padding: 0 1.15em;
+  font-family: "Overpass", var(--font-sans, sans-serif);
+  font-size: 0.98em;
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+[data-style="domain"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.06em 0.12em 0 0;
+  font-family: "Cinzel Decorative", "Cinzel", var(--font-serif, serif);
+  font-size: 2.75em;
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: 0;
+  color: var(--g-accent);
+}
+[data-style="domain"] .glimpse-footer { font-family: "Overpass", var(--font-sans, sans-serif); font-size: 0.7em; letter-spacing: -0.01em; }
+[data-style="domain"] .glimpse-badge { border-radius: 3px; font-family: "Overpass", var(--font-sans, sans-serif); }
+
+/* The region banner: the header beside the picture, so the plate and bar line up with the text column, and no drop
+   cap in its two lines of text. */
+.glimpse-card.glimpse-banner[data-style="domain"] .glimpse-hero ~ .glimpse-header,
+.glimpse-card.glimpse-banner[data-style="domain"][data-layout="image"] .glimpse-hero ~ .glimpse-header,
+.glimpse-card.glimpse-banner[data-style="domain"] .glimpse-hero ~ .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: 0;
+  padding: 1.1em 1.3em 0 0.4em;
+  text-align: left;
+}
+.glimpse-card.glimpse-banner[data-style="domain"] .glimpse-header::before { top: 1.1em; left: -1em; }
+.glimpse-card.glimpse-banner[data-style="domain"] .glimpse-subtitle { margin-left: 0; }
+.glimpse-card.glimpse-banner[data-style="domain"] .glimpse-facts { justify-content: flex-start; }
+.glimpse-card.glimpse-banner[data-style="domain"] .glimpse-rule { margin: 0.55em 1.3em 0.5em 0.4em; }
+.glimpse-card.glimpse-banner[data-style="domain"] .glimpse-body { padding: 0 1.3em 0 0.4em; }
+.glimpse-banner[data-style="domain"] .glimpse-body > p:first-child::first-letter { float: none; margin: 0; font: inherit; color: inherit; }

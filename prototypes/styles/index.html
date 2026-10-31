@@ -12,6 +12,15 @@
   <!-- Mockups of possible extra styles (Storybook, Blackletter), with their fonts from Google for now. -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Fraunces:opsz,wght,SOFT,WONK@9..144,600,100,1&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&family=Pirata+One&display=swap">
   <link rel="stylesheet" href="candidates.css">
+  <!-- Daggerheart mockups (?set=daggerheart), with the system's fonts from Google for now. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Cinzel+Decorative:wght@700&family=Montserrat:ital,wght@0,400..800;1,400&family=Overpass:ital,wght@0,400..900;1,400..700&display=swap">
+  <link rel="stylesheet" href="daggerheart.css">
+  <!-- Warhammer mockups (?set=warhammer), with their extra fonts from Google for now. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@600;700&family=IBM+Plex+Mono:wght@400;600&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=UnifrakturMaguntia&display=swap">
+  <link rel="stylesheet" href="warhammer.css">
+  <link rel="stylesheet" href="warhammer2.css">
+  <link rel="stylesheet" href="warhammer3.css">
+  <link rel="stylesheet" href="warhammer4.css">
   <link rel="stylesheet" href="prototype.css">
 </head>
 <body>
@@ -189,6 +198,17 @@
           "Pilgrims climb to the shrine above the clouds to leave paper prayers on the gate. In winter the pass closes, and the monks speak only to the snow.",
           "A traveller who reaches the gate in silence is granted one question."
         ]
+      },
+      {
+        id: "domain", name: "Domain", theme: "dark", tag: "dark interface",
+        fits: "Daggerheart", fonts: "Cinzel, Cinzel Decorative, Overpass",
+        art: "daggerheart", caption: "From the Ashway, an hour before dawn",
+        subtitle: "Ruined observatory", title: "The Starfall Spire",
+        travel: "2 days", facts: [["Tier", "3"], ["Type", "Exploration"]],
+        body: [
+          "Its astronomers read the future in falling stars, until one fell on them. The great lens still turns each night, tracking a sky that no longer matches any chart.",
+          "When the star struck, half the order saw their future in the flash and wept for joy. The other half saw it too, and ran."
+        ]
       }
     ];
 
@@ -217,16 +237,239 @@
         ]
       }
     ];
-    if ( new URLSearchParams(location.search).get("set") === "candidates" ) STYLES.splice(0, STYLES.length, ...CANDIDATES);
 
-    // Third Horizon's cream page shares the dark one's place and content.
-    STYLES.splice(STYLES.findIndex(s => s.id === "horizon") + 1, 0,
-      {...STYLES.find(s => s.id === "horizon"), id: "horizon-cream", name: "Third Horizon, cream page"});
+    // ?set=daggerheart shows three takes on the Daggerheart system's look. The first two follow the interface theme,
+    // so they appear once per theme.
+    const DH_FITS = "Daggerheart (Foundryborne system)";
+    const DAGGERHEART = [
+      {
+        id: "dh-env", name: "1 · Environment", tag: "dark interface", theme: "dark",
+        fits: DH_FITS, fonts: "Cinzel, Montserrat, Overpass",
+        art: "daggerheart", caption: "The spire at the turn of the light",
+        subtitle: "Exploration environment", title: "Mistveil Hollow",
+        travel: "1 day", facts: [["Tier", "2"], ["", "Exploration"], ["Difficulty", "14"]],
+        body: [
+          "A drowned valley where the fog never lifts above the pines. Lanterns hang from the oldest branches, though no one in the villages admits to lighting them.",
+          "Impulses: lead travellers in circles, hide the road home, reward those who wait for the bells."
+        ]
+      },
+      {
+        id: "dh-card", name: "2 · Domain Card", tag: "dark interface", theme: "dark",
+        fits: DH_FITS, fonts: "Overpass Black, Overpass",
+        art: "daggerheart", caption: "From the Ashway, an hour before dawn",
+        subtitle: "Ruined observatory", title: "The Starfall Spire",
+        travel: "2 days", facts: [["Tier", "3"], ["Type", "Exploration"]],
+        body: [
+          "The astronomers who built it read the future in falling stars, until one fell on them. The lens still turns at night, and the stairs climb higher than the tower stands.",
+          "Scavengers bring back star-glass that hums when held. Few bring back all of their memories."
+        ]
+      },
+      {
+        id: "dh-duality", name: "3 · Hope & Fear", tag: "toggle Rumoured to see Fear",
+        fits: DH_FITS, fonts: "Cinzel, Cinzel Decorative, Montserrat, Overpass",
+        art: "daggerheart", caption: "Lanternrest on the first night of the fair",
+        subtitle: "Haven town", title: "Lanternrest",
+        travel: "6 hours", facts: [["Tier", "1"], ["Type", "Social"]],
+        body: [
+          "A town of wide porches and open doors, where every window keeps a lamp lit for those still on the road. Debts are paid in songs as often as in coin.",
+          "The keeper of the great lantern has not been seen since the solstice. Someone else lights it every evening."
+        ]
+      }
+    ];
+    DAGGERHEART.splice(1, 0, {...DAGGERHEART[0], name: "1 · Environment", tag: "light interface", theme: "light"});
+    DAGGERHEART.splice(3, 0, {...DAGGERHEART[2], name: "2 · Domain Card", tag: "light interface", theme: "light"});
+    // 2b: Domain Card on the Environment's glass, with a Cinzel name and the Duality Dice.
+    DAGGERHEART.unshift({...DAGGERHEART[2], id: "dh-card-ii", name: "2b · Domain Card on glass", tag: "dark interface",
+      fonts: "Cinzel, Cinzel Decorative, Overpass",
+      body: [
+        "Its astronomers read the future in falling stars, until one fell on them. The great lens still turns each night, tracking a sky that no longer matches any chart.",
+        "When the star struck, half the order saw their future in the flash and wept for joy. The other half saw it too, and ran."
+      ]});
+    DAGGERHEART.splice(1, 0, {...DAGGERHEART[0], tag: "light interface", theme: "light"});
 
-    // The Foundry style once per interface theme.
-    STYLES.splice(1, 0, ...[["dark", "Foundry, dark interface"], ["light", "Foundry, light interface"]].map(([theme, name]) =>
-      ({...STYLES.find(s => s.id === "dusk"), id: "foundry", theme, name, tag: "",
-        fits: "Any system: a plain Foundry window that follows the interface theme", fonts: "Signika (Foundry core)"})));
+    // ?set=domain compares variations on the Domain style's subtitle plate, fact boxes and picture trim, layered over
+    // the real style by data-variant (see daggerheart.css).
+    const DOMAIN = STYLES.find(s => s.id === "domain");
+    const DOMAIN_VARIANTS = [
+      {...DOMAIN, name: "Domain, as built", tag: "for comparison"},
+      {...DOMAIN, name: "A · Banner plate", tag: "plate and boxes", variant: "plate chips"},
+      {...DOMAIN, name: "B · Banner plate and picture trim", tag: "A, with the trim", variant: "plate chips trim"},
+      {...DOMAIN, name: "C · Pale plate, outlined boxes", tag: "B, lighter", variant: "plate pale chips outline trim"},
+      {...DOMAIN, name: "D · Banner plate, octagon boxes", tag: "A, with C's boxes as octagons", variant: "plate octagon"},
+      {...DOMAIN, name: "D · Banner plate, octagon boxes", tag: "light interface", variant: "plate octagon", theme: "light"},
+      {...DOMAIN, name: "E · Rulebook header plate", tag: "D, plate and rule closer to the book", variant: "hplate rails octagon"},
+      {...DOMAIN, name: "E · Rulebook header plate", tag: "light interface", variant: "hplate rails octagon", theme: "light"},
+      {...DOMAIN, name: "F · Rulebook header plate, pointed nubs", tag: "E, nubs pointed", variant: "hplate hpoint rails octagon"},
+      {...DOMAIN, name: "F · Rulebook header plate, pointed nubs", tag: "light interface", variant: "hplate hpoint rails octagon", theme: "light"},
+      {...DOMAIN, name: "G · Pointed nubs and pointed boxes", tag: "F, boxes pointed too", variant: "hplate hpoint rails octagon hexbox"},
+      {...DOMAIN, name: "G · Pointed nubs and pointed boxes", tag: "light interface", variant: "hplate hpoint rails octagon hexbox", theme: "light"},
+      {...DOMAIN, name: "B · Banner plate and picture trim", tag: "light interface", variant: "plate chips trim", theme: "light"},
+      {...DOMAIN, name: "C · Pale plate, outlined boxes", tag: "light interface", variant: "plate pale chips outline trim", theme: "light"}
+    ];
+
+    // ?set=warhammer shows three takes on Warhammer Fantasy Roleplay and three on Warhammer 40,000 (see warhammer.css).
+    const WFRP_FITS = "Warhammer Fantasy Roleplay 4e, Soulbound, The Old World";
+    const WH40K_FITS = "Wrath & Glory, Imperium Maledictum, Dark Heresy, Rogue Trader";
+    const WARHAMMER = [
+      {
+        id: "wh-reik", name: "F1 · Reikland", tag: "after the WFRP4e system",
+        fits: WFRP_FITS, fonts: "IM Fell English (for Caslon Antique), Libre Caslon Text (for Caslon Pro)",
+        art: "blackletter", caption: "Grauwald from the north road",
+        subtitle: "Market town of the Reikland", title: "Grauwald",
+        travel: "2 days by coach", facts: [["Population", "2,300"], ["Temple", "Sigmar"], ["Danger", "Beastmen"]],
+        body: [
+          "A walled market town of timber and mud, prosperous enough to tax and poor enough to riot. The witch hunters arrived in spring and have not left.",
+          "Three merchants' daughters have vanished since the last fair. The burgomeister calls it elopement."
+        ]
+      },
+      {
+        id: "wh-decree", name: "F2 · Proclamation", tag: "a notice nailed to the door",
+        fits: WFRP_FITS, fonts: "UnifrakturMaguntia, IM Fell English",
+        art: "blackletter", caption: "The yard, as cut for the Altdorf printers",
+        subtitle: "Coaching inn on the Old Forest Road", title: "The Hanged Badger",
+        travel: "1 day by coach", facts: [["Keeper", "Gunda Pfeffer"], ["Beds", "12"], ["A night", "6/-"]],
+        body: [
+          "The last inn before the forest closes in. The coaches change horses here, the passengers eat standing up, and nobody lingers after dark.",
+          "A reward of ten Gold Crowns is offered for news of the coachman Aldo Brecht, who left with the evening mail and never arrived."
+        ]
+      },
+      {
+        id: "wh-banner", name: "F3 · State Banner", tag: "a regiment's standard",
+        fits: WFRP_FITS, fonts: "Grenze Gotisch, EB Garamond, IM Fell English",
+        art: "blackletter", caption: "Rodenheim, the morning the levy marched",
+        subtitle: "Border keep of the Reikland", title: "Burg Rodenheim",
+        travel: "4 days", facts: [["Garrison", "Halberdiers"], ["Count", "von Asch"], ["Danger", "Greenskins"]],
+        body: [
+          "A grey keep on the last hill before the mountains, rebuilt three times and never quite finished. The garrison drills in the yard whatever the weather.",
+          "The old count's banner still hangs in the chapel, though no one alive remembers what the charge on it means."
+        ]
+      },
+      {
+        id: "wh-record", name: "K1 · Imperial Record", tag: "after the Wrath & Glory system",
+        fits: WH40K_FITS, fonts: "Cinzel (for Priori), Crimson Pro (for Caxton)",
+        art: "hive", caption: "Pict-capture, upper spire, 0.412.M42",
+        subtitle: "Hive world · Ostrava Reach", title: "Hive Varangus",
+        travel: "9 days (warp)", facts: [["Tithe", "Exactis Prima"], ["Governor", "Lord Ancel Voss"], ["Threat", "Heretek cults"]],
+        body: [
+          "Eleven kilometres of steel spire rise from the ash wastes, each level poorer than the one above. The nobles on the summit have not seen the ground in nine generations.",
+          "Arbites patrols no longer descend below Level 400. Something down there has begun to pray back."
+        ]
+      },
+      {
+        id: "wh-slate", name: "K2 · Dataslate", tag: "after the Imperium Maledictum system",
+        fits: WH40K_FITS, fonts: "Cinzel (for Novarese), Share Tech Mono, Spectral",
+        art: "hive", caption: "Auspex sweep, sump level 91",
+        subtitle: "Underhive · Sump district", title: "Sump Cathedral 91",
+        travel: "3 days (descent)", facts: [["Pop", "~40,000"], ["Clearance", "Vermilion"], ["Signal", "Corrupted"]],
+        body: [
+          "A cathedral sunk when the hive above it settled, now half full of chemical runoff. The faithful still hold mass in the dry transept, by the light of burning promethium.",
+          "Servitors sent to map the flooded nave return with their logs wiped and their hands folded in prayer."
+        ]
+      },
+      {
+        id: "wh-reliquary", name: "K3 · Reliquary", tag: "Dark Heresy, gothic cathedral",
+        fits: WH40K_FITS, fonts: "Cinzel Decorative, Cinzel, Cormorant Garamond",
+        art: "hive", caption: "The pilgrim road at the hour of vespers",
+        subtitle: "Shrine world · Pilgrim road", title: "St. Aldric's Reliquary",
+        travel: "40 days (pilgrim ship)", facts: [["Order", "Sororitas"], ["Relic", "The Saint's hand"], ["Pilgrims", "2,000 a day"]],
+        body: [
+          "A basilica the size of a city, built over the place the saint fell. Its bells ring the Emperor's hours without pause, and the pilgrims queue for a decade to touch the reliquary glass.",
+          "The Canoness has forbidden any count of the ossuary. Those who tried say it grows."
+        ]
+      }
+    ];
+
+    // ?set=warhammer2 sets each round-2 take beside the round-1 card it revises (see warhammer2.css).
+    const [, WH_DECREE, , WH_RECORD, WH_SLATE] = WARHAMMER;
+    const WARHAMMER2 = [
+      {...WH_DECREE, name: "F2 · Proclamation", tag: "round 1, for comparison"},
+      {...WH_DECREE, name: "F2b · Proclamation, faint stamp", tag: "no wax seal", variant: "stamp"},
+      {...WH_RECORD, name: "K1 · Imperial Record", tag: "round 1, for comparison"},
+      {...WH_RECORD, name: "K1b · Imperial Record, iron boss", tag: "no purity seal", variant: "boss"},
+      {...WH_SLATE, name: "K2 · Dataslate", tag: "round 1: the system's teal and orange"},
+      {...WH_SLATE, id: "wh-cogitator", name: "K2b · Cogitator, green phosphor", tag: "cables",
+        fonts: "Cinzel, Share Tech Mono, Spectral"},
+      {...WH_SLATE, id: "wh-cogitator", variant: "amber", name: "K2c · Cogitator, amber phosphor", tag: "cables",
+        fonts: "Cinzel, Share Tech Mono, Spectral"},
+      {
+        id: "wh-mechanicus", name: "K2d · Mechanicus", tag: "cables, Mars red and green",
+        fits: WH_SLATE.fits, fonts: "Cinzel, Share Tech Mono, Spectral",
+        art: "hive", caption: "Forge-vent 7, during the rite of ignition",
+        subtitle: "Forge-shrine · Mechanicus holding", title: "The Anvil of Kessel",
+        travel: "6 days (lander)", facts: [["Magos", "Vettius-Ar"], ["Output", "Lasgun cells"], ["Access", "Restricted"]],
+        body: [
+          "The furnaces here have burned for four thousand years. Its tech-priests chant the rites of ignition in binary, and the servitors on the lines no longer remember being men.",
+          "Something answers in the noosphere when the night shift prays. The Magos has ordered the vox-casters muted."
+        ]
+      }
+    ];
+
+    // ?set=warhammer3 revises the round-2 picks by more data-variant tokens (see warhammer3.css).
+    const WH_MECHANICUS = WARHAMMER2[7];
+    const WARHAMMER3 = [
+      {...WH_DECREE, name: "F2c · Proclamation, stamp in the corner", tag: "F2b, stamp moved", variant: "stamp corner"},
+      {...WH_RECORD, name: "K1c · Imperial Record, upright boss", tag: "K1b, black spikes", variant: "boss upright"},
+      {...WH_SLATE, name: "K2 · Dataslate, top corners", tag: "K2, brackets at the top only", variant: "topcorners"},
+      {...WARHAMMER2[6], name: "K2c-1 · Cogitator, amber, VT323", tag: "clean text, cables fade", variant: "amber clean fade vt",
+        fonts: "VT323", facts: [["Pop", "40,000 (est.)"], ["Clearance", "Vermilion"], ["Signal", "Corrupted"]]},
+      {...WARHAMMER2[6], name: "K2c-2 · Cogitator, amber, IBM Plex Mono", tag: "clean text, cables fade", variant: "amber clean fade plex",
+        fonts: "IBM Plex Mono"},
+      {...WH_MECHANICUS, name: "K2d-1 · Mechanicus, Chakra Petch", tag: "lit eye", variant: "eye petch",
+        fonts: "Chakra Petch, PT Sans"},
+      {...WH_MECHANICUS, name: "K2d-2 · Mechanicus, Grenze Gotisch", tag: "lit eye", variant: "eye goth",
+        fonts: "Grenze Gotisch, Share Tech Mono, Crimson Pro"}
+    ];
+
+    // ?set=warhammer4 is the shortlist so far, with the round-4 changes (see warhammer4.css).
+    // The 40k cards use the existing art (gothic, holo, terminal, dusk), with text written to match each picture.
+    const WARHAMMER4 = [
+      {...WARHAMMER3[0], name: "F2c · Proclamation", tag: "picked"},
+      {...WARHAMMER3[1], name: "K1d · Imperial Record, boss with room", tag: "K1c, space round the boss", variant: "boss upright room",
+        art: "gothic", caption: "Pict-capture, Varangus after curfew"},
+      {...WARHAMMER3[2], name: "K2 · Dataslate", tag: "picked",
+        art: "holo", caption: "Auspex return, high anchor",
+        subtitle: "Orbital dock · Ostrava Reach", title: "Highport Sigma-9",
+        travel: "2 days (shuttle)", facts: [["Pop", "12,000"], ["Clearance", "Vermilion"], ["Signal", "Intermittent"]],
+        body: [
+          "A rusting dock that has circled the hive world for three thousand years. Voidships take on water and conscripts here, and the Navy pays no attention to what else changes hands.",
+          "The chapel on the lower ring has not answered a hail in a month. Its candles still burn."
+        ]},
+      {...WARHAMMER3[3], name: "K2c-1 · Cogitator, amber, VT323", tag: "picked",
+        art: "terminal", caption: "Last pict-feed, dish array 2",
+        subtitle: "Listening post · Outer moon", title: "Vox Relay Tertius",
+        travel: "11 days (warp)", facts: [["Crew", "3 (last report)"], ["Atmos", "Thin"], ["Signal", "Lost"]],
+        body: [
+          "A vox relay on a moon nobody bothered to name, kept by three adepts on a twenty-year rotation. Its dish has listened to the same patch of dark since before the Reach was charted.",
+          "Six weeks ago it stopped relaying and started transmitting. No one can read the code."
+        ]},
+      {...WARHAMMER3[6], name: "K2d-3 · Mechanicus, emblem on the rule", tag: "emblem at 45%", variant: "eye goth rulecog smallcog",
+        art: "dusk", caption: "The forge-spire venting at dusk"}
+    ];
+
+    const set = new URLSearchParams(location.search).get("set");
+    if ( set === "warhammer" ) STYLES.splice(0, STYLES.length, ...WARHAMMER);
+    if ( set === "warhammer4" ) STYLES.splice(0, STYLES.length, ...WARHAMMER4);
+    if ( set === "warhammer3" ) STYLES.splice(0, STYLES.length, ...WARHAMMER3);
+    if ( set === "warhammer2" ) STYLES.splice(0, STYLES.length, ...WARHAMMER2);
+    if ( set === "domain" ) STYLES.splice(0, STYLES.length, ...DOMAIN_VARIANTS);
+    if ( set === "candidates" ) STYLES.splice(0, STYLES.length, ...CANDIDATES);
+    if ( set === "daggerheart" ) STYLES.splice(0, STYLES.length, ...DAGGERHEART);
+
+    // The extra Third Horizon and Foundry cells belong to the system styles only.
+    if ( !set ) {
+      // Third Horizon's cream page shares the dark one's place and content.
+      STYLES.splice(STYLES.findIndex(s => s.id === "horizon") + 1, 0,
+        {...STYLES.find(s => s.id === "horizon"), id: "horizon-cream", name: "Third Horizon, cream page"});
+
+      // The Foundry style once per interface theme.
+      STYLES.splice(1, 0, ...[["dark", "Foundry, dark interface"], ["light", "Foundry, light interface"]].map(([theme, name]) =>
+        ({...STYLES.find(s => s.id === "dusk"), id: "foundry", theme, name, tag: "",
+          fits: "Any system: a plain Foundry window that follows the interface theme", fonts: "Signika (Foundry core)"})));
+
+      // Domain follows the interface theme too.
+      STYLES.splice(STYLES.findIndex(s => s.id === "domain") + 1, 0,
+        {...STYLES.find(s => s.id === "domain"), theme: "light", tag: "light interface"});
+    }
 
     const state = {view: "card", layout: "full", size: "medium", rumoured: false, motion: false, scanlines: true, imageEffects: true};
 
@@ -245,18 +488,32 @@
       dossier: "Call of Cthulhu", terminal: "Alien RPG · Mothership", neon: "Cyberpunk RED · Shadowrun",
       woodcut: "Forbidden Lands · OSR", gothic: "Vampire: The Masquerade", frontier: "Deadlands", ink: "Legend of the Five Rings"
     };
-    // ?showcase=foundry shows the Foundry style in both interface themes, card over region banner, for
-    // docs/styles-foundry.jpg.
-    const showcaseFoundry = params.get("showcase") === "foundry";
+    // ?showcase=foundry and ?showcase=domain show a style that follows the interface theme in both themes, card over
+    // region banner, for docs/styles-foundry.jpg and docs/styles-domain.jpg.
+    const PAIR_SHOWCASES = {foundry: "Foundry style", domain: "Domain style · Daggerheart"};
+    const pairId = Object.hasOwn(PAIR_SHOWCASES, params.get("showcase")) ? params.get("showcase") : null;
+    const showcaseFoundry = !!pairId;
     if ( showcaseFoundry ) {
       document.body.classList.add("showcase", "showcase-foundry");
-      const picked = STYLES.filter(s => s.id === "foundry").map(s => ({...s, name: s.theme === "dark" ? "Dark interface" : "Light interface",
+      const picked = STYLES.filter(s => s.id === pairId).map(s => ({...s, name: s.theme === "dark" ? "Dark interface" : "Light interface",
         body: s.body.slice(0, 1)}));
       STYLES.splice(0, STYLES.length, ...picked);
-      SHOWCASE.foundry = "Foundry style";
+      SHOWCASE[pairId] = PAIR_SHOWCASES[pairId];
     }
-    const showcase = (params.get("showcase") === "1") || showcaseFoundry;
-    if ( showcase && !showcaseFoundry ) {
+    // ?showcase=warhammer sets the Warhammer shortlist in one row at medium size, for docs/styles-warhammer.jpg.
+    const showcaseRow = params.get("showcase") === "warhammer";
+    if ( showcaseRow ) {
+      document.body.classList.add("showcase", "showcase-row");
+      const ROW = {
+        "wh-decree": ["Proclamation", "WFRP · Zweihänder · The Witcher"], "wh-record": ["Imperial Record", "Wrath & Glory · Dark Heresy"],
+        "wh-slate": ["Dataslate", "Imperium Maledictum · Traveller"], "wh-cogitator": ["Cogitator", "Rogue Trader · Fallout · Paranoia"],
+        "wh-mechanicus": ["Mechanicus", "Dark Heresy · Rogue Trader"]
+      };
+      STYLES.splice(0, STYLES.length, ...WARHAMMER4.map(s => ({...s, name: ROW[s.id][0], body: s.body.slice(0, 1)})));
+      for ( const [id, [, fits]] of Object.entries(ROW) ) SHOWCASE[id] = fits;
+    }
+    const showcase = (params.get("showcase") === "1") || showcaseFoundry || showcaseRow;
+    if ( showcase && !showcaseFoundry && !showcaseRow ) {
       document.body.classList.add("showcase");
       state.size = "small";
       // Column by column: each pair stacks in one column, a tall card over a short one where possible.
@@ -343,12 +600,14 @@
 
     function preview(s) {
       const rumoured = state.rumoured ? " is-rumoured" : "";
+      // A mockup variation layered over a real style, by space-separated tokens.
+      const variant = s.variant ? ` data-variant="${s.variant}"` : "";
       if ( state.view === "lightbox" ) {
-        return `<div class="proto-lb"><div id="glimpse-lightbox" class="is-open${rumoured}" data-style="${s.id}" data-scanlines="${state.scanlines ? "on" : "off"}">${lightboxHTML(s)}</div></div>`;
+        return `<div class="proto-lb"><div id="glimpse-lightbox" class="is-open${rumoured}" data-style="${s.id}"${variant} data-scanlines="${state.scanlines ? "on" : "off"}">${lightboxHTML(s)}</div></div>`;
       }
       const banner = state.view === "banner" ? " glimpse-banner" : "";
       return `<div class="glimpse-card is-visible${banner}${rumoured}"
-               data-style="${s.id}" data-layout="${state.layout}" data-size="${state.size}"
+               data-style="${s.id}"${variant} data-layout="${state.layout}" data-size="${state.size}"
                data-motion="${state.motion ? "on" : "off"}" data-scanlines="${state.scanlines ? "on" : "off"}" data-image-effects="${state.imageEffects ? "on" : "off"}" data-side="right">${cardHTML(s)}</div>`;
     }
 
@@ -369,7 +628,9 @@
       grid.style.setProperty("--cell", `${width + 40}px`);
       // ?only=gothic,ink shows just the styles whose id starts with one of those.
       const only = params.get("only")?.split(",");
-      grid.innerHTML = STYLES.filter(s => !only || only.some(o => s.id.startsWith(o))).map(s => `
+      // ?pick=6,8 shows just those cells, counted from 0, for sets where every cell shares one style id.
+      const pick = params.get("pick")?.split(",").map(Number);
+      grid.innerHTML = STYLES.filter((s, i) => (!only || only.some(o => s.id.startsWith(o))) && (!pick || pick.includes(i))).map(s => `
         <section class="proto-cell${s.theme ? ` proto-foundry-${s.theme} theme-${s.theme}` : ""}" style="--glimpse-width: ${width}px">
           ${showcase ? `
           <div class="proto-label"><h2>${esc(s.name)}<span>${esc(SHOWCASE[s.id])}</span></h2></div>` : `
@@ -382,7 +643,7 @@
         </section>`).join("");
 
       // The showcase stacks the cells in pairs, one pair per column.
-      if ( showcase && !showcaseFoundry ) {
+      if ( showcase && !showcaseFoundry && !showcaseRow ) {
         const cells = [...grid.children];
         for ( let i = 0; i < cells.length; i += 2 ) {
           const col = document.createElement("div");

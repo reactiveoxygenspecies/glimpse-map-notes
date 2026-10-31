@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Warhammer candidates, round 4 (?set=warhammer4)
+   More data-variant tokens over the earlier rounds:
+   room      K1: clear space between the iron boss and the two bars
+   rulecog   Mechanicus: the Cog Mechanicus leaves the top and takes the small cog's place on the rule
+   smallcog  Mechanicus: that emblem at 45% of its first size
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   K2. On the region banner, a third bracket in the bottom left corner, under the picture
+   -------------------------------------------------------------------------- */
+
+.glimpse-card.glimpse-banner[data-style="wh-slate"][data-variant~="topcorners"] .glimpse-frame::after {
+  background:
+    conic-gradient(from 90deg at top 2px left 2px, var(--g)) 0 0 / var(--p),
+    conic-gradient(from 180deg at top 2px right 2px, var(--g)) 100% 0 / var(--p),
+    conic-gradient(from 0deg at bottom 2px left 2px, var(--g)) 0 100% / var(--p);
+}
+
+/* --------------------------------------------------------------------------
+   K1d. The boss with room either side
+   -------------------------------------------------------------------------- */
+
+[data-style="wh-record"][data-variant~="room"] .glimpse-rule { margin-top: 0.7em; margin-bottom: 0.65em; }
+[data-style="wh-record"][data-variant~="room"] .glimpse-rule span { width: 2.8em; height: 2.8em; margin: 0 0.6em; }
+
+/* --------------------------------------------------------------------------
+   K2d. The Cog Mechanicus moved off the picture, onto the rule
+   -------------------------------------------------------------------------- */
+
+.glimpse-card[data-style="wh-mechanicus"][data-variant~="rulecog"] .glimpse-frame::before { display: none; }
+.glimpse-card[data-style="wh-mechanicus"][data-variant~="rulecog"] .glimpse-frame:not(:has(.glimpse-hero)) .glimpse-header { padding-top: 1.3em; }
+
+/* On the rule, with clear space either side. */
+[data-style="wh-mechanicus"][data-variant~="rulecog"] .glimpse-rule { gap: 0; margin-top: 0.75em; margin-bottom: 0.7em; }
+[data-style="wh-mechanicus"][data-variant~="rulecog"] .glimpse-rule span {
+  width: 2.7em;
+  height: 2.7em;
+  margin: 0 0.65em;
+  background-image: var(--wh-cog-skull-eye);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.7));
+}
+
+/* At 45% of that size. */
+[data-style="wh-mechanicus"][data-variant~="rulecog"][data-variant~="smallcog"] .glimpse-rule { margin-top: 0.8em; margin-bottom: 0.75em; }
+[data-style="wh-mechanicus"][data-variant~="rulecog"][data-variant~="smallcog"] .glimpse-rule span { width: 1.25em; height: 1.25em; margin: 0 0.5em; }
+
+/* --------------------------------------------------------------------------
+   Shared fixes
+   -------------------------------------------------------------------------- */
+
+/* Without a picture, the GM's rumour badge needs room above the subtitle, as the module gives it in every style. */
+.glimpse-card[data-style="wh-record"] .glimpse-frame:has(.glimpse-badge):not(:has(.glimpse-hero)) .glimpse-header,
+.glimpse-card[data-style="wh-mechanicus"][data-variant~="rulecog"] .glimpse-frame:has(.glimpse-badge):not(:has(.glimpse-hero)) .glimpse-header {
+  padding-top: 2.9em;
+}
+
+/* Readout boxes in a row stretch to the tallest one, so the key and value centre their text in the height they get,
+   and the route icon sits on the text's middle instead of high on its own small line. */
+:is([data-style="wh-cogitator"], [data-style="wh-mechanicus"]) .glimpse-facts li { align-items: stretch; }
+:is([data-style="wh-cogitator"], [data-style="wh-mechanicus"]) :is(.glimpse-fact-label, .glimpse-fact-value) { display: flex; align-items: center; }
+:is([data-style="wh-cogitator"], [data-style="wh-mechanicus"]) .glimpse-facts .glimpse-travel { align-items: center; }
+:is([data-style="wh-cogitator"], [data-style="wh-mechanicus"]) .glimpse-facts .glimpse-travel i { line-height: 1; }
+/* The travel box's own padding made its row taller than the next; its value carries the padding instead, as the
+   other boxes' do. */
+:is([data-style="wh-cogitator"], [data-style="wh-mechanicus"]) .glimpse-facts .glimpse-travel { gap: 0; padding: 0 0 0 0.55em; }
+
+/* The Mechanicus text keeps clear of the casing on the left, as it does of the binary on the right. */
+.glimpse-card[data-style="wh-mechanicus"]:not(.glimpse-banner) :is(.glimpse-header, .glimpse-body) { padding-left: 1.95em; }
+.glimpse-card[data-style="wh-mechanicus"]:not(.glimpse-banner) :is(.glimpse-facts, .glimpse-rule) { margin-left: 1.95em; }
