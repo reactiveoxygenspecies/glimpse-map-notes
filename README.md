@@ -112,10 +112,17 @@ Besides the default Dusk and Parchment styles, alternatives are available to bet
 | Gothic | Vampire: The Masquerade, World of Darkness | Near-black and bone white, blood red, a drop hanging from the rule |
 | Frontier | Deadlands, the Weird West | A wanted poster with a sepia photograph and a wood-type headline |
 | Ink & Seal | Legend of the Five Rings | Rice paper, a brush-stroke rule and a red seal beside the name |
+| Domain | Daggerheart | After the system's sheets and the rulebook: dark-blue glass (plaster parchment in the light theme), the subtitle in a gold header plate on a double rule, octagon fact boxes, and the Hope and Fear dice as the rule |
 
 In Ink & Seal, the seal follows the note's map icon: a city gets 都, a castle 城, a temple 寺, a danger 危, and so
 on, or 所 ("place") when the icon has no match. Pick a different seal, or none, under **Seal** in the note's
 Glimpse settings.
+
+Domain, made for Daggerheart, follows your light or dark theme like the Foundry style does.
+
+<p align="center">
+  <img src="docs/styles-domain.jpg" alt="The Domain style for Daggerheart in the dark and light interface themes: a location card above a region banner for each, with a gold header plate on a double rule across the picture's lower edge and the facts in octagon boxes" width="100%">
+</p>
 
 
 
@@ -242,7 +249,7 @@ pages need **Limited**, the same as core Foundry. Secret blocks are hidden, even
 | Setting | Default |
 | --- | --- |
 | Show location previews | On |
-| Card style (one of fifteen styles, match the game system, or match the interface) | Dusk |
+| Card style (one of sixteen styles, match the game system, or match the interface) | Dusk |
 | Image effects: the colour treatment some styles give pictures (Terminal, Woodcut, Dossier, Frontier, Gothic) | On |
 | Scanlines on the Holo and Terminal styles | On |
 | Card size (small, medium, large, cinematic) | Medium |
@@ -303,8 +310,8 @@ Glimpse was inspired by *Map Note Hover Display* by FriendlyLambda, which in tur
 
 Screenshots show the world of Fama, my homebrew campaign setting. Its map and text are not part of the module. The location art in the screenshots comes from Guild Wars concept art by Daniel Dociu and ArenaNet, it is not part of the module and remains the property of its owners. The card style showcase uses amazing, mind-blowing, "masterpiece" handmade illustrations.
 
-The card styles bundle Chakra Petch, Cinzel, Cormorant Garamond, Courier Prime, Crimson Pro, EB Garamond, Eczar,
-Exo 2, IM Fell English (and its SC cut), Old Standard TT, Oswald, PT Sans, PT Serif, Rye, Share Tech Mono,
-Shippori Mincho, Spectral and VT323 under the SIL Open Font License, and Special Elite under the Apache License 2.0. Each font's licence is in its folder under [`fonts/`](fonts).
+The card styles bundle Chakra Petch, Cinzel, Cinzel Decorative, Cormorant Garamond, Courier Prime, Crimson Pro,
+EB Garamond, Eczar, Exo 2, IM Fell English (and its SC cut), Old Standard TT, Oswald, Overpass, PT Sans, PT Serif,
+Rye, Share Tech Mono, Shippori Mincho, Spectral and VT323 under the SIL Open Font License, and Special Elite under the Apache License 2.0. Each font's licence is in its folder under [`fonts/`](fonts).
 
 Glimpse is released under the [MIT License](LICENSE).
