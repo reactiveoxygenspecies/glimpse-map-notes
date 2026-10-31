@@ -11,13 +11,15 @@ export const CARD_WIDTHS = {small: 300, medium: 380, large: 480, cinematic: 640}
 
 /** Card styles, in the order the setting lists them. */
 export const CARD_STYLES = ["dusk", "parchment", "foundry", "tome", "bound", "holo", "horizon", "horizon-cream",
-  "dossier", "terminal", "neon", "woodcut", "gothic", "frontier", "ink", "domain"];
+  "dossier", "terminal", "neon", "woodcut", "gothic", "frontier", "ink", "domain", "proclamation", "imperial",
+  "dataslate", "cogitator", "mechanicus"];
 
 /** Styles that draw screen scanlines, which the Scanlines setting turns off. */
-export const SCANLINE_STYLES = ["holo", "terminal"];
+export const SCANLINE_STYLES = ["holo", "terminal", "dataslate", "cogitator", "mechanicus"];
 
 /** Styles that recolour their pictures, which the Image effects setting turns off. */
-export const IMAGE_EFFECT_STYLES = ["dossier", "terminal", "woodcut", "gothic", "frontier"];
+export const IMAGE_EFFECT_STYLES = ["dossier", "terminal", "woodcut", "gothic", "frontier", "proclamation", "imperial",
+  "dataslate", "cogitator", "mechanicus"];
 
 /** The style "Match game system" picks for each system id. Systems not listed fall back to the interface theme. */
 export const SYSTEM_STYLES = {
@@ -31,7 +33,11 @@ export const SYSTEM_STYLES = {
   "forbidden-lands": "woodcut", dragonbane: "woodcut", ose: "woodcut", shadowdark: "woodcut",
   vtm5e: "gothic", wod5e: "gothic",
   l5r5e: "ink",
-  daggerheart: "domain"
+  daggerheart: "domain",
+  wfrp4e: "proclamation", zweihander: "proclamation", TheWitcherTRPG: "proclamation",
+  "wrath-and-glory": "imperial", "dark-heresy": "imperial",
+  impmal: "dataslate",
+  fallout: "cogitator"
 };
 
 /** The seals the Ink & Seal style stamps beside a card's name. */

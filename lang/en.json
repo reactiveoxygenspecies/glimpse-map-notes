@@ -148,6 +148,11 @@
           "frontier": "Frontier (Deadlands, the Weird West)",
           "ink": "Ink & Seal (Legend of the Five Rings)",
           "domain": "Domain (Daggerheart)",
+          "proclamation": "Proclamation (Warhammer Fantasy, Zweihänder, The Witcher)",
+          "imperial": "Imperial Record (Wrath & Glory, Dark Heresy)",
+          "dataslate": "Dataslate (Imperium Maledictum)",
+          "cogitator": "Cogitator (Rogue Trader, Fallout, Paranoia)",
+          "mechanicus": "Mechanicus (Dark Heresy, Rogue Trader)",
           "system": "Match game system",
           "auto": "Match interface theme"
         }
@@ -199,11 +204,11 @@
       },
       "imageEffects": {
         "Name": "Image effects",
-        "Hint": "Recolour pictures to suit the style: the green phosphor screen of Terminal, the black ink print of Woodcut, the faded photo of Dossier, the sepia of Frontier, the drained colour of Gothic. Turn off to show pictures in their own colours."
+        "Hint": "Recolour pictures to suit the style: the green phosphor screen of Terminal, the black ink print of Woodcut, the faded photo of Dossier, the sepia of Frontier, the drained colour of Gothic, the woodcut print of Proclamation, the pict-capture of Imperial Record, the teal and amber screens of Dataslate and Cogitator, the forge light of Mechanicus. Turn off to show pictures in their own colours."
       },
       "scanlines": {
         "Name": "Scanlines",
-        "Hint": "Draw screen scanlines over images in the Holo and Terminal styles, and across Terminal cards."
+        "Hint": "Draw screen scanlines over images in the Holo, Terminal, Dataslate, Cogitator and Mechanicus styles, and across Terminal cards."
       },
       "soundVolume": {
         "Name": "Ambient sound volume",
