@@ -113,6 +113,11 @@ Besides the default Dusk and Parchment styles, alternatives are available to bet
 | Frontier | Deadlands, the Weird West | A wanted poster with a sepia photograph and a wood-type headline |
 | Ink & Seal | Legend of the Five Rings | Rice paper, a brush-stroke rule and a red seal beside the name |
 | Domain | Daggerheart | After the system's sheets and the rulebook: dark-blue glass (plaster parchment in the light theme), the subtitle in a gold header plate on a double rule, octagon fact boxes, and the Hope and Fear dice as the rule |
+| Proclamation | Warhammer Fantasy Roleplay, Zweihänder, The Witcher | A printed notice nailed to a door: torn paper, a woodcut print, a blackletter name and a faint hammer stamp |
+| Imperial Record | Wrath & Glory, Dark Heresy | Archive paper in a black gothic frame, a red name between aquila wings, an iron skull boss on the rule |
+| Dataslate | Imperium Maledictum | After the system's sheets: a teal cogitator screen with corner brackets, the aquila, and orange readouts |
+| Cogitator | Rogue Trader, Fallout, Paranoia | An amber terminal in a riveted brass casing, with cables hanging below |
+| Mechanicus | Dark Heresy, Rogue Trader | A Mars-red forge casing, green data, a gothic name, binary down the edge and cables up the side |
 
 In Ink & Seal, the seal follows the note's map icon: a city gets 都, a castle 城, a temple 寺, a danger 危, and so
 on, or 所 ("place") when the icon has no match. Pick a different seal, or none, under **Seal** in the note's
@@ -122,6 +127,14 @@ Domain, made for Daggerheart, follows your light or dark theme like the Foundry 
 
 <p align="center">
   <img src="docs/styles-domain.jpg" alt="The Domain style for Daggerheart in the dark and light interface themes: a location card above a region banner for each, with a gold header plate on a double rule across the picture's lower edge and the facts in octagon boxes" width="100%">
+</p>
+
+Proclamation is made for Warhammer Fantasy Roleplay, and Imperial Record, Dataslate, Cogitator and Mechanicus for
+Warhammer 40,000. Proclamation and Cogitator carry few Warhammer details, so they also suit other grim fantasy and old
+terminal settings.
+
+<p align="center">
+  <img src="docs/styles-warhammer.jpg" alt="Five Glimpse cards side by side: Proclamation, a nailed notice with a blackletter name; Imperial Record, grey paper in a black gothic frame; Dataslate, a teal screen; Cogitator, an amber terminal with cables hanging below; and Mechanicus, a red forge casing with cables up its side" width="100%">
 </p>
 
 
@@ -249,9 +262,9 @@ pages need **Limited**, the same as core Foundry. Secret blocks are hidden, even
 | Setting | Default |
 | --- | --- |
 | Show location previews | On |
-| Card style (one of sixteen styles, match the game system, or match the interface) | Dusk |
-| Image effects: the colour treatment some styles give pictures (Terminal, Woodcut, Dossier, Frontier, Gothic) | On |
-| Scanlines on the Holo and Terminal styles | On |
+| Card style (one of twenty-one styles, match the game system, or match the interface) | Dusk |
+| Image effects: the colour treatment some styles give pictures (Terminal, Woodcut, Dossier, Frontier, Gothic, and the Warhammer styles) | On |
+| Scanlines on the Holo, Terminal, Dataslate, Cogitator and Mechanicus styles | On |
 | Card size (small, medium, large, cinematic) | Medium |
 | Text excerpt (none, short, medium, long) | Medium |
 | Text size, hover delay | 100%, 200 ms |
@@ -311,7 +324,8 @@ Glimpse was inspired by *Map Note Hover Display* by FriendlyLambda, which in tur
 Screenshots show the world of Fama, my homebrew campaign setting. Its map and text are not part of the module. The location art in the screenshots comes from Guild Wars concept art by Daniel Dociu and ArenaNet, it is not part of the module and remains the property of its owners. The card style showcase uses amazing, mind-blowing, "masterpiece" handmade illustrations.
 
 The card styles bundle Chakra Petch, Cinzel, Cinzel Decorative, Cormorant Garamond, Courier Prime, Crimson Pro,
-EB Garamond, Eczar, Exo 2, IM Fell English (and its SC cut), Old Standard TT, Oswald, Overpass, PT Sans, PT Serif,
-Rye, Share Tech Mono, Shippori Mincho, Spectral and VT323 under the SIL Open Font License, and Special Elite under the Apache License 2.0. Each font's licence is in its folder under [`fonts/`](fonts).
+EB Garamond, Eczar, Exo 2, Grenze Gotisch, IM Fell English (and its SC cut), Old Standard TT, Oswald, Overpass,
+PT Sans, PT Serif, Rye, Share Tech Mono, Shippori Mincho, Spectral, UnifrakturMaguntia and VT323 under the SIL Open
+Font License, and Special Elite under the Apache License 2.0. Each font's licence is in its folder under [`fonts/`](fonts).
 
 Glimpse is released under the [MIT License](LICENSE).
