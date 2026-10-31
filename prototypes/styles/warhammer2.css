@@ -1,0 +1,487 @@
+/* ==========================================================================
+   Warhammer candidates, round 2 (?set=warhammer2)
+   F2b and K1b are variations layered over F2 and K1 (warhammer.css) by data-variant. K2b to K2d are new styles: a
+   cogitator screen in green or amber phosphor with cables hanging from its casing, and an Adeptus Mechanicus take
+   with cables up its side.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style^="wh-"] {
+  /* The hammer stamp, as an ink impression: the disc, its ring and Sigmar's hammer. */
+  --wh-stamp: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><path d='M30 4c6 0 9 3 13 4s8 5 8 11-1 7 1 11-3 9-8 12-8 5-14 5-11-2-15-5-8-6-8-11 1-7-1-11 3-8 8-11 8-5 16-5Z' fill='%23a3201b'/><circle cx='30' cy='28' r='15' fill='none' stroke='%235a0c08' stroke-width='2.4'/><path d='M22.5 18h15v7.5h-5.6V40h-3.8V25.5h-5.6Z' fill='%235a0c08'/></svg>");
+  /* F1's spiked boss, forged in iron for the Imperium: steel points, a red ring, a bone skull. */
+  --wh-boss-iron: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><defs><linearGradient id='b' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23d4d6d8'/><stop offset='.5' stop-color='%236b6d70'/><stop offset='1' stop-color='%23181e1f'/></linearGradient></defs><polygon points='30,1 33.83,20.76 44.14,15.86 39.24,26.17 59,30 39.24,33.83 44.14,44.14 33.83,39.24 30,59 26.17,39.24 15.86,44.14 20.76,33.83 1,30 20.76,26.17 15.86,15.86 26.17,20.76' fill='url(%23b)' stroke='%23000' stroke-width='.8'/><circle cx='30' cy='30' r='13' fill='%23181e1f' stroke='%238a2e2a' stroke-width='2'/><path transform='translate(21 21.4) scale(.9)' fill='%23e6e5e3' fill-rule='evenodd' d='M10 1C4.5 1 1.5 5 1.5 9.5c0 3 1.5 5 3.5 6V19h10v-3.5c2-1 3.5-3.5 3.5-6C18.5 5 15.5 1 10 1ZM4.6 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10.8 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10 12l-1.2 2.4h2.4ZM7.6 16.4h.9V19h-.9ZM9.55 16.4h.9V19h-.9ZM11.5 16.4h.9V19h-.9Z'/></svg>");
+  /* The Cog Mechanicus: a red cog round a skull with one bionic eye. */
+  --wh-cog-skull: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><circle cx='20' cy='20' r='15.5' fill='none' stroke='%23b3261b' stroke-width='5' stroke-dasharray='4.87 4.87'/><circle cx='20' cy='20' r='14' fill='%23b3261b'/><circle cx='20' cy='20' r='11.2' fill='%23120808'/><path transform='translate(11.5 10.6) scale(.85)' fill='%23e8e0d0' fill-rule='evenodd' d='M10 1C4.5 1 1.5 5 1.5 9.5c0 3 1.5 5 3.5 6V19h10v-3.5c2-1 3.5-3.5 3.5-6C18.5 5 15.5 1 10 1ZM4.6 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10.8 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10 12l-1.2 2.4h2.4ZM7.6 16.4h.9V19h-.9ZM9.55 16.4h.9V19h-.9ZM11.5 16.4h.9V19h-.9Z'/><circle cx='22.6' cy='18.7' r='1.7' fill='%2345e07a'/></svg>");
+  --wh-cog: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><circle cx='10' cy='10' r='7.6' fill='none' stroke='%23b3261b' stroke-width='3' stroke-dasharray='2.98 2.98'/><circle cx='10' cy='10' r='6.6' fill='%23b3261b'/><circle cx='10' cy='10' r='2.6' fill='%23080908'/></svg>");
+  /* Cables hanging from the foot of a casing, with brass plugs: a cluster for each side. */
+  --wh-cables-left: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 96'><defs><linearGradient id='p'><stop offset='0' stop-color='%236b4f1f'/><stop offset='.45' stop-color='%23e0bf6e'/><stop offset='1' stop-color='%23705322'/></linearGradient></defs><g fill='none'><path d='M34 8V24C34 58 14 66 2 94' stroke='%23050505' stroke-width='11'/><path d='M34 8V24C34 58 14 66 2 94' stroke='%232e2c26' stroke-width='9'/><path d='M34 8V24C34 58 14 66 2 94' stroke='%23000' stroke-opacity='.5' stroke-width='9' stroke-dasharray='1.4 2.8'/><path d='M34 8V24C34 58 14 66 2 94' stroke='%23fff' stroke-opacity='.16' stroke-width='2.5'/><path d='M62 8V20C62 52 50 70 30 96' stroke='%23050505' stroke-width='9'/><path d='M62 8V20C62 52 50 70 30 96' stroke='%236a1c13' stroke-width='7'/><path d='M62 8V20C62 52 50 70 30 96' stroke='%23000' stroke-opacity='.45' stroke-width='7' stroke-dasharray='1.2 2.4'/><path d='M62 8V20C62 52 50 70 30 96' stroke='%23fff' stroke-opacity='.18' stroke-width='2'/></g><rect x='26' y='0' width='16' height='15' rx='2' fill='url(%23p)' stroke='%23231a0c'/><rect x='55' y='0' width='14' height='13' rx='2' fill='url(%23p)' stroke='%23231a0c'/><path d='M26 5h16M55 5h14' stroke='%23231a0c' stroke-opacity='.6'/></svg>");
+  --wh-cables-right: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 96'><defs><linearGradient id='p'><stop offset='0' stop-color='%236b4f1f'/><stop offset='.45' stop-color='%23e0bf6e'/><stop offset='1' stop-color='%23705322'/></linearGradient></defs><g fill='none'><path d='M44 8V16C44 46 60 60 64 96' stroke='%23050505' stroke-width='7'/><path d='M44 8V16C44 46 60 60 64 96' stroke='%2324402a' stroke-width='5'/><path d='M44 8V16C44 46 60 60 64 96' stroke='%23fff' stroke-opacity='.18' stroke-width='1.5'/><path d='M72 8V22C72 56 92 70 108 92' stroke='%23050505' stroke-width='12'/><path d='M72 8V22C72 56 92 70 108 92' stroke='%232e2c26' stroke-width='10'/><path d='M72 8V22C72 56 92 70 108 92' stroke='%23000' stroke-opacity='.5' stroke-width='10' stroke-dasharray='1.4 2.8'/><path d='M72 8V22C72 56 92 70 108 92' stroke='%23fff' stroke-opacity='.16' stroke-width='3'/></g><rect x='38' y='0' width='12' height='12' rx='2' fill='url(%23p)' stroke='%23231a0c'/><rect x='64' y='0' width='16' height='15' rx='2' fill='url(%23p)' stroke='%23231a0c'/><path d='M38 5h12M64 5h16' stroke='%23231a0c' stroke-opacity='.6'/></svg>");
+}
+
+/* --------------------------------------------------------------------------
+   F2b. Proclamation, with the stamp in the paper: no wax seal, the hammer stamp printed faintly behind the text
+   -------------------------------------------------------------------------- */
+
+.glimpse-card[data-style="wh-decree"][data-variant~="stamp"] .glimpse-frame::after {
+  inset: auto auto 1.6em 50%;
+  z-index: 1;
+  width: 12.5em;
+  height: 12.5em;
+  opacity: 0.1;
+  transform: translateX(-50%) rotate(-14deg);
+  background: var(--wh-stamp) center / contain no-repeat;
+  filter: none;
+  mix-blend-mode: multiply;
+}
+.glimpse-card[data-style="wh-decree"][data-variant~="stamp"][data-layout="image"] .glimpse-frame::after { display: none; }
+.glimpse-card[data-style="wh-decree"][data-variant~="stamp"] .glimpse-footer { padding-right: 0; }
+.glimpse-card.glimpse-banner[data-style="wh-decree"][data-variant~="stamp"] .glimpse-footer { padding-right: 1.3em; }
+.glimpse-card[data-style="wh-decree"][data-variant~="stamp"] .glimpse-body:last-child { margin-bottom: 1.5em; }
+.glimpse-card.glimpse-banner[data-style="wh-decree"][data-variant~="stamp"] .glimpse-frame::after {
+  inset: auto 1em 0.4em auto;
+  width: 9em;
+  height: 9em;
+  transform: rotate(-14deg);
+}
+#glimpse-lightbox[data-style="wh-decree"][data-variant~="stamp"] .glimpse-lb-text { position: relative; isolation: isolate; }
+#glimpse-lightbox[data-style="wh-decree"][data-variant~="stamp"] .glimpse-lb-text::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4.5em;
+  z-index: -1;
+  width: 14em;
+  height: 14em;
+  opacity: 0.1;
+  transform: translateX(-50%) rotate(-14deg);
+  background: var(--wh-stamp) center / contain no-repeat;
+  mix-blend-mode: multiply;
+}
+
+/* --------------------------------------------------------------------------
+   K1b. Imperial Record, with the iron boss: no purity seal, and F1's spiked skull boss, forged in iron, between the
+   two black bars of the rule
+   -------------------------------------------------------------------------- */
+
+.glimpse-card[data-style="wh-record"][data-variant~="boss"] .glimpse-frame::before { display: none; }
+.glimpse-card[data-style="wh-record"][data-variant~="boss"] .glimpse-badge { left: auto; right: 16px; }
+[data-style="wh-record"][data-variant~="boss"] .glimpse-rule { margin-top: 0.55em; margin-bottom: 0.5em; }
+[data-style="wh-record"][data-variant~="boss"] .glimpse-rule span {
+  width: 3.1em;
+  height: 3.1em;
+  margin: -0.3em -0.45em;
+  border: none;
+  background: var(--wh-boss-iron) center / contain no-repeat;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
+}
+
+/* --------------------------------------------------------------------------
+   K2b / K2c. Cogitator: a phosphor screen in a riveted iron-and-brass casing, with cables hanging from its foot.
+   Green phosphor by default, amber with data-variant="amber". The cursor on the rule blinks with Motion on.
+   -------------------------------------------------------------------------- */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"] {
+  --wh-phos: 92, 240, 130;
+  --wh-phos-hi: #c8ffd4;
+  --wh-ink: #a8f2b9;
+  --wh-ink-soft: #8edca2;
+  --wh-muted: #4f8a5d;
+  --wh-screen: #06110a;
+  --wh-phos-filter: grayscale(1) sepia(1) hue-rotate(68deg) saturate(2.4) brightness(0.78) contrast(1.15);
+  --wh-case: 11px;
+  --g-heading-font: "Cinzel", var(--font-serif, serif);
+  --g-bg: var(--wh-screen);
+  --g-paper:
+    radial-gradient(ellipse at 50% 35%, rgba(var(--wh-phos), 0.1), transparent 70%),
+    linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.35));
+  --g-title: var(--wh-phos-hi);
+  --g-ink: var(--wh-ink);
+  --g-ink-soft: var(--wh-ink-soft);
+  --g-muted: var(--wh-muted);
+  --g-accent: rgb(var(--wh-phos));
+  --g-line: rgba(var(--wh-phos), 0.45);
+  --g-edge: rgba(var(--wh-phos), 0.14);
+  --g-hero-bg: #020503;
+  --g-title-shadow: 0 0 10px rgba(var(--wh-phos), 0.55), 0 0 2px rgba(var(--wh-phos), 0.6);
+  --g-scanlines: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0 1px, transparent 1px 3px);
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"][data-variant~="amber"] {
+  --wh-phos: 255, 176, 64;
+  --wh-phos-hi: #ffe3b4;
+  --wh-ink: #f6d096;
+  --wh-ink-soft: #e6bd80;
+  --wh-muted: #8f6a35;
+  --wh-screen: #120b04;
+  --wh-phos-filter: grayscale(1) sepia(1) saturate(2.3) hue-rotate(-12deg) brightness(0.8) contrast(1.12);
+}
+
+/* The casing: black iron, a brass bead, iron again, with the screen's own dark glow inside. */
+.glimpse-card[data-style="wh-cogitator"] .glimpse-frame {
+  border-radius: 4px;
+  box-shadow:
+    var(--g-shadow),
+    0 0 0 1px #000,
+    inset 0 0 0 2px #0b0b09,
+    inset 0 0 0 4px #6b5426,
+    inset 0 0 0 5px #d9b76a,
+    inset 0 0 0 10px #2a2620,
+    inset 0 0 0 var(--wh-case) #0b0b09,
+    inset 0 0 46px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* Rivets at the corners of the casing. */
+.glimpse-card[data-style="wh-cogitator"] .glimpse-frame::after {
+  inset: 0;
+  z-index: 5;
+  border: none;
+  border-radius: 0;
+  opacity: 1;
+  --rivet: radial-gradient(circle at 40% 35%, #f6dc96 0 1px, #a8823d 1.7px, #2a1c0c 3.4px, transparent 4px);
+  background:
+    var(--rivet) 2px 2px / 9px 9px no-repeat,
+    var(--rivet) calc(100% - 2px) 2px / 9px 9px no-repeat,
+    var(--rivet) 2px calc(100% - 2px) / 9px 9px no-repeat,
+    var(--rivet) calc(100% - 2px) calc(100% - 2px) / 9px 9px no-repeat;
+}
+
+/* Scanlines over the whole screen. */
+.glimpse-card[data-style="wh-cogitator"] .glimpse-frame::before {
+  content: "";
+  position: absolute;
+  inset: var(--wh-case);
+  z-index: 4;
+  background: var(--g-scanlines);
+  pointer-events: none;
+}
+
+/* The cables, hanging below the casing. */
+.glimpse-card[data-style="wh-cogitator"] { isolation: isolate; }
+.glimpse-card[data-style="wh-cogitator"]::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 9px);
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 112px;
+  background:
+    var(--wh-cables-left) left 10px top / auto 100% no-repeat,
+    var(--wh-cables-right) right 10px top / auto 100% no-repeat;
+  pointer-events: none;
+}
+
+.glimpse-card[data-style="wh-cogitator"] .glimpse-hero { margin: var(--wh-case) var(--wh-case) 0; }
+.glimpse-card[data-style="wh-cogitator"] .glimpse-slide :is(img, video) { filter: var(--wh-phos-filter); }
+.glimpse-card[data-style="wh-cogitator"].is-rumoured .glimpse-slide :is(img, video) { filter: var(--wh-phos-filter) blur(9px); }
+.glimpse-card[data-style="wh-cogitator"] .glimpse-scrim { background: radial-gradient(ellipse at 50% 40%, transparent 50%, rgba(0, 0, 0, 0.55) 100%); }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"] .glimpse-title {
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 1.9em;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"] .glimpse-subtitle {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8em;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"] .glimpse-subtitle::before { content: "+++ "; }
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"] .glimpse-subtitle::after { content: " +++"; }
+
+/* Readouts: the key in inverse video, the value in phosphor. */
+[data-style="wh-cogitator"] .glimpse-facts { gap: 0.35em; font-family: "Share Tech Mono", monospace; font-size: 0.78em; }
+[data-style="wh-cogitator"] .glimpse-facts li {
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--g-line);
+  border-radius: 0;
+  background: rgba(var(--wh-phos), 0.06);
+  align-items: stretch;
+}
+[data-style="wh-cogitator"] .glimpse-fact-label {
+  padding: 0.28em 0.45em 0.2em;
+  font-size: 1em;
+  letter-spacing: 0.06em;
+  background: rgb(var(--wh-phos));
+  color: var(--wh-screen);
+}
+[data-style="wh-cogitator"] .glimpse-fact-value { padding: 0.28em 0.55em 0.2em; }
+[data-style="wh-cogitator"] .glimpse-facts .glimpse-travel { gap: 0.45em; padding: 0.28em 0.55em 0.2em; border-style: dashed; background: none; }
+
+/* A dashed line with a cursor block. */
+[data-style="wh-cogitator"] .glimpse-rule::before,
+[data-style="wh-cogitator"] .glimpse-rule::after { height: 0; background: none; border-top: 1px dashed var(--g-line); }
+[data-style="wh-cogitator"] .glimpse-rule::before { flex: 0 0 22%; }
+[data-style="wh-cogitator"] .glimpse-rule span {
+  width: 0.55em;
+  height: 1em;
+  border: none;
+  transform: none;
+  opacity: 1;
+  background: rgb(var(--wh-phos));
+  box-shadow: 0 0 8px rgba(var(--wh-phos), 0.6);
+}
+.glimpse-card[data-style="wh-cogitator"][data-motion="on"] .glimpse-rule span { animation: wh-blink 1.1s steps(1) infinite; }
+
+[data-style="wh-cogitator"] .glimpse-body {
+  font-family: "Spectral", var(--font-serif, serif);
+  font-size: 1em;
+  line-height: 1.55;
+  text-shadow: 0 0 6px rgba(var(--wh-phos), 0.25);
+}
+[data-style="wh-cogitator"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.04em 0.12em 0 0;
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 2.9em;
+  font-weight: 700;
+  line-height: 0.85;
+  color: var(--wh-phos-hi);
+  text-shadow: var(--g-title-shadow);
+}
+.glimpse-card[data-style="wh-cogitator"] .glimpse-body:last-child { margin-bottom: calc(var(--wh-case) + 1.1em); }
+
+.glimpse-card[data-style="wh-cogitator"] .glimpse-footer {
+  margin: 0.55em var(--wh-case) var(--wh-case);
+  padding: 0.65em 1.2em 0.7em;
+  border-top: 1px dashed var(--g-line);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.glimpse-card[data-style="wh-cogitator"] .glimpse-dots i { border-radius: 0; }
+[data-style="wh-cogitator"] .glimpse-badge {
+  top: 18px;
+  right: 18px;
+  border-color: var(--g-line);
+  border-radius: 0;
+  background: var(--wh-screen);
+  color: rgb(var(--wh-phos));
+  font-family: "Share Tech Mono", monospace;
+}
+
+.glimpse-card.glimpse-banner[data-style="wh-cogitator"] .glimpse-hero { margin-bottom: var(--wh-case); }
+.glimpse-card.glimpse-banner[data-style="wh-cogitator"] .glimpse-footer { margin-left: 0; }
+
+@keyframes wh-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glimpse-card[data-style="wh-cogitator"] .glimpse-rule span { animation: none; }
+}
+
+/* --------------------------------------------------------------------------
+   K2d. Mechanicus: the Adeptus Mechanicus forge. A Mars-red casing round a black screen, green data, the Cog
+   Mechanicus over the picture, a column of binary down the right edge, and a bundle of ribbed cables running up
+   the left side into brass clamps.
+   -------------------------------------------------------------------------- */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-mechanicus"] {
+  --wh-case: 10px;
+  --wh-red: #8a1d14;
+  --wh-green: #45e07a;
+  --g-heading-font: "Cinzel", var(--font-serif, serif);
+  --g-bg: #090a09;
+  --g-paper:
+    radial-gradient(ellipse at 50% 100%, rgba(69, 224, 122, 0.07), transparent 60%),
+    linear-gradient(#0e100e, #070807);
+  --g-title: #efe8dc;
+  --g-ink: #e2dbcd;
+  --g-ink-soft: #d0c8b8;
+  --g-muted: #7e776b;
+  --g-accent: var(--wh-green);
+  --g-line: rgba(179, 38, 27, 0.75);
+  --g-edge: rgba(179, 38, 27, 0.25);
+  --g-hero-bg: #050505;
+  --g-title-shadow: 0 1px 0 #000, 0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+.glimpse-card[data-style="wh-mechanicus"] { isolation: isolate; }
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-frame {
+  border-radius: 3px;
+  box-shadow:
+    var(--g-shadow),
+    0 0 0 1px #000,
+    inset 0 0 0 2px #1a0503,
+    inset 0 0 0 7px var(--wh-red),
+    inset 0 0 0 8px #d0402f,
+    inset 0 0 0 var(--wh-case) #2a0806;
+}
+
+/* The Cog Mechanicus at the top of the screen. */
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-frame::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--wh-case) + 8px);
+  left: 50%;
+  z-index: 4;
+  width: 2.7em;
+  height: 2.7em;
+  transform: translateX(-50%);
+  background: var(--wh-cog-skull) center / contain no-repeat;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.8));
+}
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-frame:not(:has(.glimpse-hero)) .glimpse-header { padding-top: 3.6em; }
+
+/* Binaric cant down the right edge. */
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-frame::after {
+  content: "01001101 01000001 01010010 01010011 00100000 01010111 01001001 01001100 01001100 00100000 01010011 01001001 01010100";
+  inset: calc(var(--wh-case) + 4px) calc(var(--wh-case) + 2px) calc(var(--wh-case) + 4px) auto;
+  z-index: 1;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  opacity: 0.22;
+  writing-mode: vertical-rl;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.62em;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  color: var(--wh-green);
+  white-space: nowrap;
+}
+
+/* The cables up the left side, tucked behind the casing, and their brass clamps. */
+.glimpse-card[data-style="wh-mechanicus"]::before {
+  content: "";
+  position: absolute;
+  top: 3em;
+  bottom: -60px;
+  left: -27px;
+  z-index: -1;
+  width: 46px;
+  --ribs: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0 2px, transparent 2px 5px);
+  --ribs-fine: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0 1px, transparent 1px 3px);
+  --tube: linear-gradient(to right, #050505, #55524a 32%, #24221e 68%, #050505);
+  --tube-red: linear-gradient(to right, #1a0302, #b23222 32%, #4a0c07 68%, #120201);
+  background:
+    var(--ribs) 0 0 / 14px 100% no-repeat, var(--tube) 0 0 / 14px 100% no-repeat,
+    var(--ribs-fine) 16px 0 / 9px 100% no-repeat, var(--tube-red) 16px 0 / 9px 100% no-repeat,
+    var(--ribs) 27px 0 / 17px 100% no-repeat, var(--tube) 27px 0 / 17px 100% no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent);
+  mask-image: linear-gradient(to bottom, #000 82%, transparent);
+  pointer-events: none;
+}
+.glimpse-card[data-style="wh-mechanicus"]::after {
+  content: "";
+  position: absolute;
+  top: 2.6em;
+  bottom: 2.5em;
+  left: -31px;
+  z-index: 6;
+  width: 43px;
+  --clamp: linear-gradient(#f2d488, #a8823d 45%, #5a4218);
+  background:
+    linear-gradient(#231a0c, #231a0c) 0 5px / 100% 1px no-repeat,
+    var(--clamp) 0 0 / 100% 11px no-repeat,
+    linear-gradient(#231a0c, #231a0c) 0 58% / 100% 1px no-repeat,
+    var(--clamp) 0 58% / 100% 11px no-repeat;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.6));
+  pointer-events: none;
+}
+
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-hero { margin: var(--wh-case) var(--wh-case) 0; }
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-slide :is(img, video) { filter: sepia(0.45) saturate(1.3) hue-rotate(-12deg) contrast(1.1) brightness(0.85); }
+.glimpse-card[data-style="wh-mechanicus"].is-rumoured .glimpse-slide :is(img, video) { filter: sepia(0.5) blur(9px) brightness(0.7); }
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-scrim {
+  background:
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 50% 40%, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-mechanicus"] .glimpse-title {
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 1.9em;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-mechanicus"] .glimpse-subtitle {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8em;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--wh-green);
+  text-shadow: 0 0 8px rgba(69, 224, 122, 0.4), 0 1px 2px #000;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-mechanicus"] .glimpse-subtitle::before { content: "// "; color: #d0402f; }
+
+/* Facts: a red key plate, a green value. */
+[data-style="wh-mechanicus"] .glimpse-facts { gap: 0.35em; font-family: "Share Tech Mono", monospace; font-size: 0.78em; }
+[data-style="wh-mechanicus"] .glimpse-facts li {
+  gap: 0;
+  padding: 0;
+  border: 1px solid var(--wh-red);
+  border-radius: 0;
+  background: rgba(69, 224, 122, 0.05);
+  align-items: stretch;
+  color: var(--wh-green);
+}
+[data-style="wh-mechanicus"] .glimpse-fact-label {
+  padding: 0.28em 0.45em 0.2em;
+  font-size: 1em;
+  letter-spacing: 0.06em;
+  background: var(--wh-red);
+  color: #f0e6d8;
+}
+[data-style="wh-mechanicus"] .glimpse-fact-value { padding: 0.28em 0.55em 0.2em; }
+[data-style="wh-mechanicus"] .glimpse-facts .glimpse-travel { gap: 0.45em; padding: 0.28em 0.55em 0.2em; border-style: dashed; background: none; }
+
+/* A red line through a cog. */
+[data-style="wh-mechanicus"] .glimpse-rule { gap: 0.4em; }
+[data-style="wh-mechanicus"] .glimpse-rule::before,
+[data-style="wh-mechanicus"] .glimpse-rule::after { flex: 1; height: 2px; background: var(--g-line); }
+[data-style="wh-mechanicus"] .glimpse-rule span {
+  width: 1.15em;
+  height: 1.15em;
+  border: none;
+  transform: none;
+  opacity: 1;
+  background: var(--wh-cog) center / contain no-repeat;
+}
+
+[data-style="wh-mechanicus"] .glimpse-body { font-family: "Spectral", var(--font-serif, serif); font-size: 1em; line-height: 1.55; }
+.glimpse-card[data-style="wh-mechanicus"] :is(.glimpse-header, .glimpse-body) { padding-right: 2em; }
+[data-style="wh-mechanicus"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.04em 0.12em 0 0;
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 2.9em;
+  font-weight: 800;
+  line-height: 0.85;
+  color: #d0402f;
+}
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-body:last-child { margin-bottom: calc(var(--wh-case) + 1.1em); }
+
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-footer {
+  margin: 0.55em var(--wh-case) var(--wh-case);
+  padding: 0.65em 1.2em 0.7em;
+  border-top: 1px solid var(--g-line);
+  background: rgba(138, 29, 20, 0.22);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.glimpse-card[data-style="wh-mechanicus"] .glimpse-dots i { border-radius: 0; }
+/* The badge sits left, clear of the cog. */
+[data-style="wh-mechanicus"] .glimpse-badge {
+  top: 18px;
+  left: 18px;
+  right: auto;
+  border-color: var(--wh-red);
+  border-radius: 0;
+  background: #0e100e;
+  color: var(--wh-green);
+  font-family: "Share Tech Mono", monospace;
+}
+
+.glimpse-card.glimpse-banner[data-style="wh-mechanicus"] .glimpse-hero { margin-bottom: var(--wh-case); }
+.glimpse-card.glimpse-banner[data-style="wh-mechanicus"] .glimpse-frame::before { left: 20%; }
+.glimpse-card.glimpse-banner[data-style="wh-mechanicus"] .glimpse-footer { margin-left: 0; }
+
+/* Gallery page only: room under the cogitator for its cables. */
+.proto-cell:has(.glimpse-card[data-style="wh-cogitator"]) { padding-bottom: 90px; }

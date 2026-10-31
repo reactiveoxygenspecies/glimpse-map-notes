@@ -137,10 +137,15 @@ body {
 .showcase .proto-label h2 { font-size: 18px; }
 .showcase .proto-label h2 span { margin-left: 8px; font-size: 13px; }
 
-/* The Foundry showcase: dark and light side by side, each a card over its region banner. Shot at 1600x1000, 1.25x. */
+/* The Foundry and Domain showcases: dark and light side by side, each a card over its region banner. Shot at
+   1600x1000, 1.25x. */
 .showcase-foundry .proto-grid { grid-template-columns: repeat(2, 640px); gap: 0 110px; }
 .showcase-foundry .proto-cell { align-items: flex-start; gap: 22px; }
 .showcase-foundry .proto-label { width: 640px; }
+
+/* The Warhammer showcase: the shortlist in one row of medium cards, tops aligned. Shot at 2200x1375, scaled to
+   2000x1250. */
+.showcase-row .proto-grid { grid-template-columns: repeat(5, 380px); gap: 0 46px; align-items: start; align-content: center; }
 
 @media (max-width: 520px) {
   .proto-top { padding: 12px 16px; }
