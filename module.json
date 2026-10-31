@@ -2,7 +2,7 @@
   "id": "glimpse-map-notes",
   "title": "Glimpse: Map Note Previews",
   "description": "Hover a map note or region to see a location card: mood images, ambient sound, facts and a short excerpt from the linked journal. Reveal places to the table, keep undiscovered ones as rumours, and swap images by time of day. Built for worldbuilding.",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "compatibility": {
     "minimum": "14",
     "verified": "14"
