@@ -279,17 +279,20 @@ export function onRenderRegionConfig(app, element) {
   link.innerHTML = `<i class="fa-solid fa-mountain-sun" inert></i> <span>${loc("Title")}</span>`;
   nav.append(link);
 
-  // Tab contents.
+  // Tab contents. Core region tabs clip their overflow, so scroll an inner wrapper as they do.
   const section = document.createElement("section");
-  section.className = "tab region-glimpse scrollable";
+  section.className = "tab region-glimpse flexcol";
   section.classList.toggle("active", active);
   section.dataset.tab = "glimpse";
   section.dataset.group = "sheet";
+  const body = document.createElement("div");
+  body.className = "scrollable";
+  section.append(body);
 
   const hint = document.createElement("p");
   hint.className = "hint glimpse-region-hint";
   hint.textContent = loc("Config.RegionIntro");
-  section.append(hint);
+  body.append(hint);
 
   const general = fieldset("RegionLegend", "fa-solid fa-map");
   general.append(group("Enabled", createCheckboxInput({name: name("enabled"), value: !!flags.enabled}), {rootId}));
@@ -311,7 +314,7 @@ export function onRenderRegionConfig(app, element) {
 
   const presentation = fieldset("Legend", "fa-solid fa-mountain-sun");
   presentation.append(...presentationGroups(flags, rootId, {withSize: false}));
-  section.append(general, presentation, discoveryFieldset(flags, rootId));
+  body.append(general, presentation, discoveryFieldset(flags, rootId));
 
   const last = element.querySelector(".tab[data-group='sheet'][data-tab='behaviors']")
     ?? Array.from(element.querySelectorAll(".tab[data-group='sheet']")).at(-1);
