@@ -446,6 +446,15 @@
         art: "dusk", caption: "The forge-spire venting at dusk"}
     ];
 
+    // The five Warhammer styles as built into the module (styles/themes.css), with the shortlist's content.
+    const WARHAMMER_BUILT = [
+      ["proclamation", "Proclamation", "Warhammer Fantasy Roleplay, Zweihänder, The Witcher", "UnifrakturMaguntia, IM Fell English"],
+      ["imperial", "Imperial Record", "Wrath & Glory, Dark Heresy", "Cinzel, Crimson Pro"],
+      ["dataslate", "Dataslate", "Imperium Maledictum", "Cinzel, Share Tech Mono, Spectral"],
+      ["cogitator", "Cogitator", "Rogue Trader, Fallout, Paranoia", "VT323"],
+      ["mechanicus", "Mechanicus", "Dark Heresy, Rogue Trader", "Grenze Gotisch, Share Tech Mono, Crimson Pro"]
+    ].map(([id, name, fits, fonts], i) => ({...WARHAMMER4[i], id, name, tag: "", variant: undefined, fits, fonts}));
+
     const set = new URLSearchParams(location.search).get("set");
     if ( set === "warhammer" ) STYLES.splice(0, STYLES.length, ...WARHAMMER);
     if ( set === "warhammer4" ) STYLES.splice(0, STYLES.length, ...WARHAMMER4);
@@ -469,6 +478,8 @@
       // Domain follows the interface theme too.
       STYLES.splice(STYLES.findIndex(s => s.id === "domain") + 1, 0,
         {...STYLES.find(s => s.id === "domain"), theme: "light", tag: "light interface"});
+
+      STYLES.push(...WARHAMMER_BUILT);
     }
 
     const state = {view: "card", layout: "full", size: "medium", rumoured: false, motion: false, scanlines: true, imageEffects: true};
@@ -500,17 +511,16 @@
       STYLES.splice(0, STYLES.length, ...picked);
       SHOWCASE[pairId] = PAIR_SHOWCASES[pairId];
     }
-    // ?showcase=warhammer sets the Warhammer shortlist in one row at medium size, for docs/styles-warhammer.jpg.
+    // ?showcase=warhammer sets the five Warhammer styles in one row at medium size, for docs/styles-warhammer.jpg.
     const showcaseRow = params.get("showcase") === "warhammer";
     if ( showcaseRow ) {
       document.body.classList.add("showcase", "showcase-row");
-      const ROW = {
-        "wh-decree": ["Proclamation", "WFRP · Zweihänder · The Witcher"], "wh-record": ["Imperial Record", "Wrath & Glory · Dark Heresy"],
-        "wh-slate": ["Dataslate", "Imperium Maledictum · Traveller"], "wh-cogitator": ["Cogitator", "Rogue Trader · Fallout · Paranoia"],
-        "wh-mechanicus": ["Mechanicus", "Dark Heresy · Rogue Trader"]
-      };
-      STYLES.splice(0, STYLES.length, ...WARHAMMER4.map(s => ({...s, name: ROW[s.id][0], body: s.body.slice(0, 1)})));
-      for ( const [id, [, fits]] of Object.entries(ROW) ) SHOWCASE[id] = fits;
+      Object.assign(SHOWCASE, {
+        proclamation: "WFRP · Zweihänder · The Witcher", imperial: "Wrath & Glory · Dark Heresy",
+        dataslate: "Imperium Maledictum · Traveller", cogitator: "Rogue Trader · Fallout · Paranoia",
+        mechanicus: "Dark Heresy · Rogue Trader"
+      });
+      STYLES.splice(0, STYLES.length, ...WARHAMMER_BUILT.map(s => ({...s, body: s.body.slice(0, 1)})));
     }
     const showcase = (params.get("showcase") === "1") || showcaseFoundry || showcaseRow;
     if ( showcase && !showcaseFoundry && !showcaseRow ) {
