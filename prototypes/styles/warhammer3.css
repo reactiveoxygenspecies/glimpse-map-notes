@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Warhammer candidates, round 3 (?set=warhammer3)
+   Variations layered over the round 1 and 2 styles by data-variant tokens, so the earlier cards stay as they were:
+   corner      F2: the faint hammer stamp moves to the bottom right corner
+   upright     K1: the iron boss stands straight, with solid black spikes
+   topcorners  K2: corner brackets at the top only
+   clean       Cogitator: scanlines on the picture only, none over the text
+   fade        Cogitator: the hanging cables fade out instead of ending
+   vt, plex    Cogitator fonts: VT323 throughout, or IBM Plex Mono throughout
+   eye         Mechanicus: a brighter, glowing bionic eye in the Cog Mechanicus
+   petch, goth Mechanicus fonts: Chakra Petch and PT Sans, or Grenze Gotisch, Share Tech Mono and Crimson Pro
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style^="wh-"] {
+  /* The iron boss with solid black spikes. */
+  --wh-boss-black: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><polygon points='30,1 33.83,20.76 44.14,15.86 39.24,26.17 59,30 39.24,33.83 44.14,44.14 33.83,39.24 30,59 26.17,39.24 15.86,44.14 20.76,33.83 1,30 20.76,26.17 15.86,15.86 26.17,20.76' fill='%23181e1f'/><circle cx='30' cy='30' r='13' fill='%23181e1f' stroke='%238a2e2a' stroke-width='2.2'/><path transform='translate(21 21.4) scale(.9)' fill='%23e6e5e3' fill-rule='evenodd' d='M10 1C4.5 1 1.5 5 1.5 9.5c0 3 1.5 5 3.5 6V19h10v-3.5c2-1 3.5-3.5 3.5-6C18.5 5 15.5 1 10 1ZM4.6 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10.8 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10 12l-1.2 2.4h2.4ZM7.6 16.4h.9V19h-.9ZM9.55 16.4h.9V19h-.9ZM11.5 16.4h.9V19h-.9Z'/></svg>");
+  /* The Cog Mechanicus with a lit bionic eye: a steel socket ring, a bright green lens and its glow. */
+  --wh-cog-skull-eye: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><defs><filter id='g' x='-1' y='-1' width='3' height='3'><feGaussianBlur stdDeviation='1.4'/></filter></defs><circle cx='20' cy='20' r='15.5' fill='none' stroke='%23b3261b' stroke-width='5' stroke-dasharray='4.87 4.87'/><circle cx='20' cy='20' r='14' fill='%23b3261b'/><circle cx='20' cy='20' r='11.2' fill='%23120808'/><path transform='translate(11.5 10.6) scale(.85)' fill='%23e8e0d0' fill-rule='evenodd' d='M10 1C4.5 1 1.5 5 1.5 9.5c0 3 1.5 5 3.5 6V19h10v-3.5c2-1 3.5-3.5 3.5-6C18.5 5 15.5 1 10 1ZM4.6 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10.8 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10 12l-1.2 2.4h2.4ZM7.6 16.4h.9V19h-.9ZM9.55 16.4h.9V19h-.9ZM11.5 16.4h.9V19h-.9Z'/><circle cx='22.6' cy='18.7' r='4' fill='%2322ff66' filter='url(%23g)'/><circle cx='22.6' cy='18.7' r='2.7' fill='%23303637' stroke='%23b9c0bd' stroke-width='.6'/><circle cx='22.6' cy='18.7' r='1.9' fill='%2345ff85'/><circle cx='22.1' cy='18.2' r='.5' fill='%23fff'/></svg>");
+}
+
+/* --------------------------------------------------------------------------
+   F2c. The stamp in the bottom right corner, partly off the paper's edge
+   -------------------------------------------------------------------------- */
+
+.glimpse-card[data-style="wh-decree"][data-variant~="corner"] .glimpse-frame::after {
+  inset: auto -1.4em -1.6em auto;
+  width: 10.5em;
+  height: 10.5em;
+  transform: rotate(-14deg);
+}
+.glimpse-card.glimpse-banner[data-style="wh-decree"][data-variant~="corner"] .glimpse-frame::after { inset: auto -1em -1.4em auto; width: 8.5em; height: 8.5em; }
+#glimpse-lightbox[data-style="wh-decree"][data-variant~="corner"] .glimpse-lb-text::before { left: auto; right: -2em; bottom: -2em; transform: rotate(-14deg); }
+#glimpse-lightbox[data-style="wh-decree"][data-variant~="corner"] .glimpse-lb-text { overflow-x: hidden; }
+
+/* --------------------------------------------------------------------------
+   K1c. The boss upright, without the 45 degree turn the module gives the rule's centre mark
+   -------------------------------------------------------------------------- */
+
+[data-style="wh-record"][data-variant~="upright"] .glimpse-rule span {
+  transform: none;
+  background-image: var(--wh-boss-black);
+  filter: none;
+}
+
+/* --------------------------------------------------------------------------
+   K2, top corners only
+   -------------------------------------------------------------------------- */
+
+.glimpse-card[data-style="wh-slate"][data-variant~="topcorners"] .glimpse-frame::after {
+  background:
+    conic-gradient(from 90deg at top 2px left 2px, var(--g)) 0 0 / var(--p),
+    conic-gradient(from 180deg at top 2px right 2px, var(--g)) 100% 0 / var(--p);
+}
+
+/* --------------------------------------------------------------------------
+   Cogitator: clean text, faded cables, and two font tries
+   -------------------------------------------------------------------------- */
+
+/* Scanlines on the picture only; the text sits on plain glass, without the glow that blurred it. */
+.glimpse-card[data-style="wh-cogitator"][data-variant~="clean"] .glimpse-frame::before { display: none; }
+.glimpse-card[data-style="wh-cogitator"][data-variant~="clean"] .glimpse-scrim {
+  background: var(--g-scanlines), radial-gradient(ellipse at 50% 40%, transparent 50%, rgba(0, 0, 0, 0.55) 100%);
+}
+[data-style="wh-cogitator"][data-variant~="clean"] .glimpse-body { text-shadow: none; }
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"][data-variant~="clean"] {
+  --g-title-shadow: 0 0 8px rgba(var(--wh-phos), 0.35);
+}
+
+/* The cables fade out below the casing. */
+.glimpse-card[data-style="wh-cogitator"][data-variant~="fade"]::after {
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 92%);
+}
+
+/* VT323 throughout: the plainest CRT face. It runs small, so everything steps up. */
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"][data-variant~="vt"] .glimpse-title {
+  font-family: "VT323", monospace;
+  font-size: 2.6em;
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"][data-variant~="vt"] .glimpse-subtitle { font-family: "VT323", monospace; font-size: 1.05em; letter-spacing: 0.1em; }
+[data-style="wh-cogitator"][data-variant~="vt"] :is(.glimpse-facts, .glimpse-footer) { font-family: "VT323", monospace; }
+[data-style="wh-cogitator"][data-variant~="vt"] .glimpse-facts { font-size: 1em; }
+.glimpse-card[data-style="wh-cogitator"][data-variant~="vt"] .glimpse-footer { font-size: 0.95em; letter-spacing: 0.08em; }
+[data-style="wh-cogitator"][data-variant~="vt"] .glimpse-body { font-family: "VT323", monospace; font-size: 1.32em; line-height: 1.15; }
+[data-style="wh-cogitator"][data-variant~="vt"] .glimpse-body > p:first-child::first-letter { float: none; margin: 0; font: inherit; color: inherit; text-shadow: none; }
+#glimpse-lightbox[data-style="wh-cogitator"][data-variant~="vt"] .glimpse-lb-body { font-size: 1.32em; line-height: 1.15; }
+
+/* IBM Plex Mono throughout: a cleaner terminal face that reads well at length. */
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"][data-variant~="plex"] .glimpse-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1.55em;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-cogitator"][data-variant~="plex"] .glimpse-subtitle { font-family: "IBM Plex Mono", monospace; font-size: 0.72em; letter-spacing: 0.1em; }
+[data-style="wh-cogitator"][data-variant~="plex"] :is(.glimpse-facts, .glimpse-footer) { font-family: "IBM Plex Mono", monospace; }
+[data-style="wh-cogitator"][data-variant~="plex"] .glimpse-facts { font-size: 0.74em; }
+.glimpse-card[data-style="wh-cogitator"][data-variant~="plex"] .glimpse-footer { font-size: 0.68em; }
+[data-style="wh-cogitator"][data-variant~="plex"] .glimpse-body { font-family: "IBM Plex Mono", monospace; font-size: 0.9em; line-height: 1.55; }
+[data-style="wh-cogitator"][data-variant~="plex"] .glimpse-body > p:first-child::first-letter { float: none; margin: 0; font: inherit; font-weight: 600; color: var(--wh-phos-hi); text-shadow: none; }
+
+/* --------------------------------------------------------------------------
+   Mechanicus: the lit eye, and two font tries
+   -------------------------------------------------------------------------- */
+
+.glimpse-card[data-style="wh-mechanicus"][data-variant~="eye"] .glimpse-frame::before {
+  width: 3em;
+  height: 3em;
+  background-image: var(--wh-cog-skull-eye);
+}
+
+/* Chakra Petch for the machine voice: name, subtitle and readouts; PT Sans for the text. */
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-mechanicus"][data-variant~="petch"] .glimpse-title {
+  font-family: "Chakra Petch", sans-serif;
+  font-size: 1.95em;
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-mechanicus"][data-variant~="petch"] .glimpse-subtitle { font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 0.74em; letter-spacing: 0.16em; }
+[data-style="wh-mechanicus"][data-variant~="petch"] :is(.glimpse-facts, .glimpse-footer) { font-family: "Chakra Petch", sans-serif; }
+[data-style="wh-mechanicus"][data-variant~="petch"] .glimpse-fact-label { font-weight: 600; }
+[data-style="wh-mechanicus"][data-variant~="petch"] .glimpse-body { font-family: "PT Sans", sans-serif; font-size: 1em; line-height: 1.5; }
+[data-style="wh-mechanicus"][data-variant~="petch"] .glimpse-body > p:first-child::first-letter { font-family: "Chakra Petch", sans-serif; font-weight: 700; }
+
+/* Grenze Gotisch for the machine cult's liturgy, Share Tech Mono for its data, Crimson Pro for the text. */
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-mechanicus"][data-variant~="goth"] .glimpse-title {
+  font-family: "Grenze Gotisch", var(--font-serif, serif);
+  font-size: 2.35em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+[data-style="wh-mechanicus"][data-variant~="goth"] .glimpse-body { font-family: "Crimson Pro", var(--font-serif, serif); font-size: 1.08em; line-height: 1.48; }
+[data-style="wh-mechanicus"][data-variant~="goth"] .glimpse-body > p:first-child::first-letter { font-family: "Grenze Gotisch", var(--font-serif, serif); font-size: 3.2em; font-weight: 700; line-height: 0.8; }
+
+/* Rumoured text keeps a plain first letter, as in every style. */
+.glimpse-card.is-rumoured[data-style="wh-mechanicus"]:is([data-variant~="petch"], [data-variant~="goth"]) .glimpse-body > p:first-child::first-letter {
+  float: none;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}

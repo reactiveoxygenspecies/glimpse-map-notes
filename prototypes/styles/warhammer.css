@@ -1,0 +1,1090 @@
+/* ==========================================================================
+   Warhammer candidates (mockups, not part of the module yet)
+   Three takes on Warhammer Fantasy Roleplay and three on Warhammer 40,000 (Wrath & Glory, Imperium Maledictum,
+   Dark Heresy). Colours follow moo-man's Foundry systems: WFRP4e's cream #f0d9a3, oxblood #4a0404 and brass frames;
+   Wrath & Glory's red #8a2e2a on grey-white paper in black gothic frames; Imperium Maledictum's teal #065c63 on
+   #1c3132 with orange #cf9742. Their fonts are commercial (Caslon Pro, Caslon Antique, Caxton, Priori, Novarese),
+   so open stand-ins are used: Libre Caslon Text, IM Fell English, Crimson Pro, Cinzel. The skulls, comet, aquila
+   wings, seals and frames are drawn here in CSS and small inline SVGs, not copied from the systems' art.
+   Same conventions as styles/themes.css, so a chosen one can move across as it is.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style^="wh-"] {
+  --wh-skull: "M10 1C4.5 1 1.5 5 1.5 9.5c0 3 1.5 5 3.5 6V19h10v-3.5c2-1 3.5-3.5 3.5-6C18.5 5 15.5 1 10 1Z";
+  /* Sigmar's twin-tailed comet. */
+  --wh-comet: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 16'><g fill='%234a0404'><path d='M33 6.6C23 5.6 12 3 1 1.2C11 4.4 22 7.2 33 8.4Z'/><path d='M33 9.4C23 10.4 12 13 1 14.8C11 11.6 22 8.8 33 7.6Z'/><circle cx='35.5' cy='8' r='3.4'/></g><path d='M35.5 1.2v2.6M35.5 12.2v2.6M42.6 8h-2.8M40.6 3l-1.8 1.8M40.6 13l-1.8-1.8' stroke='%234a0404' stroke-width='1.2' stroke-linecap='round'/></svg>");
+  /* A spiked brass boss with a skull, after the bar on the system's menus. */
+  --wh-boss: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'><defs><linearGradient id='b' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%23f1d58c'/><stop offset='.5' stop-color='%23a67c3a'/><stop offset='1' stop-color='%234a3216'/></linearGradient></defs><polygon points='30,1 33.83,20.76 44.14,15.86 39.24,26.17 59,30 39.24,33.83 44.14,44.14 33.83,39.24 30,59 26.17,39.24 15.86,44.14 20.76,33.83 1,30 20.76,26.17 15.86,15.86 26.17,20.76' fill='url(%23b)' stroke='%232a1c0c' stroke-width='.8'/><circle cx='30' cy='30' r='13' fill='%233b2814' stroke='%23c9a24f' stroke-width='1.6'/><path transform='translate(21 21.4) scale(.9)' fill='%23ead9b0' fill-rule='evenodd' d='M10 1C4.5 1 1.5 5 1.5 9.5c0 3 1.5 5 3.5 6V19h10v-3.5c2-1 3.5-3.5 3.5-6C18.5 5 15.5 1 10 1ZM4.6 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10.8 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10 12l-1.2 2.4h2.4ZM7.6 16.4h.9V19h-.9ZM9.55 16.4h.9V19h-.9ZM11.5 16.4h.9V19h-.9Z'/></svg>");
+  /* A red wax seal with Sigmar's hammer, and two ribbons. */
+  --wh-wax: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 78'><path d='M23 38L14 76l6-5 5 6 5-37Z' fill='%23701212'/><path d='M35 38l10 36-6-4-4 6-6-37Z' fill='%238e1818'/><path d='M30 4c6 0 9 3 13 4s8 5 8 11-1 7 1 11-3 9-8 12-8 5-14 5-11-2-15-5-8-6-8-11 1-7-1-11 3-8 8-11 8-5 16-5Z' fill='%23a3201b'/><circle cx='30' cy='28' r='13.5' fill='none' stroke='%236d1210' stroke-width='1.8'/><path d='M23.5 19h13v6.5h-5V38h-3V25.5h-5Z' fill='%236d1210'/><ellipse cx='22' cy='15' rx='6' ry='2.6' fill='%23fff' opacity='.2' transform='rotate(-25 22 15)'/></svg>");
+  /* An aquila wing, pointing right; the left one is the same drawing flipped. */
+  --wh-wing: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 20'><path fill='%238a2e2a' d='M0 5h8v10H0ZM10 5L59 1l-3.4 4.6L10 8.6ZM10 9.6L53 7.6l-3.2 4.2L10 12.4ZM10 13.4L45 14l-3 3.6L10 16Z'/></svg>");
+  /* The two-headed aquila, in Imperium Maledictum's teal. */
+  --wh-aquila: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 84 24'><g fill='%235fb8ae'><path transform='translate(47 3) scale(.62)' d='M0 5h8v10H0ZM10 5L59 1l-3.4 4.6L10 8.6ZM10 9.6L53 7.6l-3.2 4.2L10 12.4ZM10 13.4L45 14l-3 3.6L10 16Z'/><path transform='translate(37 3) scale(-.62 .62)' d='M0 5h8v10H0ZM10 5L59 1l-3.4 4.6L10 8.6ZM10 9.6L53 7.6l-3.2 4.2L10 12.4ZM10 13.4L45 14l-3 3.6L10 16Z'/><path d='M38 6h8v9l-4 8-4-8Z'/><circle cx='38.6' cy='3.6' r='2.6'/><circle cx='45.4' cy='3.6' r='2.6'/></g></svg>");
+  /* A purity seal: red wax with two strips of litany. */
+  --wh-purity: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 100'><g transform='rotate(5 14 30)'><path d='M9 28h10v64l-2.5-3-2.5 3-2.5-3L9 92Z' fill='%23e6dabd'/><path d='M11 40h6M11 44h5M11 48h6M11 52h3.5M11 60h6M11 64h5M11 68h6M11 76h4.5M11 80h6' stroke='%236b5a40' stroke-width='.8' opacity='.75'/></g><g transform='rotate(-6 30 30)'><path d='M24 28h10v54l-2.5-3-2.5 3-2.5-3-2.5 3Z' fill='%23dccfae'/><path d='M26 38h6M26 42h5M26 46h6M26 54h3.5M26 58h6M26 62h5M26 70h6' stroke='%236b5a40' stroke-width='.8' opacity='.75'/></g><path d='M22 3c5 0 7 2 10 3s6 4 6 8-1 6 1 9-2 7-6 9-6 4-11 4-8-2-11-4-6-5-6-9 1-5 0-8 2-7 6-9 6-3 11-3Z' fill='%238a1f1a'/><circle cx='22' cy='20.5' r='10.5' fill='none' stroke='%235e100c' stroke-width='1.6'/><path d='M22 13v15M17 16h10M18 21h8' stroke='%235e100c' stroke-width='2' stroke-linecap='round'/><ellipse cx='16' cy='11' rx='4.5' ry='2' fill='%23fff' opacity='.2' transform='rotate(-25 16 11)'/></svg>");
+  --wh-skull-gold: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='%23d9b25f' fill-rule='evenodd' d='M10 1C4.5 1 1.5 5 1.5 9.5c0 3 1.5 5 3.5 6V19h10v-3.5c2-1 3.5-3.5 3.5-6C18.5 5 15.5 1 10 1ZM4.6 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10.8 9.5a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0-4.6 0ZM10 12l-1.2 2.4h2.4ZM7.6 16.4h.9V19h-.9ZM9.55 16.4h.9V19h-.9ZM11.5 16.4h.9V19h-.9Z'/></svg>");
+}
+
+/* The framed takes show their picture whole, like the framed styles in themes.css. */
+.glimpse-card:is([data-style="wh-reik"], [data-style="wh-decree"], [data-style="wh-banner"], [data-style="wh-record"]) .glimpse-hero {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+/* ==========================================================================
+   F1. Reikland: the WFRP4e Foundry system
+   A cream parchment page in a riveted brass frame. A spiked brass boss with a skull sits on the picture's lower edge,
+   as on the system's menu bar. Caslon for the text, a distressed old face for the name, Sigmar's comet on the rule,
+   and the oxblood diamond lattice of the system's backgrounds along the foot.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-reik"] {
+  --g-heading-font: "IM Fell English", var(--font-serif, serif);
+  --g-bg: #efe3c3;
+  --g-paper:
+    radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(110, 72, 20, 0.22) 100%),
+    radial-gradient(circle at 22% 70%, rgba(150, 110, 40, 0.08), transparent 18%),
+    radial-gradient(circle at 80% 30%, rgba(150, 110, 40, 0.07), transparent 14%),
+    linear-gradient(#f2e7c9, #e8d9b4);
+  --g-title: #2b1a0e;
+  --g-ink: #2a1d10;
+  --g-ink-soft: #33240f;
+  --g-muted: #6f5a3c;
+  --g-accent: #4a0404;
+  --g-line: rgba(93, 81, 62, 0.75);
+  --g-edge: rgba(93, 81, 62, 0.25);
+  --g-hero-bg: #3b2814;
+  --g-title-shadow: none;
+  --g-shadow: 0 26px 60px -18px rgba(20, 10, 0, 0.75), 0 8px 20px -8px rgba(20, 10, 0, 0.5);
+  --wh-brass: 9px;
+  --wh-lattice:
+    repeating-linear-gradient(45deg, transparent 0 11px, rgba(201, 162, 79, 0.34) 11px 12px),
+    repeating-linear-gradient(-45deg, transparent 0 11px, rgba(201, 162, 79, 0.34) 11px 12px),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.35)),
+    #4a0404;
+}
+
+/* The brass frame: dark bronze, a lit edge, and the bevel back down. */
+.glimpse-card[data-style="wh-reik"] .glimpse-frame {
+  border-radius: 2px;
+  box-shadow:
+    var(--g-shadow),
+    0 0 0 1px #24170a,
+    inset 0 0 0 2px #3b2a14,
+    inset 0 0 0 4px #9b773a,
+    inset 0 0 0 5px #e4c77f,
+    inset 0 0 0 7px #7a5a28,
+    inset 0 0 0 var(--wh-brass) #2a1c0c;
+}
+
+/* Rivets in the four corners. */
+.glimpse-card[data-style="wh-reik"] .glimpse-frame::after {
+  inset: 1px;
+  border: none;
+  border-radius: 0;
+  opacity: 1;
+  --rivet: radial-gradient(circle at 40% 35%, #fbe7a8 0 1px, #b38a43 1.6px, #3b2814 3.2px, transparent 3.8px);
+  background:
+    var(--rivet) 0 0 / 8px 8px no-repeat,
+    var(--rivet) 100% 0 / 8px 8px no-repeat,
+    var(--rivet) 0 100% / 8px 8px no-repeat,
+    var(--rivet) 100% 100% / 8px 8px no-repeat;
+}
+
+.glimpse-card[data-style="wh-reik"] .glimpse-hero {
+  margin: var(--wh-brass) var(--wh-brass) 0;
+  border-bottom: 2px solid #7a5a28;
+}
+.glimpse-card[data-style="wh-reik"] .glimpse-slide :is(img, video) { filter: sepia(0.22) contrast(1.05) saturate(0.9); }
+.glimpse-card[data-style="wh-reik"].is-rumoured .glimpse-slide :is(img, video) { filter: sepia(0.4) blur(9px) brightness(0.85); }
+.glimpse-card[data-style="wh-reik"] .glimpse-scrim { background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(40, 20, 4, 0.4) 100%); }
+
+/* The header hangs under the boss. */
+.glimpse-card[data-style="wh-reik"] .glimpse-header,
+.glimpse-card[data-style="wh-reik"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-reik"][data-layout="image"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-reik"] .glimpse-hero + .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: 0;
+  padding: 1.15em 1.6em 0;
+  text-align: center;
+}
+.glimpse-card[data-style="wh-reik"] .glimpse-hero + .glimpse-header { padding-top: 1.75em; }
+.glimpse-card[data-style="wh-reik"] .glimpse-hero + .glimpse-header::before {
+  content: "";
+  position: absolute;
+  top: -1.55em;
+  left: 50%;
+  width: 3em;
+  height: 3em;
+  transform: translateX(-50%);
+  background: var(--wh-boss) center / contain no-repeat;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+}
+.glimpse-card[data-style="wh-reik"][data-layout="image"] .glimpse-header { padding-bottom: 1.1em; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-reik"] .glimpse-title {
+  font-family: "IM Fell English", var(--font-serif, serif);
+  font-size: 2.15em;
+  font-weight: 400;
+  line-height: 1.02;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-reik"] .glimpse-subtitle {
+  margin-bottom: 0.2em;
+  font-family: "IM Fell English SC", var(--font-serif, serif);
+  font-size: 0.92em;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+[data-style="wh-reik"] .glimpse-facts { gap: 0.35em; font-family: "IM Fell English", var(--font-serif, serif); font-size: 0.86em; }
+.glimpse-card[data-style="wh-reik"] .glimpse-facts { justify-content: center; }
+[data-style="wh-reik"] .glimpse-facts li {
+  padding: 0.18em 0.6em 0.12em;
+  border: 1px solid #5d513e;
+  border-radius: 0;
+  background: rgba(119, 78, 0, 0.07);
+  box-shadow: inset 0 0 0 2px rgba(240, 217, 163, 0.6);
+}
+[data-style="wh-reik"] .glimpse-fact-label {
+  font-family: "IM Fell English SC", var(--font-serif, serif);
+  font-size: 1em;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--g-accent);
+}
+[data-style="wh-reik"] .glimpse-facts .glimpse-travel { border-style: solid; background: rgba(74, 4, 4, 0.08); }
+
+/* Brass lines either side of Sigmar's comet. */
+[data-style="wh-reik"] .glimpse-rule { gap: 0.5em; }
+[data-style="wh-reik"] .glimpse-rule::before,
+[data-style="wh-reik"] .glimpse-rule::after { flex: 1; height: 3px; background: linear-gradient(#e4c77f, #7a5a28); border-top: 1px solid #3b2a14; border-bottom: 1px solid #3b2a14; }
+[data-style="wh-reik"] .glimpse-rule span {
+  width: 2.8em;
+  height: 1em;
+  border: none;
+  transform: none;
+  opacity: 1;
+  background: var(--wh-comet) center / contain no-repeat;
+}
+
+[data-style="wh-reik"] .glimpse-body { font-family: "Libre Caslon Text", var(--font-serif, serif); font-size: 0.96em; line-height: 1.58; }
+.glimpse-card[data-style="wh-reik"] .glimpse-body { padding: 0 1.6em; }
+[data-style="wh-reik"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.02em 0.1em 0 0;
+  font-family: "IM Fell English", var(--font-serif, serif);
+  font-size: 3.3em;
+  font-weight: 400;
+  line-height: 0.8;
+}
+.glimpse-card[data-style="wh-reik"] .glimpse-body:last-child { margin-bottom: calc(var(--wh-brass) + 1.1em); }
+
+/* The oxblood lattice along the foot. */
+.glimpse-card[data-style="wh-reik"] .glimpse-footer {
+  margin: 0.6em var(--wh-brass) var(--wh-brass);
+  padding: 0.7em 1.3em 0.75em;
+  border-top: 2px solid #7a5a28;
+  background: var(--wh-lattice);
+  font-family: "IM Fell English", var(--font-serif, serif);
+  font-size: 0.82em;
+  color: #f0d9a3;
+}
+.glimpse-card[data-style="wh-reik"] .glimpse-footer :is(.glimpse-hint i) { color: #e4c77f; }
+.glimpse-card[data-style="wh-reik"] .glimpse-dots i.is-active { background: #e4c77f; }
+
+[data-style="wh-reik"] .glimpse-badge {
+  top: 16px;
+  right: 16px;
+  border: 1px solid #c9a24f;
+  border-radius: 0;
+  background: #4a0404;
+  color: #f0d9a3;
+  font-family: "IM Fell English", var(--font-serif, serif);
+  font-size: 0.78em;
+}
+
+.glimpse-card.glimpse-banner[data-style="wh-reik"] .glimpse-hero { margin-bottom: var(--wh-brass); border-bottom: none; }
+.glimpse-card.glimpse-banner[data-style="wh-reik"] .glimpse-header::before { display: none; }
+.glimpse-card.glimpse-banner[data-style="wh-reik"] .glimpse-header { text-align: left; padding-top: 1.2em; }
+.glimpse-card.glimpse-banner[data-style="wh-reik"] .glimpse-facts { justify-content: flex-start; }
+.glimpse-card.glimpse-banner[data-style="wh-reik"] .glimpse-footer { margin-left: 0; }
+
+#glimpse-lightbox[data-style="wh-reik"] .glimpse-lb-stage {
+  border: var(--wh-brass) solid #7a5a28;
+  box-shadow: var(--g-shadow), 0 0 0 1px #24170a, inset 0 0 0 1px #e4c77f;
+}
+#glimpse-lightbox[data-style="wh-reik"] .glimpse-title { color: var(--g-accent); }
+
+/* ==========================================================================
+   F2. Proclamation: a printed notice nailed to the coaching-inn door
+   Rough-edged paper held by two nails, a woodcut print of the picture, a blackletter name with its first letter in
+   red, a pointing hand for the road, and a wax seal with ribbons in the corner.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-decree"] {
+  --g-heading-font: "UnifrakturMaguntia", var(--font-serif, serif);
+  --g-bg: #ebe0c4;
+  --g-paper:
+    radial-gradient(circle at 12% 82%, rgba(140, 96, 40, 0.16), transparent 9%),
+    radial-gradient(circle at 88% 12%, rgba(140, 96, 40, 0.12), transparent 7%),
+    radial-gradient(circle at 70% 64%, rgba(140, 96, 40, 0.08), transparent 5%),
+    radial-gradient(ellipse at 50% 50%, transparent 58%, rgba(110, 76, 30, 0.24) 100%),
+    linear-gradient(#efe5cc, #e2d3b0);
+  --g-title: #15100c;
+  --g-ink: #1d1712;
+  --g-ink-soft: #2a2119;
+  --g-muted: #6d5c45;
+  --g-accent: #9b1b14;
+  --g-line: rgba(21, 16, 12, 0.85);
+  --g-edge: rgba(21, 16, 12, 0.2);
+  --g-hero-bg: #d8c9a6;
+  --g-title-shadow: none;
+}
+
+/* Torn paper: the shadow moves out to the card, since clip-path would clip it. */
+.glimpse-card[data-style="wh-decree"] {
+  filter: drop-shadow(0 18px 22px rgba(20, 10, 0, 0.55)) drop-shadow(0 2px 3px rgba(20, 10, 0, 0.35));
+}
+.glimpse-card[data-style="wh-decree"] .glimpse-frame {
+  border-radius: 0;
+  box-shadow: none;
+  clip-path: polygon(0% 4px, 4% 1px, 9% 3px, 15% 0, 22% 3px, 30% 1px, 38% 4px, 47% 0, 55% 2px, 63% 0, 71% 3px, 79% 1px,
+    87% 4px, 94% 0, 100% 3px, calc(100% - 3px) 6%, 100% 14%, calc(100% - 2px) 23%, 100% 33%, calc(100% - 4px) 44%,
+    100% 55%, calc(100% - 2px) 66%, 100% 77%, calc(100% - 3px) 88%, 100% 96%, 99% 100%, 92% calc(100% - 3px),
+    84% 100%, 76% calc(100% - 2px), 67% 100%, 58% calc(100% - 4px), 49% 100%, 40% calc(100% - 2px), 31% 100%,
+    22% calc(100% - 3px), 13% 100%, 5% calc(100% - 2px), 0 100%, 3px 93%, 0 84%, 2px 74%, 0 63%, 4px 52%, 0 41%,
+    2px 30%, 0 19%, 3px 9%);
+}
+
+/* Two nails through the top corners. */
+.glimpse-card[data-style="wh-decree"] .glimpse-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  --nail: radial-gradient(circle at 45% 40%, #c9c3b8 0 1px, #6b655c 2px, #2a2622 4.5px, rgba(40, 20, 0, 0.35) 6px, transparent 7.5px);
+  background: var(--nail) 10px 10px / 16px 16px no-repeat, var(--nail) calc(100% - 10px) 10px / 16px 16px no-repeat;
+}
+
+/* The wax seal and its ribbons, low in the corner. */
+.glimpse-card[data-style="wh-decree"] .glimpse-frame::after {
+  inset: auto 0.9em 0.6em auto;
+  width: 3.3em;
+  height: 4.3em;
+  border: none;
+  border-radius: 0;
+  opacity: 1;
+  transform: rotate(-8deg);
+  background: var(--wh-wax) center / contain no-repeat;
+  filter: drop-shadow(1px 2px 1px rgba(40, 10, 0, 0.35));
+}
+
+.glimpse-card[data-style="wh-decree"] .glimpse-hero {
+  margin: 1.7em 1.5em 0;
+  border: 2px solid #15100c;
+  box-shadow: 0 0 0 3px var(--g-bg), 0 0 0 4px #15100c;
+}
+.glimpse-card[data-style="wh-decree"] .glimpse-slide :is(img, video) { filter: grayscale(1) contrast(1.7) brightness(1.08) sepia(0.3); mix-blend-mode: multiply; }
+.glimpse-card[data-style="wh-decree"].is-rumoured .glimpse-slide :is(img, video) { filter: grayscale(1) contrast(1.4) sepia(0.3) blur(9px); }
+.glimpse-card[data-style="wh-decree"] .glimpse-scrim { background: none; }
+
+.glimpse-card[data-style="wh-decree"] .glimpse-header,
+.glimpse-card[data-style="wh-decree"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-decree"][data-layout="image"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-decree"] .glimpse-hero + .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: 0;
+  padding: 0.85em 1.6em 0;
+  text-align: center;
+}
+.glimpse-card[data-style="wh-decree"] .glimpse-frame:not(:has(.glimpse-hero)) .glimpse-header { padding-top: 1.9em; }
+.glimpse-card[data-style="wh-decree"][data-layout="image"] .glimpse-header { padding-bottom: 1em; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-decree"] .glimpse-title {
+  font-family: "UnifrakturMaguntia", var(--font-serif, serif);
+  font-size: 2.45em;
+  font-weight: 400;
+  line-height: 1;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-decree"] .glimpse-title::first-letter { color: var(--g-accent); }
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-decree"] .glimpse-subtitle {
+  margin-bottom: 0.35em;
+  font-family: "IM Fell English", var(--font-serif, serif);
+  font-size: 1.02em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--g-ink);
+}
+
+/* Facts as a printed line; the road gets a pointing hand. */
+[data-style="wh-decree"] .glimpse-facts { gap: 0.1em 0.8em; font-family: "IM Fell English", var(--font-serif, serif); font-size: 0.95em; }
+.glimpse-card[data-style="wh-decree"] .glimpse-facts { justify-content: center; }
+[data-style="wh-decree"] .glimpse-facts li { padding: 0; border: none; border-radius: 0; background: none; }
+[data-style="wh-decree"] .glimpse-fact-label {
+  font-family: "IM Fell English SC", var(--font-serif, serif);
+  font-size: 1em;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  color: var(--g-accent);
+}
+[data-style="wh-decree"] .glimpse-facts .glimpse-travel i { display: none; }
+[data-style="wh-decree"] .glimpse-facts .glimpse-travel::before { content: "\261E"; font-size: 1.25em; line-height: 0.8; color: var(--g-accent); }
+
+/* A thick-and-thin printer's rule round a red fleuron. */
+[data-style="wh-decree"] .glimpse-rule { gap: 0.4em; }
+[data-style="wh-decree"] .glimpse-rule::before,
+[data-style="wh-decree"] .glimpse-rule::after { flex: 1; height: 4px; background: none; border-top: 2px solid var(--g-title); border-bottom: 1px solid var(--g-title); }
+[data-style="wh-decree"] .glimpse-rule span { width: auto; height: auto; border: none; transform: none; opacity: 1; line-height: 1; }
+[data-style="wh-decree"] .glimpse-rule span::before { content: "\2766"; font-size: 1.15em; color: var(--g-accent); }
+
+[data-style="wh-decree"] .glimpse-body { font-family: "IM Fell English", var(--font-serif, serif); font-size: 1.04em; line-height: 1.48; }
+.glimpse-card[data-style="wh-decree"] .glimpse-body { padding: 0 1.6em; }
+[data-style="wh-decree"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.06em 0.18em 0 0;
+  padding: 0.06em 0.12em 0;
+  border: 1px solid var(--g-title);
+  box-shadow: inset 0 0 0 2px var(--g-bg), inset 0 0 0 3px var(--g-accent);
+  font-family: "UnifrakturMaguntia", var(--font-serif, serif);
+  font-size: 2.9em;
+  font-weight: 400;
+  line-height: 0.95;
+}
+.glimpse-card[data-style="wh-decree"].is-rumoured .glimpse-body > p:first-child::first-letter { padding: 0; border: none; box-shadow: none; }
+
+.glimpse-card[data-style="wh-decree"] .glimpse-footer {
+  margin: 0.5em 1.6em 0;
+  padding: 0.6em 4em 1.2em 0;
+  border-top: 1px solid var(--g-line);
+  font-family: "IM Fell English", var(--font-serif, serif);
+  font-size: 0.84em;
+}
+.glimpse-card[data-style="wh-decree"] .glimpse-body:last-child { margin-bottom: 4.6em; }
+[data-style="wh-decree"] .glimpse-badge { top: 1.5em; right: 2em; border-color: #15100c; border-radius: 0; color: var(--g-accent); background: #efe5cc; }
+
+.glimpse-card.glimpse-banner[data-style="wh-decree"] .glimpse-hero { margin: 1.4em 0 1.4em 1.4em; }
+.glimpse-card.glimpse-banner[data-style="wh-decree"] .glimpse-header { text-align: left; padding-top: 1.4em; }
+.glimpse-card.glimpse-banner[data-style="wh-decree"] .glimpse-facts { justify-content: flex-start; }
+.glimpse-card.glimpse-banner[data-style="wh-decree"] .glimpse-footer { margin: 0.4em 0 0; }
+
+/* ==========================================================================
+   F3. State Banner: an Empire regiment's standard
+   The card hangs from a pole as a linen banner: slashed-and-puffed stripes across the top, as on the state troops'
+   sleeves, a red hem cut into points at the foot, a gothic name, and a quartered shield on the rule.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-banner"] {
+  --g-heading-font: "Grenze Gotisch", var(--font-serif, serif);
+  --g-bg: #ece0c4;
+  --g-paper:
+    repeating-linear-gradient(0deg, rgba(70, 50, 20, 0.035) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(70, 50, 20, 0.035) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at 50% 30%, rgba(255, 250, 235, 0.5), transparent 70%),
+    linear-gradient(#efe4ca, #e2d3b2);
+  --g-title: #1e130d;
+  --g-ink: #22170f;
+  --g-ink-soft: #2e2116;
+  --g-muted: #6d5a41;
+  --g-accent: #8e1b1b;
+  --g-line: rgba(142, 27, 27, 0.6);
+  --g-edge: rgba(80, 40, 20, 0.2);
+  --g-hero-bg: #2a1c12;
+  --g-title-shadow: none;
+  --wh-red: #8e1b1b;
+  --wh-gold: #c9a24f;
+  --wh-tail: 18px;
+  --wh-stripes: 20px;
+}
+
+.glimpse-card[data-style="wh-banner"] {
+  filter: drop-shadow(0 20px 22px rgba(10, 5, 0, 0.55)) drop-shadow(0 2px 3px rgba(10, 5, 0, 0.35));
+}
+
+/* The pole, with gilt finials, across the top. */
+.glimpse-card[data-style="wh-banner"]::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: -16px;
+  right: -16px;
+  z-index: 6;
+  height: 12px;
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 7px 50%, #f6dc8e 0 2px, #c9a24f 3.5px, #6b4c18 5.5px, transparent 6px),
+    radial-gradient(circle at calc(100% - 7px) 50%, #f6dc8e 0 2px, #c9a24f 3.5px, #6b4c18 5.5px, transparent 6px),
+    linear-gradient(#9a6a3c, #5a3a1c 55%, #2f1d0c);
+}
+
+/* The cloth: stripes along the top, red borders down the sides, cut into points at the foot. */
+.glimpse-card[data-style="wh-banner"] .glimpse-frame {
+  padding-top: calc(var(--wh-stripes) + 3px);
+  border-radius: 0;
+  box-shadow:
+    inset 6px 0 0 var(--wh-red), inset 7px 0 0 var(--wh-gold),
+    inset -6px 0 0 var(--wh-red), inset -7px 0 0 var(--wh-gold);
+  background:
+    linear-gradient(var(--wh-gold), var(--wh-gold)) 0 var(--wh-stripes) / 100% 2px no-repeat,
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.32) 0 1px, transparent 1px 6px, rgba(255, 255, 255, 0.2) 6px 8px, transparent 8px 15px, rgba(0, 0, 0, 0.32) 15px 16px, transparent 16px 32px) 0 0 / 100% var(--wh-stripes) no-repeat,
+    repeating-linear-gradient(90deg, var(--wh-red) 0 16px, #eadfc6 16px 32px) 0 0 / 100% var(--wh-stripes) no-repeat,
+    var(--g-paper), var(--g-bg);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 83.33% calc(100% - var(--wh-tail)), 66.67% 100%, 50% calc(100% - var(--wh-tail)),
+    33.33% 100%, 16.67% calc(100% - var(--wh-tail)), 0 100%);
+}
+.glimpse-card[data-style="wh-banner"] .glimpse-frame::after { display: none; }
+
+.glimpse-card[data-style="wh-banner"] .glimpse-hero {
+  margin: 0.55em 1.1em 0;
+  border: 2px solid var(--wh-gold);
+  outline: 1px solid #3a2410;
+}
+.glimpse-card[data-style="wh-banner"] .glimpse-slide :is(img, video) { filter: saturate(0.85) contrast(1.05) sepia(0.12); }
+.glimpse-card[data-style="wh-banner"].is-rumoured .glimpse-slide :is(img, video) { filter: sepia(0.35) blur(9px) brightness(0.85); }
+.glimpse-card[data-style="wh-banner"] .glimpse-scrim { background: radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(30, 10, 0, 0.3) 100%); }
+
+.glimpse-card[data-style="wh-banner"] .glimpse-header,
+.glimpse-card[data-style="wh-banner"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-banner"][data-layout="image"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-banner"] .glimpse-hero + .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: 0;
+  padding: 0.8em 1.7em 0;
+  text-align: center;
+}
+.glimpse-card[data-style="wh-banner"][data-layout="image"] .glimpse-header { padding-bottom: 0.9em; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-banner"] .glimpse-title {
+  font-family: "Grenze Gotisch", var(--font-serif, serif);
+  font-size: 2.3em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-banner"] .glimpse-subtitle {
+  margin-bottom: 0.3em;
+  font-family: "IM Fell English SC", var(--font-serif, serif);
+  font-size: 0.95em;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+}
+
+/* Facts as heraldic tags: red cloth, gilt edge. */
+[data-style="wh-banner"] .glimpse-facts { gap: 0.35em; font-family: "IM Fell English", var(--font-serif, serif); font-size: 0.86em; }
+.glimpse-card[data-style="wh-banner"] .glimpse-facts { justify-content: center; }
+[data-style="wh-banner"] .glimpse-facts li {
+  padding: 0.16em 0.6em 0.1em;
+  border: 1px solid var(--wh-gold);
+  border-radius: 0;
+  background: var(--wh-red);
+  color: #f3e6c8;
+}
+[data-style="wh-banner"] .glimpse-fact-label { font-family: "IM Fell English SC", var(--font-serif, serif); font-size: 1em; letter-spacing: 0.04em; text-transform: lowercase; color: #f0cf7e; }
+[data-style="wh-banner"] .glimpse-facts .glimpse-travel { border-style: solid; background: #2a1c12; }
+[data-style="wh-banner"] .glimpse-facts .glimpse-travel i { color: #f0cf7e; }
+
+/* A quartered red-and-white shield between gilt lines. */
+[data-style="wh-banner"] .glimpse-rule::before,
+[data-style="wh-banner"] .glimpse-rule::after { flex: 1; height: 1px; background: var(--wh-gold); box-shadow: 0 3px 0 rgba(142, 27, 27, 0.5); }
+[data-style="wh-banner"] .glimpse-rule span {
+  width: 0.95em;
+  height: 1.1em;
+  border: none;
+  transform: none;
+  opacity: 1;
+  background: conic-gradient(var(--wh-red) 0 90deg, #f3e9d2 90deg 180deg, var(--wh-red) 180deg 270deg, #f3e9d2 270deg);
+  clip-path: polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%);
+  box-shadow: inset 0 0 0 1px #3a2410;
+}
+
+[data-style="wh-banner"] .glimpse-body { font-family: "EB Garamond", var(--font-serif, serif); font-size: 1.06em; line-height: 1.5; }
+.glimpse-card[data-style="wh-banner"] .glimpse-body { padding: 0 1.7em; }
+[data-style="wh-banner"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.02em 0.1em 0 0;
+  font-family: "Grenze Gotisch", var(--font-serif, serif);
+  font-size: 3.2em;
+  font-weight: 700;
+  line-height: 0.8;
+}
+.glimpse-card[data-style="wh-banner"] .glimpse-body:last-child { margin-bottom: calc(var(--wh-tail) + 1.6em); }
+
+/* The red hem, cut into points. */
+.glimpse-card[data-style="wh-banner"] .glimpse-footer {
+  margin-top: 0.6em;
+  padding: 0.65em 1.6em calc(var(--wh-tail) + 0.7em);
+  border-top: 2px solid var(--wh-gold);
+  background: linear-gradient(#9b2020, #6f1212);
+  font-family: "IM Fell English", var(--font-serif, serif);
+  font-size: 0.82em;
+  color: #f3e6c8;
+}
+.glimpse-card[data-style="wh-banner"] .glimpse-hint i { color: #f0cf7e; }
+.glimpse-card[data-style="wh-banner"] .glimpse-dots i.is-active { background: #f0cf7e; }
+[data-style="wh-banner"] .glimpse-badge { top: calc(var(--wh-stripes) + 14px); right: 20px; border-color: var(--wh-gold); border-radius: 0; background: var(--wh-red); color: #f3e6c8; }
+
+.glimpse-card.glimpse-banner[data-style="wh-banner"] .glimpse-hero { margin: 0.55em 0 calc(var(--wh-tail) + 0.6em) 1.1em; }
+.glimpse-card.glimpse-banner[data-style="wh-banner"] .glimpse-header { text-align: left; }
+.glimpse-card.glimpse-banner[data-style="wh-banner"] .glimpse-facts { justify-content: flex-start; }
+.glimpse-card.glimpse-banner[data-style="wh-banner"] .glimpse-footer { margin-left: 0; }
+
+/* ==========================================================================
+   K1. Imperial Record: the Wrath & Glory Foundry system
+   Grey-white archive paper in a black gothic frame with blocked corners, a red name in sharp capitals between two
+   aquila wings, black fact plates, and a purity seal hanging over the pict-capture. Rumoured places are stamped
+   "Unverified", as the system stamps "Heresy" and "Approved".
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-record"] {
+  --g-heading-font: "Cinzel", var(--font-serif, serif);
+  --g-bg: #e6e5e3;
+  --g-paper:
+    radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.55), transparent 70%),
+    radial-gradient(ellipse at 50% 50%, transparent 60%, rgba(60, 50, 40, 0.16) 100%),
+    linear-gradient(#ebeae7, #dcdad5);
+  --g-title: #8a2e2a;
+  --g-ink: #181e1f;
+  --g-ink-soft: #262b2c;
+  --g-muted: #6b6d70;
+  --g-accent: #8a2e2a;
+  --g-line: rgba(24, 30, 31, 0.8);
+  --g-edge: rgba(24, 30, 31, 0.2);
+  --g-hero-bg: #1a1a1a;
+  --g-title-shadow: none;
+  --g-shadow: 0 26px 60px -18px rgba(0, 0, 0, 0.8), 0 8px 20px -8px rgba(0, 0, 0, 0.55);
+  --wh-frame: 10px;
+}
+
+/* The gothic frame: a black band with a pale line through it, and blocked corners. */
+.glimpse-card[data-style="wh-record"] .glimpse-frame {
+  border-radius: 0;
+  box-shadow:
+    var(--g-shadow),
+    0 0 0 1px #000,
+    inset 0 0 0 3px #111,
+    inset 0 0 0 4px #8b8d90,
+    inset 0 0 0 7px #111,
+    inset 0 0 0 8px #4c4d4f,
+    inset 0 0 0 var(--wh-frame) #111;
+}
+.glimpse-card[data-style="wh-record"] .glimpse-frame::after {
+  inset: 0;
+  z-index: 4;
+  border: none;
+  border-radius: 0;
+  opacity: 1;
+  --block: linear-gradient(#111, #111);
+  --pip: linear-gradient(#8b8d90, #8b8d90);
+  background:
+    var(--pip) 6px 6px / 6px 6px no-repeat, var(--pip) calc(100% - 6px) 6px / 6px 6px no-repeat,
+    var(--pip) 6px calc(100% - 6px) / 6px 6px no-repeat, var(--pip) calc(100% - 6px) calc(100% - 6px) / 6px 6px no-repeat,
+    var(--block) 0 0 / 18px 18px no-repeat, var(--block) 100% 0 / 18px 18px no-repeat,
+    var(--block) 0 100% / 18px 18px no-repeat, var(--block) 100% 100% / 18px 18px no-repeat;
+}
+
+.glimpse-card[data-style="wh-record"] .glimpse-hero { margin: var(--wh-frame) var(--wh-frame) 0; border-bottom: 3px solid #111; }
+.glimpse-card[data-style="wh-record"] .glimpse-slide :is(img, video) { filter: grayscale(0.55) sepia(0.25) contrast(1.12); }
+.glimpse-card[data-style="wh-record"].is-rumoured .glimpse-slide :is(img, video) { filter: grayscale(0.8) blur(9px) brightness(0.8); }
+.glimpse-card[data-style="wh-record"] .glimpse-scrim { background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.35) 100%); }
+
+/* The purity seal hangs from the top edge, over the picture. */
+.glimpse-card[data-style="wh-record"] .glimpse-frame::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  right: 2.1em;
+  z-index: 5;
+  width: 2.6em;
+  height: 6em;
+  background: var(--wh-purity) top / contain no-repeat;
+  filter: drop-shadow(1px 3px 2px rgba(0, 0, 0, 0.45));
+  transform: rotate(4deg);
+  transform-origin: top center;
+  pointer-events: none;
+}
+.glimpse-card[data-style="wh-record"] .glimpse-frame:not(:has(.glimpse-hero))::before { display: none; }
+
+.glimpse-card[data-style="wh-record"] .glimpse-header,
+.glimpse-card[data-style="wh-record"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-record"][data-layout="image"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-record"] .glimpse-hero + .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: 0;
+  padding: 0.95em 1.6em 0;
+  text-align: center;
+}
+.glimpse-card[data-style="wh-record"] .glimpse-frame:not(:has(.glimpse-hero)) .glimpse-header { padding-top: 1.5em; }
+.glimpse-card[data-style="wh-record"][data-layout="image"] .glimpse-header { padding-bottom: 1.1em; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-record"] .glimpse-title {
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 1.85em;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+}
+
+/* The subtitle between aquila wings. */
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-record"] .glimpse-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin-bottom: 0.35em;
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 0.76em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--g-ink);
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-record"] .glimpse-subtitle::before,
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-record"] .glimpse-subtitle::after {
+  content: "";
+  flex: none;
+  width: 2.4em;
+  height: 0.85em;
+  background: var(--wh-wing) center / contain no-repeat;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-record"] .glimpse-subtitle::before { transform: scaleX(-1); }
+#glimpse-lightbox[data-style="wh-record"] .glimpse-subtitle { justify-content: flex-start; }
+
+/* Fact plates: a black label block, the value on the paper. */
+[data-style="wh-record"] .glimpse-facts { gap: 0.4em; font-family: "Crimson Pro", var(--font-serif, serif); font-size: 0.9em; }
+.glimpse-card[data-style="wh-record"] .glimpse-facts { justify-content: center; }
+[data-style="wh-record"] .glimpse-facts li {
+  gap: 0;
+  padding: 0;
+  border: 1px solid #181e1f;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.35);
+  align-items: stretch;
+}
+[data-style="wh-record"] .glimpse-fact-label {
+  padding: 0.2em 0.5em 0.1em;
+  background: #181e1f;
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #e6e5e3;
+  display: flex;
+  align-items: center;
+}
+[data-style="wh-record"] .glimpse-fact-value { padding: 0.15em 0.55em 0.1em; }
+[data-style="wh-record"] .glimpse-facts .glimpse-travel { border-style: solid; padding-left: 0.5em; background: rgba(138, 46, 42, 0.1); }
+[data-style="wh-record"] .glimpse-facts .glimpse-travel i { align-self: center; }
+
+/* A black bar notched at the ends, after the system's header bars, with a red pip. */
+[data-style="wh-record"] .glimpse-rule { gap: 0; }
+[data-style="wh-record"] .glimpse-rule::before,
+[data-style="wh-record"] .glimpse-rule::after { flex: 1; height: 5px; background: #181e1f; }
+[data-style="wh-record"] .glimpse-rule::before { clip-path: polygon(0 50%, 6px 0, 100% 0, 100% 100%, 6px 100%); }
+[data-style="wh-record"] .glimpse-rule::after { clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 0 100%); }
+[data-style="wh-record"] .glimpse-rule span {
+  width: 11px;
+  height: 11px;
+  margin: 0 3px;
+  border: 2px solid #181e1f;
+  background: var(--g-accent);
+  opacity: 1;
+}
+
+[data-style="wh-record"] .glimpse-body { font-family: "Crimson Pro", var(--font-serif, serif); font-size: 1.08em; line-height: 1.46; }
+.glimpse-card[data-style="wh-record"] .glimpse-body { padding: 0 1.6em; }
+[data-style="wh-record"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.05em 0.14em 0 0;
+  padding: 0.08em 0.14em 0.02em;
+  background: var(--g-accent);
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 2.5em;
+  font-weight: 800;
+  line-height: 0.95;
+  color: #e6e5e3;
+}
+.glimpse-card[data-style="wh-record"].is-rumoured .glimpse-body > p:first-child::first-letter { padding: 0; background: none; color: inherit; }
+.glimpse-card[data-style="wh-record"] .glimpse-body:last-child { margin-bottom: calc(var(--wh-frame) + 1.1em); }
+
+.glimpse-card[data-style="wh-record"] .glimpse-footer {
+  margin: 0.55em var(--wh-frame) var(--wh-frame);
+  padding: 0.6em 1.4em 0.7em;
+  border-top: none;
+  background: #181e1f;
+  font-family: "Crimson Pro", var(--font-serif, serif);
+  font-size: 0.86em;
+  color: #b9babb;
+}
+.glimpse-card[data-style="wh-record"] .glimpse-hint i { color: #c4524c; }
+.glimpse-card[data-style="wh-record"] .glimpse-dots i.is-active { background: #c4524c; }
+
+/* Rumoured: an "Unverified" stamp across the picture, and the GM badge moved clear of the seal. */
+.glimpse-card[data-style="wh-record"] .glimpse-badge { top: 16px; left: 16px; right: auto; border-color: #181e1f; border-radius: 0; background: #e6e5e3; color: var(--g-accent); }
+.glimpse-card[data-style="wh-record"].is-rumoured .glimpse-hero::after {
+  content: "Unverified";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  padding: 0.05em 0.4em 0;
+  border: 3px solid #a3201b;
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 1.7em;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a3201b;
+  opacity: 0.88;
+  transform: translate(-50%, -50%) rotate(-12deg);
+}
+
+.glimpse-card.glimpse-banner[data-style="wh-record"] .glimpse-hero { margin-bottom: var(--wh-frame); border-bottom: none; }
+.glimpse-card.glimpse-banner[data-style="wh-record"] .glimpse-header { text-align: left; }
+.glimpse-card.glimpse-banner[data-style="wh-record"] .glimpse-subtitle { justify-content: flex-start; }
+.glimpse-card.glimpse-banner[data-style="wh-record"] .glimpse-facts { justify-content: flex-start; }
+.glimpse-card.glimpse-banner[data-style="wh-record"] .glimpse-footer { margin-left: 0; }
+.glimpse-card.glimpse-banner[data-style="wh-record"] .glimpse-frame::before { right: auto; left: calc(40% - 3.6em); }
+
+#glimpse-lightbox[data-style="wh-record"] .glimpse-lb-stage { border: var(--wh-frame) solid #111; outline: 1px solid #8b8d90; outline-offset: -5px; }
+
+/* ==========================================================================
+   K2. Dataslate: the Imperium Maledictum Foundry system
+   A cogitator's teal screen: verdigris reticule corners, the two-headed aquila on the picture, "+++" around the
+   subtitle, readouts in a monospaced face with orange labels, scanlines and a slow flicker.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-slate"] {
+  --g-heading-font: "Cinzel", var(--font-serif, serif);
+  --g-bg: #10201f;
+  --g-paper:
+    linear-gradient(rgba(95, 184, 174, 0.05) 1px, transparent 1px) 0 0 / 100% 18px,
+    linear-gradient(90deg, rgba(95, 184, 174, 0.04) 1px, transparent 1px) 0 0 / 18px 100%,
+    radial-gradient(ellipse at 50% 0%, rgba(6, 92, 99, 0.55), transparent 70%),
+    linear-gradient(#152b2b, #0c1918);
+  --g-title: #e9f4f1;
+  --g-ink: #d7e3e0;
+  --g-ink-soft: #c9cfce;
+  --g-muted: #82a29e;
+  --g-accent: #42cf9d;
+  --g-warn: #cf9742;
+  --g-line: rgba(95, 184, 174, 0.55);
+  --g-edge: rgba(95, 184, 174, 0.15);
+  --g-hero-bg: #071110;
+  --g-title-shadow: 0 0 12px rgba(66, 207, 157, 0.35), 0 2px 8px rgba(0, 0, 0, 0.8);
+  --g-scanlines: repeating-linear-gradient(to bottom, rgba(0, 8, 8, 0.28) 0 1px, transparent 1px 3px);
+}
+
+.glimpse-card[data-style="wh-slate"] .glimpse-frame {
+  border-radius: 3px;
+  box-shadow: var(--g-shadow), 0 0 0 1px #000, 0 0 0 3px #1c3132, 0 0 0 4px #065c63, inset 0 0 30px rgba(6, 92, 99, 0.35);
+}
+
+/* Reticule corners, after the system's value boxes. */
+.glimpse-card[data-style="wh-slate"] .glimpse-frame::after {
+  inset: 6px;
+  border: 2px solid transparent;
+  border-radius: 0;
+  opacity: 1;
+  --g: #0000 90deg, #5fb8ae 0;
+  --p: 16px 16px border-box no-repeat;
+  background:
+    conic-gradient(from 90deg at top 2px left 2px, var(--g)) 0 0 / var(--p),
+    conic-gradient(from 180deg at top 2px right 2px, var(--g)) 100% 0 / var(--p),
+    conic-gradient(from 0deg at bottom 2px left 2px, var(--g)) 0 100% / var(--p),
+    conic-gradient(from -90deg at bottom 2px right 2px, var(--g)) 100% 100% / var(--p);
+}
+
+/* The aquila on the screen's top edge. */
+.glimpse-card[data-style="wh-slate"] .glimpse-frame::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  z-index: 4;
+  width: 5.2em;
+  height: 1.5em;
+  transform: translateX(-50%);
+  background: var(--wh-aquila) center / contain no-repeat;
+  filter: drop-shadow(0 0 6px rgba(66, 207, 157, 0.45)) drop-shadow(0 1px 2px #000);
+  opacity: 0.9;
+}
+
+.glimpse-card[data-style="wh-slate"] .glimpse-slide :is(img, video) { filter: grayscale(1) sepia(1) hue-rotate(125deg) saturate(1.5) brightness(0.82) contrast(1.15); }
+.glimpse-card[data-style="wh-slate"].is-rumoured .glimpse-slide :is(img, video) { filter: grayscale(1) sepia(1) hue-rotate(125deg) saturate(1.2) brightness(0.65) blur(9px); }
+.glimpse-card[data-style="wh-slate"] .glimpse-scrim { background: var(--g-scanlines), radial-gradient(ellipse at 50% 40%, transparent 50%, rgba(0, 10, 10, 0.5) 100%); }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-slate"] .glimpse-title {
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 1.9em;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+}
+.glimpse-card[data-style="wh-slate"][data-motion="on"] .glimpse-title { animation: wh-flicker 6s steps(1) infinite; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-slate"] .glimpse-subtitle {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.8em;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--g-warn);
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-slate"] .glimpse-subtitle::before { content: "+++ "; color: #5fb8ae; }
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-slate"] .glimpse-subtitle::after { content: " +++"; color: #5fb8ae; }
+
+/* Readouts: orange key, pale value, in a teal box. */
+[data-style="wh-slate"] .glimpse-facts { gap: 0.35em; font-family: "Share Tech Mono", monospace; font-size: 0.78em; }
+[data-style="wh-slate"] .glimpse-facts li {
+  padding: 0.28em 0.6em 0.22em;
+  border: 1px solid #065c63;
+  border-radius: 0;
+  background: rgba(28, 49, 50, 0.85);
+  box-shadow: inset 2px 0 0 #42cf9d;
+}
+[data-style="wh-slate"] .glimpse-fact-label { font-size: 0.95em; letter-spacing: 0.08em; color: var(--g-warn); }
+[data-style="wh-slate"] .glimpse-fact-label::after { content: ":"; }
+[data-style="wh-slate"] .glimpse-facts .glimpse-travel { border-style: dashed; box-shadow: inset 2px 0 0 var(--g-warn); }
+[data-style="wh-slate"] .glimpse-facts .glimpse-travel i { color: var(--g-warn); }
+
+/* A teal line with tick marks, an orange data point in the middle. */
+[data-style="wh-slate"] .glimpse-rule::before,
+[data-style="wh-slate"] .glimpse-rule::after {
+  height: 5px;
+  background:
+    linear-gradient(var(--g-line), var(--g-line)) 0 50% / 100% 1px no-repeat,
+    repeating-linear-gradient(90deg, var(--g-line) 0 1px, transparent 1px 10px);
+}
+[data-style="wh-slate"] .glimpse-rule::before { flex: 0 0 22%; }
+[data-style="wh-slate"] .glimpse-rule span { width: 7px; height: 7px; border: 1px solid var(--g-warn); background: rgba(207, 151, 66, 0.4); opacity: 1; }
+
+[data-style="wh-slate"] .glimpse-body { font-family: "Spectral", var(--font-serif, serif); font-size: 1em; line-height: 1.55; }
+[data-style="wh-slate"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.04em 0.12em 0 0;
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 2.9em;
+  font-weight: 700;
+  line-height: 0.85;
+  color: #5fb8ae;
+  text-shadow: 0 0 10px rgba(66, 207, 157, 0.4);
+}
+
+.glimpse-card[data-style="wh-slate"] .glimpse-footer {
+  border-top: 1px solid #065c63;
+  background: rgba(6, 92, 99, 0.18);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.72em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #82a29e;
+}
+.glimpse-card[data-style="wh-slate"] .glimpse-dots i { border-radius: 0; }
+.glimpse-card[data-style="wh-slate"] .glimpse-dots i.is-active { background: var(--g-warn); }
+[data-style="wh-slate"] .glimpse-badge { border-color: var(--g-warn); border-radius: 0; color: var(--g-warn); font-family: "Share Tech Mono", monospace; }
+
+.glimpse-card.glimpse-banner[data-style="wh-slate"] .glimpse-frame::before { left: 20%; }
+
+@keyframes wh-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.55; }
+  94% { opacity: 1; }
+  96% { opacity: 0.75; }
+  97% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glimpse-card[data-style="wh-slate"] .glimpse-title { animation: none; }
+}
+
+/* ==========================================================================
+   K3. Reliquary: Dark Heresy and the gothic cathedral
+   Black iron and gilt: the picture is set in a pointed gothic arch, gilt skulls hold the four corners, the name is
+   cut in gold capitals, and the text is bone on near-black under a faint candle glow.
+   ========================================================================== */
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-reliquary"] {
+  --g-heading-font: "Cinzel Decorative", var(--font-serif, serif);
+  --g-bg: #121012;
+  --g-paper:
+    radial-gradient(ellipse at 50% 105%, rgba(230, 150, 60, 0.16), transparent 55%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.6) 100%),
+    linear-gradient(#1a1618, #0e0c0d);
+  --g-title: #e2bd68;
+  --g-ink: #e9dcc0;
+  --g-ink-soft: #d8cab0;
+  --g-muted: #8f8068;
+  --g-accent: #c33228;
+  --g-line: rgba(217, 178, 95, 0.6);
+  --g-edge: rgba(217, 178, 95, 0.16);
+  --g-hero-bg: #0a0809;
+  --g-title-shadow: 0 1px 0 #000, 0 0 16px rgba(230, 170, 70, 0.25);
+  --g-gold: #d9b25f;
+  --wh-arch: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M0 100V46C0 22 30 6 50 0C70 6 100 22 100 46V100Z'/></svg>");
+  --wh-arch-line: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><path d='M0 100V46C0 22 30 6 50 0C70 6 100 22 100 46V100' fill='none' stroke='%23d9b25f' stroke-width='5' vector-effect='non-scaling-stroke'/><path d='M3.5 100V47C3.5 25 32 10 50 4.2C68 10 96.5 25 96.5 47V100' fill='none' stroke='%237a5f2a' stroke-width='1' vector-effect='non-scaling-stroke'/></svg>");
+}
+
+.glimpse-card[data-style="wh-reliquary"] .glimpse-frame {
+  border-radius: 2px;
+  box-shadow:
+    var(--g-shadow),
+    0 0 0 1px #000,
+    inset 0 0 0 2px #3a3036,
+    inset 0 0 0 3px var(--g-gold),
+    inset 0 0 0 6px #121012,
+    inset 0 0 0 7px rgba(217, 178, 95, 0.4);
+}
+
+/* Gilt skulls in the corners. */
+.glimpse-card[data-style="wh-reliquary"] .glimpse-frame::after {
+  inset: 1px;
+  z-index: 4;
+  border: none;
+  border-radius: 0;
+  opacity: 1;
+  background:
+    var(--wh-skull-gold) 0 0 / 15px 15px no-repeat,
+    var(--wh-skull-gold) 100% 0 / 15px 15px no-repeat,
+    var(--wh-skull-gold) 0 100% / 15px 15px no-repeat,
+    var(--wh-skull-gold) 100% 100% / 15px 15px no-repeat;
+  filter: drop-shadow(0 0 2px #000);
+}
+
+/* The picture in a pointed arch, with a gilt moulding. */
+.glimpse-card[data-style="wh-reliquary"] .glimpse-hero {
+  margin: 1.3em 1.5em 0;
+  -webkit-mask-image: var(--wh-arch);
+  mask-image: var(--wh-arch);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+.glimpse-card[data-style="wh-reliquary"] .glimpse-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--wh-arch-line) 0 0 / 100% 100% no-repeat;
+}
+.glimpse-card[data-style="wh-reliquary"] .glimpse-slide :is(img, video) { filter: sepia(0.35) saturate(1.1) contrast(1.1) brightness(0.92); }
+.glimpse-card[data-style="wh-reliquary"].is-rumoured .glimpse-slide :is(img, video) { filter: sepia(0.5) blur(9px) brightness(0.7); }
+.glimpse-card[data-style="wh-reliquary"] .glimpse-scrim { background: radial-gradient(ellipse at 50% 60%, transparent 45%, rgba(0, 0, 0, 0.55) 100%); }
+
+.glimpse-card[data-style="wh-reliquary"] .glimpse-header,
+.glimpse-card[data-style="wh-reliquary"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-reliquary"][data-layout="image"] .glimpse-hero + .glimpse-header,
+.glimpse-card[data-style="wh-reliquary"] .glimpse-hero + .glimpse-header:not(:has(.glimpse-subtitle)) {
+  margin-top: 0;
+  padding: 0.9em 1.6em 0;
+  text-align: center;
+}
+.glimpse-card[data-style="wh-reliquary"] .glimpse-frame:not(:has(.glimpse-hero)) .glimpse-header { padding-top: 1.6em; }
+.glimpse-card[data-style="wh-reliquary"][data-layout="image"] .glimpse-header { padding-bottom: 1.1em; }
+
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-reliquary"] .glimpse-title {
+  font-family: "Cinzel Decorative", var(--font-serif, serif);
+  font-size: 1.9em;
+  font-weight: 700;
+  line-height: 1.08;
+}
+:is(.glimpse-card, #glimpse-lightbox)[data-style="wh-reliquary"] .glimpse-subtitle {
+  font-family: "Cinzel", var(--font-serif, serif);
+  font-size: 0.74em;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--g-accent);
+}
+
+[data-style="wh-reliquary"] .glimpse-facts { gap: 0.4em; font-family: "Cormorant Garamond", var(--font-serif, serif); font-size: 0.92em; }
+.glimpse-card[data-style="wh-reliquary"] .glimpse-facts { justify-content: center; }
+[data-style="wh-reliquary"] .glimpse-facts li {
+  padding: 0.12em 0.65em 0.1em;
+  border: 1px solid rgba(217, 178, 95, 0.55);
+  border-radius: 0;
+  background: linear-gradient(rgba(217, 178, 95, 0.1), rgba(217, 178, 95, 0.02));
+  color: var(--g-ink);
+}
+[data-style="wh-reliquary"] .glimpse-fact-label { font-family: "Cinzel", var(--font-serif, serif); font-size: 0.74em; font-weight: 700; letter-spacing: 0.12em; color: var(--g-gold); }
+[data-style="wh-reliquary"] .glimpse-facts .glimpse-travel { border-style: solid; border-color: rgba(195, 50, 40, 0.7); background: rgba(195, 50, 40, 0.12); }
+[data-style="wh-reliquary"] .glimpse-facts .glimpse-travel i { color: var(--g-accent); }
+
+/* Gilt lines meeting at a skull. */
+[data-style="wh-reliquary"] .glimpse-rule { gap: 0.6em; }
+[data-style="wh-reliquary"] .glimpse-rule::before,
+[data-style="wh-reliquary"] .glimpse-rule::after { flex: 1; height: 3px; background: none; border-top: 1px solid var(--g-line); border-bottom: 1px solid rgba(217, 178, 95, 0.3); }
+[data-style="wh-reliquary"] .glimpse-rule span {
+  width: 1.15em;
+  height: 1.15em;
+  border: none;
+  transform: none;
+  opacity: 1;
+  background: var(--wh-skull-gold) center / contain no-repeat;
+}
+
+[data-style="wh-reliquary"] .glimpse-body { font-family: "Cormorant Garamond", var(--font-serif, serif); font-size: 1.14em; font-weight: 500; line-height: 1.45; }
+.glimpse-card[data-style="wh-reliquary"] .glimpse-body { padding: 0 1.6em; }
+
+/* An illuminated initial: red in a gilt box. */
+[data-style="wh-reliquary"] .glimpse-body > p:first-child::first-letter {
+  margin: 0.06em 0.16em 0 0;
+  padding: 0.1em 0.14em 0.02em;
+  border: 1px solid var(--g-gold);
+  background: #5a0f0c;
+  box-shadow: inset 0 0 0 2px #121012, inset 0 0 0 3px rgba(217, 178, 95, 0.5);
+  font-family: "Cinzel Decorative", var(--font-serif, serif);
+  font-size: 2.4em;
+  font-weight: 700;
+  line-height: 0.95;
+  color: var(--g-gold);
+}
+.glimpse-card[data-style="wh-reliquary"].is-rumoured .glimpse-body > p:first-child::first-letter { padding: 0; border: none; background: none; box-shadow: none; }
+.glimpse-card[data-style="wh-reliquary"] .glimpse-body:last-child { margin-bottom: 1.5em; }
+
+.glimpse-card[data-style="wh-reliquary"] .glimpse-footer {
+  margin: 0.55em 7px 7px;
+  border-top: 1px solid var(--g-line);
+  font-family: "Cormorant Garamond", var(--font-serif, serif);
+  font-size: 0.86em;
+}
+.glimpse-card[data-style="wh-reliquary"] .glimpse-dots i.is-active { background: var(--g-gold); }
+.glimpse-card[data-style="wh-reliquary"] .glimpse-hint i { color: var(--g-gold); }
+[data-style="wh-reliquary"] .glimpse-badge { top: 18px; right: 18px; border-color: var(--g-gold); border-radius: 0; color: var(--g-gold); }
+
+.glimpse-card.glimpse-banner[data-style="wh-reliquary"] .glimpse-hero { margin: 1.2em 0 1.2em 1.2em; }
+.glimpse-card.glimpse-banner[data-style="wh-reliquary"] .glimpse-header { text-align: left; }
+.glimpse-card.glimpse-banner[data-style="wh-reliquary"] .glimpse-facts { justify-content: flex-start; }
+.glimpse-card.glimpse-banner[data-style="wh-reliquary"] .glimpse-footer { margin-left: 0; }
+
+#glimpse-lightbox[data-style="wh-reliquary"] .glimpse-lb-stage { border: 3px solid var(--g-gold); outline: 1px solid #000; }
+
+/* ==========================================================================
+   Shared fixes
+   ========================================================================== */
+
+/* The Proclamation's GM badge sits inside the print, clear of the nail. */
+[data-style="wh-decree"] .glimpse-badge { top: 2.4em; right: 2.4em; }
+
+/* With no picture, the Dataslate's aquila needs room above the subtitle. */
+.glimpse-card[data-style="wh-slate"] .glimpse-frame:not(:has(.glimpse-hero)) .glimpse-header { padding-top: 2.6em; }
+
+/* Region banner: the text clears the frames, framed pictures keep a margin at the foot, and the initials go plain,
+   as the banner does for every style. */
+.glimpse-card.glimpse-banner[data-style^="wh-"] .glimpse-hero + .glimpse-header { padding: 1.3em 1.3em 0 0.6em; }
+.glimpse-card.glimpse-banner[data-style^="wh-"] :is(.glimpse-facts, .glimpse-rule) { margin-left: 0.6em; }
+.glimpse-card.glimpse-banner[data-style^="wh-"] :is(.glimpse-body, .glimpse-footer) { padding-left: 0.6em; }
+/* The module gives the banner's picture the row's full height; a picture with a margin then runs past the frame by
+   that margin, over the casing, so it is left to stretch into the space the margins leave instead. */
+.glimpse-card.glimpse-banner[data-style^="wh-"] .glimpse-hero { height: auto; }
+.glimpse-card.glimpse-banner[data-style^="wh-"] .glimpse-body > p:first-child::first-letter {
+  float: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  font: inherit;
+  color: inherit;
+}
+.glimpse-card.glimpse-banner[data-style="wh-decree"] .glimpse-frame::after { inset: auto auto 0.8em 1.1em; }
+.glimpse-card.glimpse-banner[data-style="wh-decree"] .glimpse-footer { padding-right: 1.3em; }
+/* On the region banner the GM badge goes on the picture, clear of the name. */
+.glimpse-card.glimpse-banner[data-style^="wh-"] .glimpse-frame:has(.glimpse-hero) .glimpse-badge { top: 1.5em; left: 1.6em; right: auto; }
+
+/* Without a picture, the banner's text gets a full margin on the left, clear of each style's casing or frame. */
+.glimpse-card.glimpse-banner[data-layout="text"][data-style^="wh-"] .glimpse-header { padding-left: 2em; }
+.glimpse-card.glimpse-banner[data-layout="text"][data-style^="wh-"] :is(.glimpse-facts, .glimpse-rule) { margin-left: 2em; }
+.glimpse-card.glimpse-banner[data-layout="text"][data-style^="wh-"] :is(.glimpse-body, .glimpse-footer) { padding-left: 2em; }
