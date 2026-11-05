@@ -130,7 +130,7 @@
       },
       "style": {
         "Name": "Card style",
-        "Hint": "The look of preview cards and the gallery. Match game system picks the style made for your system, or follows the interface theme when there is none.",
+        "Hint": "The look of preview cards and the gallery at your table. Match game system picks the style made for your system, or follows the interface theme when there is none.",
         "Choices": {
           "dusk": "Dusk (dark)",
           "parchment": "Parchment (light)",
@@ -155,6 +155,17 @@
           "mechanicus": "Mechanicus (Dark Heresy, Rogue Trader)",
           "system": "Match game system",
           "auto": "Match interface theme"
+        }
+      },
+      "playerStyles": {
+        "Name": "Let players choose their own card style",
+        "Hint": "When on, each player can pick a different card style in their own settings. Players who don't still see the style above."
+      },
+      "playerStyle": {
+        "Name": "Card style",
+        "Hint": "The look of preview cards and the gallery on your screen. Same as the table shows the style your GM chose.",
+        "Choices": {
+          "table": "Same as the table"
         }
       },
       "size": {

@@ -1,5 +1,5 @@
 import {LIGHTBOX_TEMPLATE, MODULE_ID, SOCKET, TEMPLATE, api, flagsOf, setting} from "./constants.mjs";
-import {onRenderSettingsConfig, registerSettings, toggleEnabled} from "./settings.mjs";
+import {migrateStyleSetting, onRenderSettingsConfig, registerSettings, toggleEnabled} from "./settings.mjs";
 import {PAGE_READERS, clearCache, isNight, isRumoured, noteSource, regionEnabled} from "./content.mjs";
 import {onRenderImagePageSheet, onRenderNoteConfig, onRenderRegionConfig, onRenderSceneConfig, pruneCreateFlags,
   pruneUpdateFlags} from "./config.mjs";
@@ -104,6 +104,7 @@ Hooks.once("ready", () => {
     }
   };
   Hooks.callAll("glimpseReady", game.modules.get(MODULE_ID).api);
+  migrateStyleSetting();
   game.socket.on(SOCKET, onSocketMessage);
   if ( canvas.ready ) regions.attach();
   else Hooks.once("canvasReady", () => regions.attach());

@@ -556,11 +556,26 @@ function travelInfo(point) {
 }
 
 /**
+ * The style value in effect for this user: their own pick when the GM lets players choose and they made one,
+ * otherwise the table's. Whoever sets the table's style always sees it: a player's pick is stored in the browser,
+ * not the user, so it would otherwise follow a GM who logs in on that player's browser.
+ * @param {object} [values]               Values to use instead of the saved settings
+ * @param {string} [values.table]         The table's style
+ * @param {boolean} [values.allowed]      Whether players may choose their own
+ * @param {string} [values.own]           This user's own pick, or "table"
+ * @returns {string}                      A value of the style setting
+ */
+export function chosenStyle({table=setting("style"), allowed=setting("playerStyles"), own=setting("playerStyle")}={}) {
+  if ( game.user.can("SETTINGS_MODIFY") ) return table;
+  return (allowed && own && (own !== "table")) ? own : table;
+}
+
+/**
  * The card style to use.
- * @param {string} [style]   A value of the style setting, the current one by default
+ * @param {string} [style]   A value of the style setting, the one in effect for this user by default
  * @returns {string}         One of CARD_STYLES
  */
-export function resolveStyle(style=setting("style")) {
+export function resolveStyle(style=chosenStyle()) {
   if ( (style === "system") && (game.system.id in SYSTEM_STYLES) ) return SYSTEM_STYLES[game.system.id];
   if ( !["system", "auto"].includes(style) ) return style;
   return document.getElementById("interface")?.classList.contains("theme-light") ? "parchment" : "dusk";

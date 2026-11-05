@@ -2,7 +2,7 @@ import {MODULE_ID, CARD_STYLES, CARD_WIDTHS, EXCERPT_LENGTHS, IMAGE_EFFECT_STYLE
   setting} from "./constants.mjs";
 import {restyleAllNotes} from "./note-icons.mjs";
 import {onRevealChange} from "./lightbox.mjs";
-import {resolveStyle} from "./card.mjs";
+import {chosenStyle, resolveStyle} from "./card.mjs";
 
 const {BooleanField, NumberField, StringField} = foundry.data.fields;
 
@@ -46,8 +46,15 @@ export function registerSettings() {
       ui.controls?.render({reset: true});
     }
   });
+  // The GM picks the table's card style, and whether players may pick their own instead (see chosenStyle).
+  const styles = [...CARD_STYLES, "system", "auto"];
   register("style", new StringField({
-    initial: "dusk", required: true, blank: false, choices: choices("style", [...CARD_STYLES, "system", "auto"])
+    initial: "dusk", required: true, blank: false, choices: choices("style", styles)
+  }), {scope: "world"});
+  register("playerStyles", new BooleanField({initial: false}), {scope: "world"});
+  register("playerStyle", new StringField({
+    initial: "table", required: true, blank: false,
+    choices: {table: "GLIMPSE.Settings.playerStyle.Choices.table", ...choices("style", styles)}
   }));
   // Right under the style, and shown only for the styles that have them (see onRenderSettingsConfig).
   register("imageEffects", new BooleanField({initial: true}));
@@ -156,24 +163,61 @@ function registerKeybindings() {
 }
 
 /**
- * In the settings window, show Image effects and Scanlines only while the chosen card style has them, following the
- * style picker as it changes.
+ * In the settings window, show a player's own style picker only while the GM lets players choose, and show Image
+ * effects and Scanlines only while the style in use has them, following the pickers as they change.
  * @param {SettingsConfig} app
  * @param {HTMLElement} element
  */
 export function onRenderSettingsConfig(app, element) {
-  const select = element.querySelector(`select[name="${MODULE_ID}.style"]`);
-  if ( !select ) return;
+  const field = key => element.querySelector(`[name="${MODULE_ID}.${key}"]`);
+  const group = key => field(key)?.closest(".form-group");
+  // Only those who can change world settings get the table's picker and the toggle; they don't need their own.
+  const tableSelect = field("style");
+  const allowToggle = field("playerStyles");
+  const ownSelect = field("playerStyle");
+  if ( !tableSelect && !ownSelect ) return;
   const dependents = {imageEffects: IMAGE_EFFECT_STYLES, scanlines: SCANLINE_STYLES};
   const update = () => {
-    const style = resolveStyle(select.value);
+    const allowed = allowToggle?.checked ?? setting("playerStyles");
+    const own = group("playerStyle");
+    if ( own ) own.style.display = (allowed && !tableSelect) ? "" : "none";
+    const style = resolveStyle(chosenStyle({
+      table: tableSelect?.value, allowed, own: tableSelect ? "table" : ownSelect?.value
+    }));
     for ( const [key, styles] of Object.entries(dependents) ) {
-      const group = element.querySelector(`[name="${MODULE_ID}.${key}"]`)?.closest(".form-group");
-      if ( group ) group.style.display = styles.includes(style) ? "" : "none";
+      const dependent = group(key);
+      if ( dependent ) dependent.style.display = styles.includes(style) ? "" : "none";
     }
   };
-  select.addEventListener("change", update);
+  for ( const input of [tableSelect, allowToggle, ownSelect] ) input?.addEventListener("change", update);
   update();
+}
+
+/**
+ * The card style used to be each player's own choice, stored in their browser under the key the table's style now
+ * uses. Move it once: a GM's choice becomes the table's style, a player's becomes their own style, which shows only
+ * if the GM lets players choose.
+ */
+export async function migrateStyleSetting() {
+  const key = `${MODULE_ID}.style`;
+  const client = game.settings.storage.get("client");
+  const stored = client.getItem(key);
+  if ( stored === null ) return;
+  client.removeItem(key);
+  let value;
+  try {
+    value = JSON.parse(stored);
+  } catch {
+    value = stored;
+  }
+  if ( !game.settings.settings.get(key).type.choices[value] ) return;
+  if ( game.user.can("SETTINGS_MODIFY") ) {
+    if ( !game.settings.storage.get("world").getSetting(key) ) await game.settings.set(MODULE_ID, "style", value);
+  }
+  // "dusk" was the old default, which players saved without choosing it whenever they saved their settings.
+  else if ( (value !== "dusk") && !(`${MODULE_ID}.playerStyle` in client) ) {
+    await game.settings.set(MODULE_ID, "playerStyle", value);
+  }
 }
 
 /**

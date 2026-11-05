@@ -262,7 +262,6 @@ pages need **Limited**, the same as core Foundry. Secret blocks are hidden, even
 | Setting | Default |
 | --- | --- |
 | Show location previews | On |
-| Card style (one of twenty-one styles, match the game system, or match the interface) | Dusk |
 | Image effects: the colour treatment some styles give pictures (Terminal, Woodcut, Dossier, Frontier, Gothic, and the Warhammer styles) | On |
 | Scanlines on the Holo, Terminal, Dataslate, Cogitator and Mechanicus styles | On |
 | Card size (small, medium, large, cinematic) | Medium |
@@ -275,7 +274,9 @@ pages need **Limited**, the same as core Foundry. Secret blocks are hidden, even
 | Show travel distance, hide the note's label while previewing | On |
 | Show secrets to owners | Off |
 
-**World (GM only):** what double-clicking a note opens (gallery or journal), which permission players get on a
+**World (GM only):** the card style for the table (one of twenty-one styles, match the game system, or match the
+interface; Dusk by default) and whether players may pick their own instead (off by default; when on, players get a
+**Card style** setting of their own, set to the table's style until they change it), what double-clicking a note opens (gallery or journal), which permission players get on a
 journal when its place is discovered (off, Limited or Observer), travel distance per day, the in-game hours when night begins and ends, and how note icons look on the map: a background (Foundry's translucent square, a
 circle, a soft outline traced around the symbol, or nothing), whether the frame shows always, only on hover or never,
 and whether icons grow slightly when hovered. The defaults match Foundry's own look.
