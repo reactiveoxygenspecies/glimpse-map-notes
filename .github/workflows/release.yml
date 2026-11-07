@@ -1,7 +1,8 @@
 name: Release
 
-# Publish a GitHub release (tag like v1.0.0) and this workflow attaches module.json and module.zip,
-# so the manifest URL in module.json always points at the latest version.
+# Publish a GitHub release (tag like 1.0.0) and this workflow attaches module.json and module.zip,
+# so the manifest URL in module.json always points at the latest version, then lists the release on
+# foundryvtt.com (see foundry-publish.yml). Pre-releases stay off foundryvtt.com.
 on:
   release:
     types: [published]
@@ -32,3 +33,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release upload "${{ github.event.release.tag_name }}" module.json module.zip --clobber
+
+  foundry:
+    needs: build
+    if: ${{ !github.event.release.prerelease }}
+    uses: ./.github/workflows/foundry-publish.yml
+    with:
+      tag: ${{ github.event.release.tag_name }}
+    secrets: inherit

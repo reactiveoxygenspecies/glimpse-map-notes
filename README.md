@@ -26,7 +26,7 @@ So far I've mostly used it for my world map but you can use it to setup easily a
 
 ## Installation
 
-In Foundry's **Add-on Modules** tab, choose **Install Module** and paste this manifest URL:
+In Foundry's **Add-on Modules** tab, choose **Install Module** and search for **Glimpse**, or paste this manifest URL:
 
 ```
 https://github.com/reactiveoxygenspecies/glimpse-map-notes/releases/latest/download/module.json
